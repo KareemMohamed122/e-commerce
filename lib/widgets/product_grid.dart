@@ -21,7 +21,7 @@ class ProductGrid extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         return InkWell(
-          onTap: () => Get.to(ProductDetails(product: products[index])),
+          onTap: () => Get.to(ProductDetails(), arguments: products[index]),
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),

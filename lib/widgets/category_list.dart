@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CategoryList extends StatelessWidget {
-  const CategoryList({super.key});
+  final List<String> categories;
+  const CategoryList({super.key, required this.categories});
 
   @override
   Widget build(BuildContext context) {
-    final categories = [
-      "assets/images/category_images/fashion.png",
-      "assets/images/category_images/furniture.png",
-      "assets/images/category_images/jewelry.png",
-      "assets/images/category_images/responsive.png",
-      "assets/images/category_images/shoes.png",
-      "assets/images/category_images/sports.png",
-    ];
-
     return SizedBox(
       height: 100,
       width: double.infinity,

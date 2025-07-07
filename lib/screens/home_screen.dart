@@ -41,7 +41,14 @@ class _HomeScreenState extends State<HomeScreen> {
       "A solid mountain bike with modern geometry, 1x drivetrain, and durable components for off-road adventures.",
     ),
   ];
-
+  final categories = [
+    "assets/images/category_images/fashion.png",
+    "assets/images/category_images/furniture.png",
+    "assets/images/category_images/jewelry.png",
+    "assets/images/category_images/responsive.png",
+    "assets/images/category_images/shoes.png",
+    "assets/images/category_images/sports.png",
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
               "Categories",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-            const CategoryList(),
+            CategoryList(categories: categories),
             const SizedBox(height: 20),
             const Text(
               "All Products",

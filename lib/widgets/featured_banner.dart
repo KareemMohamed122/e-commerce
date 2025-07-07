@@ -9,7 +9,7 @@ class FeaturedBanner extends StatelessWidget {
       borderRadius: BorderRadius.circular(20),
       child: Stack(
         children: [
-          Container(
+          SizedBox(
             width: 400,
             height: 200,
             child: Image.asset("assets/images/bike.jpg", fit: BoxFit.cover),
@@ -20,7 +20,7 @@ class FeaturedBanner extends StatelessWidget {
             child: Container(
               width: 400,
               height: 80,
-              color: Colors.grey.withOpacity(0.8),
+              color: Colors.grey.withValues(alpha: 0.8),
               padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
