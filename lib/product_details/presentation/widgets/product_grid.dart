@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:untitled2/screens/product_details.dart';
-import '../models/product.dart';
+
+import '../../../models/product.dart';
+import '../screens/product_details.dart';
 
 class ProductGrid extends StatelessWidget {
   final List<Product> products;
@@ -11,13 +11,14 @@ class ProductGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      shrinkWrap: true,
       itemCount: products.length,
       physics: NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        childAspectRatio: 0.85,
+        childAspectRatio: 0.78,
       ),
       itemBuilder: (context, index) {
         return InkWell(
@@ -42,19 +43,25 @@ class ProductGrid extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                Text(
-                  products[index].productName!,
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        products[index].productName!,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "\$${products[index].price}",
+                        style: TextStyle(fontSize: 16, color: Colors.black),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  "\$${products[index].price}",
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyLarge!.copyWith(color: Colors.grey),
                 ),
               ],
             ),

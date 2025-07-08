@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import '../models/product.dart';
-import '../widgets/featured_banner.dart';
+
+import '../../../models/product.dart';
+
+import '../../../product_details/presentation/widgets/product_grid.dart';
 import '../widgets/category_list.dart';
-import '../widgets/product_grid.dart';
+import '../widgets/featured_banner.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -43,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   final categories = [
     "assets/images/category_images/fashion.png",
-    "assets/images/category_images/furniture.png",
+
     "assets/images/category_images/jewelry.png",
     "assets/images/category_images/responsive.png",
     "assets/images/category_images/shoes.png",
@@ -52,14 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 80,
-        backgroundColor: Colors.deepOrange,
-        title: const Text("E-commerce", style: TextStyle(color: Colors.white)),
-        centerTitle: true,
-      ),
+      appBar: buildAppBar(),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -67,26 +64,39 @@ class _HomeScreenState extends State<HomeScreen> {
               "Featured",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 16),
             const FeaturedBanner(),
-            const SizedBox(height: 30),
+            const SizedBox(height: 16),
             const Text(
               "Categories",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             CategoryList(categories: categories),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
             const Text(
               "All Products",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-            SizedBox(
-              height: (120 * products.length).toDouble(),
-              child: ProductGrid(products: products),
-            ),
+            SizedBox(height: 16),
+            ProductGrid(products: products),
           ],
         ),
       ),
+    );
+  }
+
+  AppBar buildAppBar() {
+    return AppBar(
+      backgroundColor: Colors.deepOrange,
+      title: const Text(
+        "E-commerce",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      centerTitle: true,
     );
   }
 }

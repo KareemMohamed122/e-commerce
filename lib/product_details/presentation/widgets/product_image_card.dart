@@ -8,18 +8,16 @@ class ProductImageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 400,
+      width: double.infinity,
       height: 300,
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.asset(
-            imagePath,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: 150,
-          ),
+        clipBehavior: Clip.antiAlias,
+        child: Image.asset(
+          imagePath,
+          fit: BoxFit.fill,
+          width: double.infinity,
+          height: 150,
         ),
       ),
     );

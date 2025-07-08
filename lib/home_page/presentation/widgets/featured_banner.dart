@@ -10,17 +10,17 @@ class FeaturedBanner extends StatelessWidget {
       child: Stack(
         children: [
           SizedBox(
-            width: 400,
+            width: double.infinity,
             height: 200,
-            child: Image.asset("assets/images/bike.jpg", fit: BoxFit.cover),
+            child: Image.asset("assets/images/bike.jpg", fit: BoxFit.fill),
           ),
           Positioned(
             bottom: 0,
             left: 0,
             child: Container(
               width: 400,
-              height: 80,
-              color: Colors.grey.withValues(alpha: 0.8),
+              height: 70,
+              color: Colors.grey.withValues(alpha: 0.5),
               padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
