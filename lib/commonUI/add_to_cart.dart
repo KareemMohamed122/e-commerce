@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled2/bloc/cart/cart_event.dart';
+
+import '../bloc/cart/cart_bloc.dart';
+import '../bloc/cart/cart_state.dart';
+import '../models/product.dart';
+
+class AddToCartButton extends StatelessWidget {
+  final double fontSize;
+  final double width;
+  final double height;
+  final Product product;
+  const AddToCartButton({
+    super.key,
+    required this.width,
+    required this.height,
+    required this.product,
+    required this.fontSize,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.deepOrange,
+        fixedSize: Size(width, height),
+      ),
+      onPressed: () {
+        context.read<CartBloc>().add(AddToCart(product));
+      },
+      child: Text(
+        "ADD TO CART",
+        style: TextStyle(color: Colors.white, fontSize: fontSize),
+      ),
+    );
+  }
+}

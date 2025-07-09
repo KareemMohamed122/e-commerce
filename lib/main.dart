@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:untitled2/bloc/cart/cart_bloc.dart';
 
+import 'core/injection.dart';
 import 'home_page/presentation/screens/home_screen.dart';
 
 void main() {
+  setupDependencies();
   runApp(const MyApp());
 }
 
@@ -12,13 +16,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purpleAccent),
+    return BlocProvider.value(
+      value: getIt<CartBloc>(),
+      child: GetMaterialApp(
+        title: 'My Shop',
+        theme: ThemeData(primarySwatch: Colors.deepOrange),
+        home: const HomeScreen(),
+        debugShowCheckedModeBanner: false,
       ),
-      home: const HomeScreen(),
     );
   }
 }

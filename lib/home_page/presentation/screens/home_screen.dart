@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:untitled2/commonUI/custom_appbar.dart';
 
+import '../../../commonUI/cart_icon.dart';
 import '../../../models/product.dart';
-
-import '../../../product_details/presentation/widgets/product_grid.dart';
+import '../widgets/product_grid.dart';
 import '../widgets/category_list.dart';
 import '../widgets/featured_banner.dart';
 
@@ -43,18 +44,19 @@ class _HomeScreenState extends State<HomeScreen> {
       "A solid mountain bike with modern geometry, 1x drivetrain, and durable components for off-road adventures.",
     ),
   ];
+
   final categories = [
     "assets/images/category_images/fashion.png",
-
     "assets/images/category_images/jewelry.png",
     "assets/images/category_images/responsive.png",
     "assets/images/category_images/shoes.png",
     "assets/images/category_images/sports.png",
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(),
+      appBar: CustomAppbar(title: "E-commerce", actions: [CartIcon()]),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -77,26 +79,11 @@ class _HomeScreenState extends State<HomeScreen> {
               "All Products",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ProductGrid(products: products),
           ],
         ),
       ),
-    );
-  }
-
-  AppBar buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.deepOrange,
-      title: const Text(
-        "E-commerce",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      centerTitle: true,
     );
   }
 }
