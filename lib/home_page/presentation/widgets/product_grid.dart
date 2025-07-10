@@ -79,9 +79,8 @@ class ProductGrid extends StatelessWidget {
                                 ),
                               ),
                               AddToCartQuantity(
-                                quantity: quantity,
                                 product: product,
-                                fontSize: 8,
+                                fontSize: 16,
                                 buttonWidth: 90,
                                 buttonHeight: 30,
                                 counterWidth: 24,

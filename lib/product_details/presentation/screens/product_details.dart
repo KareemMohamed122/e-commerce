@@ -29,9 +29,9 @@ class ProductDetails extends StatelessWidget {
         child: BlocBuilder<CartBloc, CartState>(
           bloc: cartBloc,
           builder: (context, state) {
-            final cart = (state is CartUpdated) ? state.items : {};
+            final cart = cartBloc.getItems;
             final quantity = cart[product] ?? 0;
-            final totalPrice = cartBloc.totalPrice;
+            final totalPrice = cartBloc.getProductTotal(product);
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,10 +51,10 @@ class ProductDetails extends StatelessWidget {
                   price: product.price ?? 0.0,
                   quantity: quantity,
                   onAdd: () {
-                    getIt<CartBloc>().add(AddToCart(product));
+                    CartBloc().add(AddToCart(product));
                   },
                   onRemove: () {
-                    getIt<CartBloc>().add(RemoveFromCart(product));
+                    CartBloc().add(RemoveFromCart(product));
                   },
                 ),
                 const SizedBox(height: 8),
@@ -64,7 +64,6 @@ class ProductDetails extends StatelessWidget {
                 const SizedBox(height: 8),
                 AddToCartQuantity(
                   fontSize: 16,
-                  quantity: quantity,
                   product: product,
                   buttonWidth: 200,
                   buttonHeight: 50,

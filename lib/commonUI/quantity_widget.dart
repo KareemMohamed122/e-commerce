@@ -21,30 +21,39 @@ class QuantityWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        IconButton(
-          onPressed: onRemove,
-          icon: const Icon(Icons.remove),
-          padding: EdgeInsets.all(0),
-          constraints: const BoxConstraints(),
+        SizedBox(
+          width: 32,
+          height: 32,
+          child: IconButton(
+            onPressed: onRemove,
+            icon: const Icon(Icons.remove, size: 18),
+            padding: EdgeInsets.zero,
+          ),
         ),
+
         Container(
           alignment: Alignment.center,
           width: width,
           height: height,
+          margin: const EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: Colors.grey),
           ),
           child: Text(
-            quantity.toString(),
+            '$quantity',
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
-        IconButton(
-          onPressed: onAdd,
-          icon: const Icon(Icons.add),
-          padding: EdgeInsets.all(0),
-          constraints: const BoxConstraints(),
+
+        SizedBox(
+          width: 32,
+          height: 32,
+          child: IconButton(
+            onPressed: onAdd,
+            icon: const Icon(Icons.add, size: 18),
+            padding: EdgeInsets.zero,
+          ),
         ),
       ],
     );

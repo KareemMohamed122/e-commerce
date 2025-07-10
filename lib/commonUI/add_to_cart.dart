@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled2/bloc/cart/cart_event.dart';
 
 import '../bloc/cart/cart_bloc.dart';
-import '../bloc/cart/cart_state.dart';
+import '../core/injection.dart';
 import '../models/product.dart';
 
 class AddToCartButton extends StatelessWidget {
@@ -27,11 +26,15 @@ class AddToCartButton extends StatelessWidget {
         fixedSize: Size(width, height),
       ),
       onPressed: () {
-        context.read<CartBloc>().add(AddToCart(product));
+        getIt<CartBloc>().add(AddToCart(product));
       },
       child: Text(
-        "ADD TO CART",
-        style: TextStyle(color: Colors.white, fontSize: fontSize),
+        "ADD",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: fontSize,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

@@ -4,8 +4,6 @@ import 'package:lottie/lottie.dart';
 import 'package:untitled2/bloc/cart/cart_bloc.dart';
 import 'package:untitled2/cart_screen/presentation/widgets/cart_products.dart';
 import 'package:untitled2/commonUI/custom_appbar.dart';
-import 'package:untitled2/commonUI/label_widget.dart';
-import 'package:untitled2/commonUI/quantity_widget.dart';
 import '../../../bloc/cart/cart_event.dart';
 import '../../../bloc/cart/cart_state.dart';
 import '../../../core/injection.dart';
@@ -30,7 +28,7 @@ class CartScreen extends StatelessWidget {
       body: BlocBuilder<CartBloc, CartState>(
         bloc: getIt<CartBloc>(),
         builder: (context, state) {
-          final items = (state is CartUpdated) ? state.items : {};
+          final items = getIt<CartBloc>().getItems;
           final products = items.keys.toList();
           final total = getIt<CartBloc>().totalPrice;
 
@@ -44,9 +42,7 @@ class CartScreen extends StatelessWidget {
                     : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: CartProducts(items: items, products: products),
-                        ),
+                        Expanded(child: CartProducts(items: items)),
                         totalCheckout(total),
                       ],
                     ),
@@ -82,7 +78,11 @@ class CartScreen extends StatelessWidget {
           },
           child: const Text(
             "Check Out",
-            style: TextStyle(color: Colors.white, fontSize: 16),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ],

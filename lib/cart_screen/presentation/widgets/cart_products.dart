@@ -7,17 +7,16 @@ import '../../../commonUI/quantity_widget.dart';
 import '../../../core/injection.dart';
 
 class CartProducts extends StatelessWidget {
-  const CartProducts({super.key, required this.items, required this.products});
+  const CartProducts({super.key, required this.items});
 
   final Map items;
-  final List products;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (_, index) {
-        final product = products[index];
+        final product = items.keys.toList()[index];
         final quantity = items[product] ?? 0;
         return Container(
           margin: const EdgeInsets.only(bottom: 12),

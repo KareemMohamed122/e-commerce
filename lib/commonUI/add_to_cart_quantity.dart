@@ -12,7 +12,6 @@ import 'add_to_cart.dart';
 class AddToCartQuantity extends StatelessWidget {
   const AddToCartQuantity({
     super.key,
-    required this.quantity,
     required this.product,
     required this.buttonWidth,
     required this.buttonHeight,
@@ -21,7 +20,6 @@ class AddToCartQuantity extends StatelessWidget {
     required this.fontSize,
   });
 
-  final int quantity;
   final Product product;
   final double buttonWidth;
   final double buttonHeight;
@@ -32,7 +30,7 @@ class AddToCartQuantity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartBloc = getIt<CartBloc>();
-
+    int quantity = cartBloc.getItems[product] ?? 0;
     return BlocBuilder<CartBloc, CartState>(
       bloc: cartBloc,
       builder: (_, state) {
