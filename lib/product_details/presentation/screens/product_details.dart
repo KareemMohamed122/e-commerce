@@ -23,7 +23,7 @@ class ProductDetails extends StatelessWidget {
     final product = Get.arguments as Product;
     final cartBloc = getIt<CartBloc>();
     return Scaffold(
-      appBar: CustomAppbar(title: "Product Details", actions: [CartIcon()]),
+      appBar: CustomAppbar(title: "Product Details", actions: []),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: BlocBuilder<CartBloc, CartState>(

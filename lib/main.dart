@@ -4,9 +4,11 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:untitled2/bloc/cart/cart_bloc.dart';
+import 'package:untitled2/cart_screen/presentation/screens/cart_screen.dart';
 import 'package:untitled2/models/cart_item.dart';
 
 import 'bloc/cart/cart_event.dart' show LoadCart;
+import 'commonUI/navigation_bar.dart';
 import 'core/injection.dart';
 import 'home_page/presentation/screens/home_screen.dart';
 import 'models/product.dart';
@@ -34,7 +36,9 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         title: 'My Shop',
         theme: ThemeData(primarySwatch: Colors.deepOrange),
-        home: const HomeScreen(),
+        home: NavigationBarMenu(
+          pages: [HomeScreen(), CartScreen(), Text("Favourites")],
+        ),
         debugShowCheckedModeBanner: false,
       ),
     );

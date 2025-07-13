@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:untitled2/cart_screen/presentation/screens/cart_screen.dart';
 import 'package:untitled2/commonUI/custom_appbar.dart';
+import 'package:untitled2/product_details/presentation/screens/product_details.dart';
 
 import '../../../commonUI/cart_icon.dart';
 import '../../../models/product.dart';
@@ -14,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int currentIndex = 0;
   final List<Product> products = [
     Product(
       '1',
@@ -56,11 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
     "assets/images/category_images/shoes.png",
     "assets/images/category_images/sports.png",
   ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(title: "E-commerce", actions: [CartIcon()]),
+      appBar: CustomAppbar(title: "E-commerce", actions: []),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
