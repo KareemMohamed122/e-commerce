@@ -1,13 +1,30 @@
+import 'package:hive/hive.dart';
 import 'package:equatable/equatable.dart';
 
-class Product extends Equatable {
+part 'product.g.dart';
+
+@HiveType(typeId: 0)
+class Product extends HiveObject with EquatableMixin {
+  @HiveField(0)
+  final String id;
+
+  @HiveField(1)
   final String? img;
+
+  @HiveField(2)
   final String? productName;
+
+  @HiveField(3)
   final double? price;
+
+  @HiveField(4)
   final String? color;
+
+  @HiveField(5)
   final String? details;
 
-  const Product(
+  Product(
+    this.id,
     this.img,
     this.productName,
     this.price,
@@ -15,22 +32,6 @@ class Product extends Equatable {
     this.details,
   );
 
-  Map<String, dynamic> toJson() => {
-    'img': img,
-    'productName': productName,
-    'price': price,
-    'color': color,
-    'details': details,
-  };
-
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-    json['img'],
-    json['productName'],
-    json['price'],
-    json['color'],
-    json['details'],
-  );
-
   @override
-  List<Object?> get props => [productName, price];
+  List<Object?> get props => [id];
 }

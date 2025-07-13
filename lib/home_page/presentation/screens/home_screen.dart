@@ -16,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final List<Product> products = [
     Product(
+      '1',
       "assets/images/product_one.jpg",
       "Trek Domane SL 7",
       8499,
@@ -23,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
       "A high-performance road bike with Shimano Di2 electronic shifting and a lightweight carbon frame.",
     ),
     Product(
+      '2',
       "assets/images/product_two.jpg",
       "Specialized Turbo",
       3999,
@@ -30,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
       "An electric hybrid bike ideal for commuting with a smooth and powerful motor-assisted ride.",
     ),
     Product(
+      '3',
       "assets/images/product_three.jpg",
       "Giant Talon 1",
       999,
@@ -37,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
       "A versatile hardtail mountain bike with a lightweight aluminum frame and front suspension.",
     ),
     Product(
+      '4',
       "assets/images/product_four.jpg",
       "Cannondale Trail 5",
       1199,

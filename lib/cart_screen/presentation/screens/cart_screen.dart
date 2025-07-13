@@ -29,7 +29,6 @@ class CartScreen extends StatelessWidget {
         bloc: getIt<CartBloc>(),
         builder: (context, state) {
           final items = getIt<CartBloc>().getItems;
-          final products = items.keys.toList();
           final total = getIt<CartBloc>().totalPrice;
 
           return Padding(

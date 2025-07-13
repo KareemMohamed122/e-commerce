@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled2/bloc/cart/cart_event.dart';
 import 'package:untitled2/bloc/cart/cart_state.dart';
+import 'package:untitled2/models/cart_item.dart';
 import 'package:untitled2/models/product.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
@@ -10,19 +12,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   CartBloc() : super(CartInitial()) {
     on<LoadCart>((event, emit) async {
-      final prefs = await SharedPreferences.getInstance();
-      final cartList = prefs.getStringList('cart') ?? [];
-      Map<Product, int> loadedCart = {};
-
-      for (String item in cartList) {
-        final decoded = jsonDecode(item);
-        final product = Product.fromJson(decoded['product']);
-        final quantity = decoded['quantity'];
-        loadedCart[product] = quantity;
-      }
-
+      final box = Hive.box<CartItem>('cartBox');
       _cart.clear();
-      _cart.addAll(loadedCart);
+      for (CartItem cartItem in box.values) {
+        _cart[cartItem.product] = cartItem.quantity;
+      }
       emit(CartUpdated(_cart));
     });
 
@@ -53,17 +47,22 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       emit(CartUpdated(_cart));
       _saveCart();
     });
-  }
 
+    on<RemoveAllFromCart>((event, emit) {
+      _cart.remove(event.product);
+      emit(CartUpdated(_cart));
+      _saveCart();
+    });
+  }
   Future<void> _saveCart() async {
-    final prefs = await SharedPreferences.getInstance();
-    List<String> cartList =
-        _cart.entries.map((entry) {
-          final productJson = entry.key.toJson();
-          final quantity = entry.value;
-          return jsonEncode({'product': productJson, 'quantity': quantity});
-        }).toList();
-    await prefs.setStringList('cart', cartList);
+    final box = Hive.box<CartItem>('cartBox');
+    await box.clear();
+    for (var entry in _cart.entries) {
+      box.put(
+        entry.key.id,
+        CartItem(product: entry.key, quantity: entry.value),
+      );
+    }
   }
 
   int get totalQuantity => _cart.values.fold(0, (sum, item) => sum + item);
