@@ -10,6 +10,7 @@ class ProductDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return LabelWidget(
       label: "Details",
+      labelColor: Colors.black,
       widget: Text(description, style: TextStyle(fontSize: 18)),
     );
   }

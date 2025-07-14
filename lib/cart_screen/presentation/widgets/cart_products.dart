@@ -68,6 +68,7 @@ class CartProducts extends StatelessWidget {
                       left: 120,
                       child: LabelWidget(
                         label: "${product.productName}",
+                        labelColor: Colors.black,
                         widget: Text("${product.color}"),
                       ),
                     ),
@@ -76,6 +77,7 @@ class CartProducts extends StatelessWidget {
                       left: 120,
                       child: LabelWidget(
                         label: "Price",
+                        labelColor: Colors.black,
                         widget: Text("\$${product.price}"),
                       ),
                     ),

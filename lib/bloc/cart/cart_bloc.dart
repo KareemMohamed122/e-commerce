@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled2/bloc/cart/cart_event.dart';
 import 'package:untitled2/bloc/cart/cart_state.dart';
 import 'package:untitled2/models/cart_item.dart';

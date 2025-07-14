@@ -19,16 +19,16 @@ class _NavigationBarMenuState extends State<NavigationBarMenu> {
     return Scaffold(
       body: IndexedStack(index: currentIndex, children: widget.pages),
       bottomNavigationBar: Container(
-        color: Colors.deepOrange,
+        color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: GNav(
             gap: 8,
             padding: const EdgeInsets.all(8),
-            backgroundColor: Colors.deepOrange,
-            color: Colors.grey,
-            activeColor: Colors.grey,
-            tabBackgroundColor: Colors.white,
+            backgroundColor: Colors.white,
+            color: Colors.black,
+            activeColor: Colors.black,
+            tabBackgroundColor: Colors.deepOrange,
             selectedIndex: currentIndex,
             onTabChange: (index) {
               setState(() {
@@ -36,13 +36,15 @@ class _NavigationBarMenuState extends State<NavigationBarMenu> {
               });
             },
             tabs: const [
-              GButton(icon: Icons.home, text: "Home"),
+              GButton(icon: Icons.home, text: "Home", iconSize: 36),
+              GButton(icon: Icons.person, text: "Profile", iconSize: 36),
               GButton(
                 icon: Icons.shopping_cart,
                 text: "Cart",
                 leading: CartIcon(),
+                iconSize: 36,
               ),
-              GButton(icon: Icons.favorite, text: "Favourites"),
+              GButton(icon: Icons.favorite, text: "Favourites", iconSize: 36),
             ],
           ),
         ),

@@ -9,6 +9,7 @@ import '../../../bloc/cart/cart_event.dart';
 import '../../../bloc/cart/cart_state.dart';
 import '../../../commonUI/add_to_cart_quantity.dart';
 import '../../../commonUI/label_widget.dart';
+import '../../../commonUI/navigation_bar.dart';
 import '../../../core/injection.dart';
 import '../widgets/product_image_card.dart';
 import '../widgets/product_price_quantity.dart';
@@ -39,6 +40,7 @@ class ProductDetails extends StatelessWidget {
                 const SizedBox(height: 8),
                 LabelWidget(
                   label: product.productName ?? '',
+                  labelColor: Colors.black,
                   widget: Text(
                     product.color ?? '',
                     style: const TextStyle(fontSize: 18),

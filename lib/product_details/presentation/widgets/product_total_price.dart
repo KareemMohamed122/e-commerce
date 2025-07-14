@@ -10,6 +10,7 @@ class ProductTotalPrice extends StatelessWidget {
   Widget build(BuildContext context) {
     return LabelWidget(
       label: "Total Price",
+      labelColor: Colors.black,
       widget: Text("\$${totalPrice ?? 0.0}", style: TextStyle(fontSize: 18)),
     );
   }
