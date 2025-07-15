@@ -3,7 +3,7 @@ import 'package:untitled2/bloc/cart/cart_event.dart';
 
 import '../bloc/cart/cart_bloc.dart';
 import '../core/injection.dart';
-import '../models/product.dart';
+import '../data/models/product.dart';
 
 class AddToCartButton extends StatelessWidget {
   final double fontSize;

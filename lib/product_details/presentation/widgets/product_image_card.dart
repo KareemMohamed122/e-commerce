@@ -13,7 +13,7 @@ class ProductImageCard extends StatelessWidget {
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         clipBehavior: Clip.antiAlias,
-        child: Image.asset(
+        child: Image.network(
           imagePath,
           fit: BoxFit.fill,
           width: double.infinity,

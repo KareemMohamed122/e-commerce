@@ -15,7 +15,8 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppbar(
-        title: "Shopping Cart",
+        leading: const Icon(Icons.search_outlined),
+        title: Image.asset("assets/images/home_images/casaforsa.png"),
         actions: [
           IconButton(
             onPressed: () {

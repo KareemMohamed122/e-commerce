@@ -1,8 +1,10 @@
 import 'package:get_it/get_it.dart';
-import 'package:untitled2/bloc/cart/cart_bloc.dart';
+import 'package:injectable/injectable.dart';
+import 'injection.config.dart';
 
 final getIt = GetIt.instance;
 
-void setupDependencies() {
-  getIt.registerLazySingleton<CartBloc>(() => CartBloc());
+@injectableInit
+Future<void> configureDependencies() async {
+  getIt.init();
 }

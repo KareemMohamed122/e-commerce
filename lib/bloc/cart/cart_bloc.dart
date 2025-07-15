@@ -1,10 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:injectable/injectable.dart';
 import 'package:untitled2/bloc/cart/cart_event.dart';
 import 'package:untitled2/bloc/cart/cart_state.dart';
 import 'package:untitled2/models/cart_item.dart';
-import 'package:untitled2/models/product.dart';
 
+import '../../data/models/product.dart';
+
+@injectable
 class CartBloc extends Bloc<CartEvent, CartState> {
   final Map<Product, int> _cart = {};
 
@@ -77,7 +80,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   double getProductTotal(Product product) {
     final int quantity = _cart[product] ?? 0;
-    final double price = product.price ?? 0.0;
+    final double price = product.price.toDouble() ?? 0.0;
     return price * quantity;
   }
 }

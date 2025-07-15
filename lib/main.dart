@@ -10,8 +10,8 @@ import 'package:untitled2/profile_page/presentation/screens/profile_screen.dart'
 import 'bloc/cart/cart_event.dart' show LoadCart;
 import 'commonUI/navigation_bar.dart';
 import 'core/injection.dart';
+import 'data/models/product.dart';
 import 'home_page/presentation/screens/home_screen.dart';
-import 'models/product.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +20,7 @@ void main() async {
   Hive.registerAdapter(ProductAdapter());
   Hive.registerAdapter(CartItemAdapter());
   await Hive.openBox<CartItem>('cartBox');
-  setupDependencies();
+  configureDependencies();
   final cartBloc = getIt<CartBloc>();
   cartBloc.add(LoadCart());
   runApp(const MyApp());
@@ -35,8 +35,11 @@ class MyApp extends StatelessWidget {
       value: getIt<CartBloc>(),
       child: GetMaterialApp(
         title: 'My Shop',
-        theme: ThemeData(primarySwatch: Colors.deepOrange),
-        home: NavigationBarMenu(
+        theme: ThemeData(
+          primaryColor: Colors.white,
+          scaffoldBackgroundColor: Colors.white,
+        ),
+        home: const NavigationBarMenu(
           pages: [
             HomeScreen(),
             ProfileScreen(),

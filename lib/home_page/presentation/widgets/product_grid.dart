@@ -5,7 +5,7 @@ import 'package:untitled2/bloc/cart/cart_bloc.dart';
 import 'package:untitled2/bloc/cart/cart_state.dart';
 import 'package:untitled2/commonUI/add_to_cart_quantity.dart';
 import '../../../core/injection.dart' show getIt;
-import '../../../models/product.dart';
+import '../../../data/models/product.dart';
 import '../../../product_details/presentation/screens/product_details.dart';
 
 class ProductGrid extends StatelessWidget {
@@ -27,15 +27,16 @@ class ProductGrid extends StatelessWidget {
             crossAxisCount: 2,
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
-            childAspectRatio: 0.7,
+            childAspectRatio: 0.75,
           ),
           itemBuilder: (context, index) {
             final product = products[index];
             final quantity = cart[product] ?? 0;
 
             return InkWell(
-              onTap: () => Get.to(ProductDetails(), arguments: product),
+              onTap: () => Get.to(const ProductDetails(), arguments: product),
               child: Card(
+                color: const Color(0xFFF8F9FE),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
@@ -47,8 +48,8 @@ class ProductGrid extends StatelessWidget {
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15),
                       ),
-                      child: Image.asset(
-                        product.img ?? '',
+                      child: Image.network(
+                        product.images[0] ?? '',
                         height: 120,
                         width: double.infinity,
                         fit: BoxFit.cover,
@@ -61,10 +62,13 @@ class ProductGrid extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            product.productName ?? '',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            product.title ?? '',
                             style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xFF1F2024),
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -74,17 +78,10 @@ class ProductGrid extends StatelessWidget {
                               Text(
                                 "\$${product.price}",
                                 style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF1F2024),
                                 ),
-                              ),
-                              AddToCartQuantity(
-                                product: product,
-                                fontSize: 16,
-                                buttonWidth: 90,
-                                buttonHeight: 30,
-                                counterWidth: 24,
-                                counterHeight: 24,
                               ),
                             ],
                           ),

@@ -1,4 +1,4 @@
-import 'package:untitled2/models/product.dart';
+import '../../data/models/product.dart';
 
 abstract class CartEvent {}
 

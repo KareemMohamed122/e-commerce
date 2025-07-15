@@ -16,7 +16,10 @@ class CartItemAdapter extends TypeAdapter<CartItem> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return CartItem(product: fields[0] as Product, quantity: fields[1] as int);
+    return CartItem(
+      product: fields[0] as Product,
+      quantity: fields[1] as int,
+    );
   }
 
   @override

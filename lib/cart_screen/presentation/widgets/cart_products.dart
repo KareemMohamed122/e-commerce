@@ -4,7 +4,7 @@ import '../../../bloc/cart/cart_event.dart';
 import '../../../commonUI/label_widget.dart';
 import '../../../commonUI/quantity_widget.dart';
 import '../../../core/injection.dart';
-import '../../../models/product.dart';
+import '../../../data/models/product.dart';
 
 class CartProducts extends StatelessWidget {
   const CartProducts({super.key, required this.items});
@@ -34,7 +34,7 @@ class CartProducts extends StatelessWidget {
               getIt<CartBloc>().add(RemoveAllFromCart(product));
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('${product.productName} removed from cart'),
+                  content: Text('${product.title} removed from cart'),
                   duration: const Duration(seconds: 1),
                 ),
               );
@@ -56,7 +56,7 @@ class CartProducts extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
                         child: Image.asset(
-                          product.img ?? "",
+                          product.images[0] ?? "",
                           width: 100,
                           height: 100,
                           fit: BoxFit.cover,
@@ -67,9 +67,9 @@ class CartProducts extends StatelessWidget {
                       top: 0,
                       left: 120,
                       child: LabelWidget(
-                        label: "${product.productName}",
+                        label: "${product.title}",
                         labelColor: Colors.black,
-                        widget: Text("${product.color}"),
+                        widget: Text("${product.categoryName}"),
                       ),
                     ),
                     Positioned(

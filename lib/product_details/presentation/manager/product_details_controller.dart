@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:untitled2/models/product.dart';
+
+import '../../../data/models/product.dart';
 
 class ProductDetailsController extends GetxController {
   Rx<int> counter = 0.obs;
@@ -19,7 +20,7 @@ class ProductDetailsController extends GetxController {
     }
   }
 
-  double calculateTotalPrice(int quantity) {
+  num calculateTotalPrice(int quantity) {
     return quantity * (product.price ?? 0.0);
   }
 }

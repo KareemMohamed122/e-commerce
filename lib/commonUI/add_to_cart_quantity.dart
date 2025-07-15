@@ -6,7 +6,7 @@ import '../bloc/cart/cart_bloc.dart';
 import '../bloc/cart/cart_event.dart';
 import '../bloc/cart/cart_state.dart';
 import '../core/injection.dart';
-import '../models/product.dart';
+import '../data/models/product.dart';
 import 'add_to_cart.dart';
 
 class AddToCartQuantity extends StatelessWidget {
