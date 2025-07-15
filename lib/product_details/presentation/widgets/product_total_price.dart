@@ -12,6 +12,8 @@ class ProductTotalPrice extends StatelessWidget {
       label: "Total Price",
       labelColor: Colors.black,
       widget: Text("\$${totalPrice ?? 0.0}", style: TextStyle(fontSize: 18)),
+      labelFontSize: 10,
+      labelFontWeight: FontWeight.bold,
     );
   }
 }

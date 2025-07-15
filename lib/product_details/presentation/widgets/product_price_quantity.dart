@@ -27,6 +27,8 @@ class ProductPriceQuantity extends StatelessWidget {
           label: "Price",
           labelColor: Colors.black,
           widget: Text("\$$price", style: const TextStyle(fontSize: 18)),
+          labelFontSize: 10,
+          labelFontWeight: FontWeight.bold,
         ),
       ],
     );

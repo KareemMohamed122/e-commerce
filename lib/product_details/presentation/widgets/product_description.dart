@@ -12,6 +12,8 @@ class ProductDescription extends StatelessWidget {
       label: "Details",
       labelColor: Colors.black,
       widget: Text(description, style: TextStyle(fontSize: 18)),
+      labelFontSize: 10,
+      labelFontWeight: FontWeight.bold,
     );
   }
 }

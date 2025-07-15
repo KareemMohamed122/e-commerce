@@ -9,10 +9,9 @@ import 'package:untitled2/commonUI/cart_icon.dart';
 import '../../../bloc/product/product_bloc.dart';
 import '../../../bloc/product/product_event.dart';
 import '../../../bloc/product/product_state.dart';
+import '../../../commonUI/featured_banner.dart';
 import '../../../core/injection.dart';
 import '../widgets/product_grid.dart';
-import '../widgets/category_list.dart';
-import '../widgets/featured_banner.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -53,9 +52,12 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(
-                "assets/images/home_images/banner.png",
-                width: 375,
+              FeaturedBanner(
+                imgList: [
+                  'assets/images/home_images/banner_one.jpg',
+                  'assets/images/home_images/banner_two.jpg',
+                  'assets/images/home_images/banner_three.jpg',
+                ],
                 height: 214,
               ),
               const SizedBox(height: 16),

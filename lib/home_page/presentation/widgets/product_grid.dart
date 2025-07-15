@@ -49,7 +49,7 @@ class ProductGrid extends StatelessWidget {
                         topRight: Radius.circular(15),
                       ),
                       child: Image.network(
-                        product.images[0] ?? '',
+                        product.images[0],
                         height: 120,
                         width: double.infinity,
                         fit: BoxFit.cover,

@@ -70,6 +70,8 @@ class CartProducts extends StatelessWidget {
                         label: "${product.title}",
                         labelColor: Colors.black,
                         widget: Text("${product.categoryName}"),
+                        labelFontSize: 10,
+                        labelFontWeight: FontWeight.bold,
                       ),
                     ),
                     Positioned(
@@ -79,6 +81,8 @@ class CartProducts extends StatelessWidget {
                         label: "Price",
                         labelColor: Colors.black,
                         widget: Text("\$${product.price}"),
+                        labelFontWeight: FontWeight.bold,
+                        labelFontSize: 10,
                       ),
                     ),
                     Positioned(

@@ -4,11 +4,15 @@ class LabelWidget extends StatelessWidget {
   final String label;
   final Widget widget;
   final Color labelColor;
+  final double labelFontSize;
+  final FontWeight labelFontWeight;
   const LabelWidget({
     super.key,
     required this.label,
     required this.widget,
     required this.labelColor,
+    required this.labelFontSize,
+    required this.labelFontWeight,
   });
 
   @override
@@ -20,12 +24,12 @@ class LabelWidget extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
+            fontWeight: labelFontWeight,
+            fontSize: labelFontSize,
             color: labelColor,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 8),
         widget,
       ],
     );

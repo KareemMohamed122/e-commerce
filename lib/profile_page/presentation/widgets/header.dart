@@ -42,6 +42,8 @@ class Header extends StatelessWidget {
                         "+201061744918",
                         style: TextStyle(color: Colors.white),
                       ),
+                      labelFontSize: 10,
+                      labelFontWeight: FontWeight.bold,
                     ),
                   ],
                 ),

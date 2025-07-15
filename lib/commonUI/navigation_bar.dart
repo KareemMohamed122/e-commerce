@@ -17,6 +17,7 @@ class _NavigationBarMenuState extends State<NavigationBarMenu> {
     return Scaffold(
       body: IndexedStack(index: currentIndex, children: widget.pages),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         currentIndex: currentIndex,
         onTap: (index) {
@@ -42,7 +43,7 @@ class _NavigationBarMenuState extends State<NavigationBarMenu> {
             label: "Search",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.category),
+            icon: Icon(Icons.grid_view_rounded),
             label: "Category",
           ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
