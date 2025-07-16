@@ -12,4 +12,6 @@ abstract class ProductWebService {
 
   @GET("products")
   Future<List<Product>> getAllProducts();
+  @GET("products/{id}")
+  Future<Product> getProduct(@Path("id") int id);
 }

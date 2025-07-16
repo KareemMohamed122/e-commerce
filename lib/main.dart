@@ -14,15 +14,8 @@ import 'data/models/product.dart';
 import 'home_page/presentation/screens/home_screen.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-
-  Hive.registerAdapter(ProductAdapter());
-  Hive.registerAdapter(CartItemAdapter());
-  await Hive.openBox<CartItem>('cartBox');
   configureDependencies();
-  final cartBloc = getIt<CartBloc>();
-  cartBloc.add(LoadCart());
+
   runApp(const MyApp());
 }
 
@@ -36,6 +29,7 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         title: 'My Shop',
         theme: ThemeData(
+          fontFamily: 'inter',
           primaryColor: Colors.white,
           scaffoldBackgroundColor: Colors.white,
         ),

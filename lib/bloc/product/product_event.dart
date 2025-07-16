@@ -3,3 +3,9 @@ abstract class ProductEvent {
 }
 
 class LoadProducts extends ProductEvent {}
+
+class LoadProduct extends ProductEvent {
+  final int id;
+
+  LoadProduct(this.id);
+}

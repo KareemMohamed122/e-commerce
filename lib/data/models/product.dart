@@ -7,23 +7,23 @@ part 'product.g.dart';
 @JsonSerializable()
 class Product {
   @HiveField(0)
-  final int id;
+  late int id;
 
   @HiveField(1)
-  final String title;
+  late String title;
 
   @HiveField(2)
-  final int price;
+  late double price;
 
   @HiveField(3)
-  final String description;
+  late String description;
 
   @HiveField(4)
-  final List<String> images;
+  late List<String> images;
 
   @HiveField(5)
   @JsonKey(name: 'category', fromJson: extractCategoryName)
-  final String categoryName;
+  late String categoryName;
 
   Product({
     required this.id,
@@ -34,6 +34,14 @@ class Product {
     required this.categoryName,
   });
 
+  Product.empty() {
+    id = 0;
+    title = "";
+    price = 0.0;
+    description = "";
+    images = [];
+    categoryName = "";
+  }
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);
 

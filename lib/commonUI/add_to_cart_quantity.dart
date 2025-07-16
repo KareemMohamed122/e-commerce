@@ -30,10 +30,12 @@ class AddToCartQuantity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartBloc = getIt<CartBloc>();
-    int quantity = cartBloc.getItems[product] ?? 0;
+
     return BlocBuilder<CartBloc, CartState>(
       bloc: cartBloc,
       builder: (_, state) {
+        int quantity = cartBloc.getItems[product] ?? 0;
+
         if (state is CartInitial || quantity == 0) {
           return Center(
             child: AddToCartButton(
@@ -48,10 +50,10 @@ class AddToCartQuantity extends StatelessWidget {
             child: QuantityWidget(
               quantity: quantity,
               onRemove: () {
-                cartBloc.add(RemoveFromCart(product));
+                //  cartBloc.add(RemoveFromCart(product));
               },
               onAdd: () {
-                cartBloc.add(AddToCart(product));
+                //cartBloc.add(AddToCart(product));
               },
               width: counterWidth,
               height: counterHeight,

@@ -9,10 +9,16 @@ class ProductInitial extends ProductState {}
 
 class ProductLoading extends ProductState {}
 
-class ProductLoaded extends ProductState {
+class ProductsLoaded extends ProductState {
   final List<Product> products;
 
-  const ProductLoaded(this.products);
+  const ProductsLoaded(this.products);
+}
+
+class ProductLoaded extends ProductState {
+  final Product product;
+
+  const ProductLoaded(this.product);
 }
 
 class ProductError extends ProductState {

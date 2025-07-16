@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
-import '../models/product.dart';
 import '../web_services/product_web_services.dart';
+import '../models/product.dart';
 
 @lazySingleton
 class ProductRepository {
@@ -10,5 +10,9 @@ class ProductRepository {
 
   Future<List<Product>> fetchAllProducts() async {
     return await productWebService.getAllProducts();
+  }
+
+  Future<Product> fetchAProductById(int id) async {
+    return await productWebService.getProduct(id);
   }
 }

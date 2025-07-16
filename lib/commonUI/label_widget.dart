@@ -6,6 +6,7 @@ class LabelWidget extends StatelessWidget {
   final Color labelColor;
   final double labelFontSize;
   final FontWeight labelFontWeight;
+  final double gap;
   const LabelWidget({
     super.key,
     required this.label,
@@ -13,6 +14,7 @@ class LabelWidget extends StatelessWidget {
     required this.labelColor,
     required this.labelFontSize,
     required this.labelFontWeight,
+    this.gap = 4,
   });
 
   @override
@@ -28,8 +30,10 @@ class LabelWidget extends StatelessWidget {
             fontSize: labelFontSize,
             color: labelColor,
           ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: gap),
         widget,
       ],
     );

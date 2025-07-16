@@ -39,21 +39,26 @@ class _FeaturedBannerState extends State<FeaturedBanner> {
                     path,
                     fit: BoxFit.cover,
                     width: double.infinity,
+                    height: widget.height,
                   );
                 }).toList(),
           ),
         ),
         Positioned(
-          bottom: 15,
-          right: 160,
-          child: Row(
-            children: [
-              buildDot(0),
-              SizedBox(width: 8),
-              buildDot(1),
-              SizedBox(width: 8),
-              buildDot(2),
-            ],
+          bottom: 13,
+          right: 167,
+          child: SizedBox(
+            width: 40,
+            height: 8,
+            child: Row(
+              children: [
+                buildDot(0),
+                SizedBox(width: 8),
+                buildDot(1),
+                SizedBox(width: 8),
+                buildDot(2),
+              ],
+            ),
           ),
         ),
       ],
@@ -64,7 +69,10 @@ class _FeaturedBannerState extends State<FeaturedBanner> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(24)),
-        color: (currentIndex == index ? Color(0xFF0019FF) : Color(0xFF1F2024)),
+        color:
+            (currentIndex == index
+                ? Color(0xFF0019FF)
+                : Color(0xFF1F2024).withValues(alpha: 0.5)),
       ),
       width: 8,
       height: 8,

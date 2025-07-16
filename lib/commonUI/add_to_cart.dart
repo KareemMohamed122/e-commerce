@@ -22,19 +22,27 @@ class AddToCartButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Color(0xFF0019FF),
         fixedSize: Size(width, height),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       onPressed: () {
-        getIt<CartBloc>().add(AddToCart(product));
+        //getIt<CartBloc>().add(AddToCart(product));
       },
-      child: Text(
-        "ADD",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: fontSize,
-          fontWeight: FontWeight.bold,
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.add, size: 12, color: Colors.white),
+          SizedBox(width: 8),
+          Text(
+            "Add to cart",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     );
   }

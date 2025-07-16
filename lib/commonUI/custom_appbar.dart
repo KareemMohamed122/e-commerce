@@ -11,7 +11,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
     required this.title,
     this.actions,
     this.leading,
-    this.height = 72,
+    this.height = 0,
   });
 
   @override
@@ -25,9 +25,9 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              leading ?? const SizedBox(width: 24),
+              leading ?? const SizedBox(),
               Expanded(child: Center(child: title)),
-              Row(children: actions ?? [const SizedBox(width: 24)]),
+              Row(children: actions ?? [const SizedBox()]),
             ],
           ),
         ),

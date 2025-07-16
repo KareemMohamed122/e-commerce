@@ -11,18 +11,26 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final ProductRepository productRepository;
 
   List<Product> _products = [];
+  Product _product = Product.empty();
 
   ProductBloc(this.productRepository) : super(ProductInitial()) {
     on<LoadProducts>((event, emit) async {
       emit(ProductLoading());
       try {
         _products = await productRepository.fetchAllProducts();
-        emit(ProductLoaded(_products));
+        emit(ProductsLoaded(_products));
       } catch (e) {
-        emit(const ProductError('Failed to load products'));
+        emit(ProductError(e.toString()));
+      }
+    });
+    on<LoadProduct>((event, emit) async {
+      emit(ProductLoading());
+      try {
+        _product = await productRepository.fetchAProductById(event.id);
+        emit(ProductLoaded(_product));
+      } catch (e) {
+        emit(ProductError(e.toString()));
       }
     });
   }
-
-  List<Product> get products => _products;
 }
