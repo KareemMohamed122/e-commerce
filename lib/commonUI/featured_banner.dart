@@ -40,6 +40,9 @@ class _FeaturedBannerState extends State<FeaturedBanner> {
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: widget.height,
+                    errorBuilder: (_, _, _) {
+                      return Image.asset(path);
+                    },
                   );
                 }).toList(),
           ),
