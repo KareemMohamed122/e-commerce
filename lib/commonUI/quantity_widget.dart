@@ -6,54 +6,44 @@ class QuantityWidget extends StatelessWidget {
     required this.quantity,
     required this.onRemove,
     required this.onAdd,
-    required this.width,
-    required this.height,
+    this.height,
+    this.width,
   });
 
   final int quantity;
   final VoidCallback onRemove;
   final VoidCallback onAdd;
-  final double width;
-  final double height;
+  final double? height;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SizedBox(
-          width: 32,
-          height: 32,
-          child: IconButton(
-            onPressed: onRemove,
-            icon: const Icon(Icons.remove, size: 18),
-            padding: EdgeInsets.zero,
+        IconButton(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(Color(0xFFE5E8FF)),
           ),
+          onPressed: onRemove,
+          icon: const Icon(Icons.remove, size: 24, color: Color(0xFF0019FF)),
+          padding: EdgeInsets.zero,
         ),
+        SizedBox(width: 4),
 
-        Container(
-          alignment: Alignment.center,
-          width: width,
-          height: height,
-          margin: const EdgeInsets.symmetric(horizontal: 8),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.grey),
-          ),
-          child: Text(
-            '$quantity',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
+        Text(
+          '$quantity',
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
         ),
+        SizedBox(width: 4),
 
-        SizedBox(
-          width: 32,
-          height: 32,
-          child: IconButton(
-            onPressed: onAdd,
-            icon: const Icon(Icons.add, size: 18),
-            padding: EdgeInsets.zero,
+        IconButton(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(Color(0xFFE5E8FF)),
           ),
+          onPressed: onAdd,
+          icon: const Icon(Icons.add, size: 24, color: Color(0xFF0019FF)),
+          padding: EdgeInsets.zero,
         ),
       ],
     );

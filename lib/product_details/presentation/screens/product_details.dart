@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:untitled2/bloc/product/product_event.dart';
 import 'package:untitled2/commonUI/featured_banner.dart';
+import '../../../bloc/cart/cart_bloc.dart';
+import '../../../bloc/cart/cart_state.dart';
 import '../../../bloc/product/product_bloc.dart';
 import '../../../bloc/product/product_state.dart';
 import '../../../core/injection.dart';
@@ -19,7 +21,7 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   late final int productId;
-  //final cartBloc = getIt<CartBloc>();
+  final cartBloc = getIt<CartBloc>();
   final productBloc = getIt<ProductBloc>();
 
   @override
@@ -75,13 +77,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                         const SizedBox(height: 32),
                         buildColorSelector(),
                         const SizedBox(height: 40),
-                        AddToCartQuantity(
-                          fontSize: 16,
-                          product: product,
-                          buttonWidth: double.infinity,
-                          buttonHeight: 48,
-                          counterWidth: 200,
-                          counterHeight: 50,
+                        BlocBuilder<CartBloc, CartState>(
+                          builder: (context, state) {
+                            return AddToCartQuantity(
+                              product: product,
+                              buttonHeight: 48,
+                              counterHeight: 48,
+                              fontSize: 12,
+                            );
+                          },
                         ),
                       ],
                     ),

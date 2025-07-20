@@ -14,14 +14,5 @@ final getIt = GetIt.instance;
 
 @injectableInit
 Future<void> configureDependencies() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  //await Hive.initFlutter();
-  //Hive.registerAdapter(ProductAdapter());
-  //Hive.registerAdapter(CartItemAdapter());
-  // await Hive.openBox<CartItem>('cartBox');
-
   getIt.init();
-
-  //final cartBloc = getIt<CartBloc>();
-  //cartBloc.add(LoadCart());
 }

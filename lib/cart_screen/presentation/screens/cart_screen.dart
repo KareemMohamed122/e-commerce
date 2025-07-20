@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:lottie/lottie.dart';
 import 'package:untitled2/bloc/cart/cart_bloc.dart';
 import 'package:untitled2/cart_screen/presentation/widgets/cart_products.dart';
 import 'package:untitled2/commonUI/custom_appbar.dart';
-import '../../../bloc/cart/cart_event.dart';
 import '../../../bloc/cart/cart_state.dart';
 import '../../../core/injection.dart';
 
@@ -15,16 +16,24 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppbar(
-        leading: const Icon(Icons.search_outlined),
-        title: Image.asset("assets/images/home_images/casaforsa.png"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              getIt<CartBloc>().add(ClearCart());
-            },
-            icon: Icon(Icons.delete, color: Colors.white),
+        height: 56,
+        leading: IconButton(
+          padding: EdgeInsets.zero,
+          constraints: BoxConstraints(),
+          onPressed: () {
+            Get.back();
+          },
+          icon: Icon(Icons.arrow_back_ios, color: Color(0xFF0019FF), size: 20),
+        ),
+        title: Text(
+          'Your bag',
+          style: TextStyle(
+            color: Color(0xFF1F2024),
+            fontWeight: FontWeight.w700,
+            fontSize: 14,
           ),
-        ],
+        ),
+        actions: [],
       ),
       body: BlocBuilder<CartBloc, CartState>(
         bloc: getIt<CartBloc>(),
@@ -52,36 +61,51 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Row totalCheckout(double total) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+  Widget totalCheckout(double total) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Total:",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              "Total",
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                color: Color(0xFF71727A),
+              ),
+            ),
+            Text(
+              "€ $total",
+              style: const TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 16,
+                color: Color(0xFF1F2024),
+              ),
+            ),
+          ],
         ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Text(
-            "\$$total",
-            style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
-          ),
-        ),
-        const SizedBox(width: 20),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.deepOrange,
-            fixedSize: const Size(200, 50),
-          ),
-          onPressed: () {
-            // Checkout Action
-          },
-          child: const Text(
-            "Check Out",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+        SizedBox(height: 16),
+        SizedBox(
+          width: double.infinity,
+          height: 48,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color(0xFF0019FF),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            onPressed: () {},
+            child: const Text(
+              "Checkout",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ),

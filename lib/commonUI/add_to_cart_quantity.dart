@@ -13,17 +13,13 @@ class AddToCartQuantity extends StatelessWidget {
   const AddToCartQuantity({
     super.key,
     required this.product,
-    required this.buttonWidth,
     required this.buttonHeight,
-    required this.counterWidth,
     required this.counterHeight,
     required this.fontSize,
   });
 
   final Product product;
-  final double buttonWidth;
   final double buttonHeight;
-  final double counterWidth;
   final double counterHeight;
   final double fontSize;
 
@@ -40,7 +36,6 @@ class AddToCartQuantity extends StatelessWidget {
           return Center(
             child: AddToCartButton(
               fontSize: fontSize,
-              width: buttonWidth,
               height: buttonHeight,
               product: product,
             ),
@@ -50,12 +45,11 @@ class AddToCartQuantity extends StatelessWidget {
             child: QuantityWidget(
               quantity: quantity,
               onRemove: () {
-                //  cartBloc.add(RemoveFromCart(product));
+                cartBloc.add(DecrementQuantity(product));
               },
               onAdd: () {
-                //cartBloc.add(AddToCart(product));
+                cartBloc.add(IncrementQuantity(product));
               },
-              width: counterWidth,
               height: counterHeight,
             ),
           );

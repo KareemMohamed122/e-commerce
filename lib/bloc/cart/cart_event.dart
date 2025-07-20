@@ -2,21 +2,21 @@ import '../../data/models/product.dart';
 
 abstract class CartEvent {}
 
-class AddToCart extends CartEvent {
+class IncrementQuantity extends CartEvent {
   final Product product;
-  AddToCart(this.product);
+  IncrementQuantity(this.product);
 }
 
-class RemoveFromCart extends CartEvent {
+class DecrementQuantity extends CartEvent {
   final Product product;
-  RemoveFromCart(this.product);
+  DecrementQuantity(this.product);
 }
 
 class ClearCart extends CartEvent {}
 
 class LoadCart extends CartEvent {}
 
-class RemoveAllFromCart extends CartEvent {
+class RemoveProduct extends CartEvent {
   final Product product;
-  RemoveAllFromCart(this.product);
+  RemoveProduct(this.product);
 }
