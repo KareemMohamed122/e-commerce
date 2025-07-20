@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:untitled2/bloc/cart/cart_bloc.dart';
+import 'package:untitled2/cart_screen/presentation/screens/cart_screen.dart';
+import 'package:untitled2/category_screen/presentation/screens/category_screen.dart';
 import 'package:untitled2/models/cart_item.dart';
+import 'package:untitled2/profile_page/presentation/screens/profile_screen.dart';
 
 import 'bloc/cart/cart_event.dart' show LoadCart;
+import 'commonUI/navigation_bar.dart';
 import 'core/injection.dart';
 import 'data/models/product.dart';
 import 'home_page/presentation/screens/home_screen.dart';
@@ -18,7 +21,8 @@ void main() async {
   Hive.registerAdapter(ProductAdapter());
   Hive.registerAdapter(CartItemAdapter());
   await Hive.openBox<CartItem>('cartBox');
-  setupDependencies();
+
+  configureDependencies();
   final cartBloc = getIt<CartBloc>();
   cartBloc.add(LoadCart());
   runApp(const MyApp());
@@ -33,9 +37,19 @@ class MyApp extends StatelessWidget {
       value: getIt<CartBloc>(),
       child: GetMaterialApp(
         title: 'My Shop',
-        theme: ThemeData(primarySwatch: Colors.
+        theme: ThemeData(
+          fontFamily: 'inter',
+          primaryColor: Colors.white,
+          scaffoldBackgroundColor: Colors.white,
         ),
-        home: const HomeScreen(),
+        home: const NavigationBarMenu(
+          pages: [
+            HomeScreen(),
+            ProfileScreen(),
+            CategoryScreen(),
+            Text("Favourites"),
+          ],
+        ),
         debugShowCheckedModeBanner: false,
       ),
     );
