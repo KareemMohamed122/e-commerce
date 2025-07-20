@@ -48,6 +48,7 @@ dev_dependencies:
   hive_generator: ^2.0.1
   flutter_lints: ^5.0.0
   carousel_slider_plus: ^7.1.1
+  badges: ^3.1.2
 
 flutter:
   uses-material-design: true

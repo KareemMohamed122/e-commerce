@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:badges/badges.dart' as badges;
+import 'package:untitled2/commonUI/cart_icon.dart';
 
 class FavouriteCartIcons extends StatelessWidget {
   const FavouriteCartIcons({super.key});
@@ -16,7 +18,7 @@ class FavouriteCartIcons extends StatelessWidget {
             size: 24,
           ),
           SizedBox(width: 16),
-          Icon(Icons.shopping_bag_outlined, color: Color(0xFF2F3036), size: 24),
+          CartIcon(),
         ],
       ),
     );

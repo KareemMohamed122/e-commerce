@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:untitled2/cart_screen/presentation/screens/cart_screen.dart';
 import '../bloc/cart/cart_bloc.dart';
 import '../bloc/cart/cart_state.dart';
 import '../core/injection.dart';
+import 'package:badges/badges.dart' as badges;
 
 class CartIcon extends StatelessWidget {
   const CartIcon({super.key});
@@ -14,34 +17,32 @@ class CartIcon extends StatelessWidget {
         final bloc = getIt<CartBloc>();
         final total = bloc.totalQuantity;
 
-        return Stack(
-          alignment: Alignment.topRight,
-          children: [
-            const Icon(Icons.shopping_cart, color: Colors.black, size: 36),
-            if (total > 0)
-              Positioned(
-                right: 0,
-                top: 0,
-                child: Container(
-                  padding: const EdgeInsets.all(2),
-                  width: 18,
-                  height: 18,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    '$total',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+        return InkWell(
+          onTap: () {
+            Get.to(CartScreen());
+          },
+          child: badges.Badge(
+            badgeContent: Text(
+              "$total",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 10,
+                fontWeight: FontWeight.w600,
               ),
-          ],
+            ),
+            badgeStyle: badges.BadgeStyle(
+              badgeColor: Color(0xFF0019FF),
+              padding: EdgeInsets.all(4),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            position: badges.BadgePosition.bottomEnd(bottom: -10, end: -8),
+            child: Icon(
+              Icons.shopping_bag_outlined,
+              color: Color(0xFF1F2024),
+              size: 24,
+            ),
+          ),
         );
       },
     );

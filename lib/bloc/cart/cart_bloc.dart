@@ -1,27 +1,25 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:untitled2/bloc/cart/cart_event.dart';
 import 'package:untitled2/bloc/cart/cart_state.dart';
+import 'package:untitled2/core/local_storage.dart';
 import 'package:untitled2/models/cart_item.dart';
 
 import '../../data/models/product.dart';
 
-@injectable
+@singleton
 class CartBloc extends Bloc<CartEvent, CartState> {
   final Map<Product, int> _cart = {};
 
   CartBloc() : super(CartInitial()) {
-    on<LoadCart>((event, emit) async {
-      final box = Hive.box<CartItem>('cartBox');
-      _cart.clear();
-      for (CartItem cartItem in box.values) {
+    on<LoadCart>((event, emit) {
+      for (CartItem cartItem in LocalStorage.loadData("cartBox")) {
         _cart[cartItem.product] = cartItem.quantity;
       }
       emit(CartUpdated(_cart));
     });
 
-    on<AddToCart>((event, emit) {
+    on<IncrementQuantity>((event, emit) {
       _cart.update(
         event.product,
         (quantity) => quantity + 1,
@@ -31,7 +29,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       _saveCart();
     });
 
-    on<RemoveFromCart>((event, emit) {
+    on<DecrementQuantity>((event, emit) {
       if (_cart.containsKey(event.product)) {
         if (_cart[event.product]! > 1) {
           _cart[event.product] = _cart[event.product]! - 1;
@@ -49,17 +47,17 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       _saveCart();
     });
 
-    on<RemoveAllFromCart>((event, emit) {
+    on<RemoveProduct>((event, emit) {
       _cart.remove(event.product);
       emit(CartUpdated(_cart));
       _saveCart();
     });
   }
-  Future<void> _saveCart() async {
-    final box = Hive.box<CartItem>('cartBox');
-    await box.clear();
+  void _saveCart() {
+    LocalStorage.clearBox("cartBox");
     for (var entry in _cart.entries) {
-      box.put(
+      LocalStorage.saveData(
+        "cartBox",
         entry.key.id,
         CartItem(product: entry.key, quantity: entry.value),
       );
@@ -71,7 +69,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   double get totalPrice {
     double total = 0;
     _cart.forEach((product, quantity) {
-      total += (product.price ?? 0.0) * quantity;
+      total += (product.price) * quantity;
     });
     return total;
   }
@@ -80,7 +78,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   double getProductTotal(Product product) {
     final int quantity = _cart[product] ?? 0;
-    final double price = product.price.toDouble() ?? 0.0;
+    final double price = product.price.toDouble();
     return price * quantity;
   }
 }

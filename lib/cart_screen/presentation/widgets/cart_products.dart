@@ -13,99 +13,94 @@ class CartProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
       itemCount: items.length,
+      //padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       itemBuilder: (_, index) {
         final product = items.keys.toList()[index];
         final quantity = items[product] ?? 0;
 
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 16.0),
-          child: Dismissible(
-            key: ValueKey(product.id),
-            direction: DismissDirection.endToStart,
-            background: Container(
-              alignment: Alignment.centerRight,
-              color: Colors.red,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: const Icon(Icons.delete, color: Colors.white),
-            ),
-            onDismissed: (_) {
-              getIt<CartBloc>().add(RemoveAllFromCart(product));
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('${product.title} removed from cart'),
-                  duration: const Duration(seconds: 1),
+        return Container(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.network(
+                    product.images[0],
+                    width: 90,
+                    height: 100,
+                    fit: BoxFit.fill,
+                  ),
                 ),
-              );
-            },
-            child: Container(
-              width: double.infinity,
-              height: 150,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(color: Colors.white.withValues(alpha: 0.1)),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Image.asset(
-                          product.images[0] ?? "",
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        LabelWidget(
+                          label: product.title,
+                          labelColor: const Color(0xFF1F2024),
+                          labelFontSize: 14,
+                          labelFontWeight: FontWeight.w700,
+                          widget: Text(
+                            product.categoryName,
+                            style: const TextStyle(
+                              color: Color(0xFF71727A),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                      ),
+                        SizedBox(height: 9),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            QuantityWidget(
+                              // height: 32,
+                              // width: 75,
+                              quantity: quantity,
+                              onRemove: () {
+                                getIt<CartBloc>().add(
+                                  DecrementQuantity(product),
+                                );
+                              },
+                              onAdd: () {
+                                getIt<CartBloc>().add(
+                                  IncrementQuantity(product),
+                                );
+                              },
+                            ),
+                            Text(
+                              "€ ${product.price}",
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF1F2024),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    Positioned(
-                      top: 0,
-                      left: 120,
-                      child: LabelWidget(
-                        label: "${product.title}",
-                        labelColor: Colors.black,
-                        widget: Text("${product.categoryName}"),
-                        labelFontSize: 10,
-                        labelFontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      left: 120,
-                      child: LabelWidget(
-                        label: "Price",
-                        labelColor: Colors.black,
-                        widget: Text("\$${product.price}"),
-                        labelFontWeight: FontWeight.bold,
-                        labelFontSize: 10,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 5,
-                      child: QuantityWidget(
-                        quantity: quantity,
-                        onRemove: () {
-                          getIt<CartBloc>().add(RemoveFromCart(product));
-                        },
-                        onAdd: () {
-                          getIt<CartBloc>().add(AddToCart(product));
-                        },
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         );
+      },
+      separatorBuilder: (_, _) {
+        return Divider(color: Color(0xFFD4D6DD));
       },
     );
   }

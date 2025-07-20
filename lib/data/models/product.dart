@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -5,7 +6,7 @@ part 'product.g.dart';
 
 @HiveType(typeId: 0)
 @JsonSerializable()
-class Product {
+class Product extends Equatable {
   @HiveField(0)
   late int id;
 
@@ -42,6 +43,7 @@ class Product {
     images = [];
     categoryName = "";
   }
+
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);
 
@@ -50,4 +52,7 @@ class Product {
   static String extractCategoryName(dynamic category) {
     return category['name'] ?? '';
   }
+
+  @override
+  List<Object> get props => [id];
 }

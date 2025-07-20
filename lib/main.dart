@@ -4,6 +4,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:untitled2/bloc/cart/cart_bloc.dart';
 import 'package:untitled2/cart_screen/presentation/screens/cart_screen.dart';
+import 'package:untitled2/category_screen/presentation/screens/category_screen.dart';
 import 'package:untitled2/models/cart_item.dart';
 import 'package:untitled2/profile_page/presentation/screens/profile_screen.dart';
 
@@ -15,7 +16,13 @@ import 'home_page/presentation/screens/home_screen.dart';
 
 void main() async {
   configureDependencies();
-
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(ProductAdapter());
+  Hive.registerAdapter(CartItemAdapter());
+  await Hive.openBox<CartItem>('cartBox');
+  final cartBloc = getIt<CartBloc>();
+  cartBloc.add(LoadCart());
   runApp(const MyApp());
 }
 
@@ -37,7 +44,7 @@ class MyApp extends StatelessWidget {
           pages: [
             HomeScreen(),
             ProfileScreen(),
-            CartScreen(),
+            CategoryScreen(),
             Text("Favourites"),
           ],
         ),
