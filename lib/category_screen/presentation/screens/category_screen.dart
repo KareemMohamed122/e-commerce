@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled2/bloc/category/category_bloc.dart';
+import 'package:untitled2/bloc/category/category_event.dart';
+import 'package:untitled2/bloc/category/category_state.dart';
+import 'package:untitled2/data/models/category.dart';
 import '../../../commonUI/custom_appbar.dart';
 import '../../../commonUI/favourite_cart_icons.dart';
+import '../../../core/injection.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
@@ -10,12 +16,11 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  final Map<String, String> images = {
-    "Bedroom": "assets/images/category_images/bedroom.jpg",
-    "Living Room": "assets/images/category_images/livingroom.jpg",
-    "Kitchen": "assets/images/category_images/kitchen.jpg",
-    "Office": "assets/images/category_images/office.jpg",
-  };
+  @override
+  void initState() {
+    super.initState();
+    getIt<CategoryBloc>().add(LoadCategories());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,61 +44,80 @@ class _CategoryScreenState extends State<CategoryScreen> {
               "Categories",
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
             ),
-            SizedBox(height: 16),
-            buildCategoryList(),
+            const SizedBox(height: 16),
+            Expanded(
+              child: BlocBuilder<CategoryBloc, CategoryState>(
+                builder: (_, state) {
+                  if (state is CategoryLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is CategoriesLoaded) {
+                    return buildCategoryList(state.categories);
+                  } else if (state is CategoryError) {
+                    return Center(child: Text(state.message));
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  GridView buildCategoryList() {
+  GridView buildCategoryList(List<CategoryModel> categories) {
     return GridView.builder(
-      itemCount: images.length,
+      itemCount: categories.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 12,
         crossAxisSpacing: 12,
         childAspectRatio: 1,
       ),
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
       itemBuilder: (context, index) {
-        String title = images.keys.toList()[index];
-        String path = images.values.toList()[index];
-        return buildCategoryCard(title, path);
+        String title = categories[index].name;
+        String imageUrl = categories[index].image;
+        return buildCategoryCard(title, imageUrl);
       },
     );
   }
-}
 
-Widget buildCategoryCard(String title, String path) {
-  return Stack(
-    children: [
-      ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Opacity(
-          opacity: 0.8,
-          child: Image.asset(
-            path,
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.fill,
+  Widget buildCategoryCard(String title, String imageUrl) {
+    return Stack(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Opacity(
+            opacity: 0.8,
+            child: Image.network(
+              imageUrl,
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder:
+                  (context, error, stackTrace) =>
+                      Container(color: Colors.grey, child: Icon(Icons.error)),
+              loadingBuilder: (context, child, progress) {
+                if (progress == null) return child;
+                return Center(child: CircularProgressIndicator());
+              },
+            ),
           ),
         ),
-      ),
-      Align(
-        alignment: Alignment.center,
-        child: Text(
-          title,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
+        Align(
+          alignment: Alignment.center,
+          child: Text(
+            title,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
         ),
-      ),
-    ],
-  );
+      ],
+    );
+  }
 }
