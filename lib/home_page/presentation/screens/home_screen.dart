@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import 'package:untitled2/commonUI/custom_appbar.dart';
+import 'package:untitled2/search-screen/presentation/screens/search_screen.dart';
 
 import '../../../bloc/product/product_bloc.dart';
 import '../../../bloc/product/product_event.dart';
@@ -29,10 +32,17 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         appBar: CustomAppbar(
           height: 72,
-          leading: const Icon(
-            Icons.search_outlined,
-            color: Color(0xFF2F3036),
-            size: 20,
+          leading: IconButton(
+            padding: EdgeInsets.zero,
+            constraints: BoxConstraints(),
+            onPressed: () {
+              Get.to(SearchScreen());
+            },
+            icon: Icon(
+              Icons.search_outlined,
+              color: Color(0xFF2F3036),
+              size: 20,
+            ),
           ),
           title: Image.asset("assets/images/home_images/casaforsa.png"),
           actions: const [FavouriteCartIcons()],

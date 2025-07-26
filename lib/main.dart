@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:untitled2/search-screen/presentation/screens/search_screen.dart';
 import 'core/injection.dart';
 import 'bloc/cart/cart_bloc.dart';
 import 'bloc/category/category_bloc.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
         home: const NavigationBarMenu(
           pages: [
             HomeScreen(),
-            ProfileScreen(),
+            SearchScreen(),
             CategoryScreen(),
             Text("Favourites"),
           ],
