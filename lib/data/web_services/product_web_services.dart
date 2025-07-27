@@ -20,4 +20,6 @@ abstract class ProductWebService {
   Future<List<Product>> getProductsByCategory(
     @Query("categoryId") int categoryId,
   );
+  @GET("products")
+  Future<List<Product>> getProductsByTitle(@Query("title") String title);
 }
