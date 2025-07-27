@@ -26,6 +26,9 @@ class Product extends Equatable {
   @JsonKey(name: 'category', fromJson: extractCategoryName)
   late String categoryName;
 
+  @HiveField(6)
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool isFavourite;
   Product({
     required this.id,
     required this.title,
@@ -33,16 +36,16 @@ class Product extends Equatable {
     required this.description,
     required this.images,
     required this.categoryName,
+    this.isFavourite = false,
   });
-
-  Product.empty() {
-    id = 0;
-    title = "";
-    price = 0.0;
-    description = "";
-    images = [];
-    categoryName = "";
-  }
+  Product.empty()
+    : id = 0,
+      title = '',
+      price = 0.0,
+      description = '',
+      images = [],
+      categoryName = '',
+      isFavourite = false;
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);

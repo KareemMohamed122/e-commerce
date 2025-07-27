@@ -9,3 +9,9 @@ class LoadProduct extends ProductEvent {
 
   LoadProduct(this.id);
 }
+
+class LoadProductsByCategory extends ProductEvent {
+  final int categoryId;
+
+  LoadProductsByCategory(this.categoryId);
+}

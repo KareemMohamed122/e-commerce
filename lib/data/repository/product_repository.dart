@@ -15,4 +15,8 @@ class ProductRepository {
   Future<Product> fetchAProductById(int id) async {
     return await productWebService.getProduct(id);
   }
+
+  Future<List<Product>> fetchAllProductsByCategoryId(int id) async {
+    return await productWebService.getProductsByCategory(id);
+  }
 }

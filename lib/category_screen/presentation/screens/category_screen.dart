@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:untitled2/bloc/category/category_bloc.dart';
 import 'package:untitled2/bloc/category/category_event.dart';
 import 'package:untitled2/bloc/category/category_state.dart';
+import 'package:untitled2/category_products_screen/presentation/screens/category_products_screen.dart';
 import 'package:untitled2/data/models/category.dart';
 import '../../../commonUI/custom_appbar.dart';
 import '../../../commonUI/favourite_cart_icons.dart';
 import '../../../core/injection.dart';
+import '../../../product_details/presentation/screens/product_details.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
@@ -78,46 +82,57 @@ class _CategoryScreenState extends State<CategoryScreen> {
       itemBuilder: (context, index) {
         String title = categories[index].name;
         String imageUrl = categories[index].image;
-        return buildCategoryCard(title, imageUrl);
+        int id = categories[index].id;
+        return buildCategoryCard(title, imageUrl, id);
       },
     );
   }
 
-  Widget buildCategoryCard(String title, String imageUrl) {
-    return Stack(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: Opacity(
-            opacity: 0.8,
-            child: Image.network(
-              imageUrl,
-              width: double.infinity,
-              height: double.infinity,
-              fit: BoxFit.cover,
-              errorBuilder:
-                  (context, error, stackTrace) =>
-                      Container(color: Colors.grey, child: Icon(Icons.error)),
-              loadingBuilder: (context, child, progress) {
-                if (progress == null) return child;
-                return Center(child: CircularProgressIndicator());
+  Widget buildCategoryCard(String title, String imageUrl, int id) {
+    return InkWell(
+      onTap:
+          () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) {
+                return CategoryProductsScreen(categoryID: id);
               },
             ),
           ),
-        ),
-        Align(
-          alignment: Alignment.center,
-          child: Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Opacity(
+              opacity: 0.8,
+              child: Image.network(
+                imageUrl,
+                width: double.infinity,
+                height: double.infinity,
+                fit: BoxFit.cover,
+                errorBuilder:
+                    (context, error, stackTrace) =>
+                        Container(color: Colors.grey, child: Icon(Icons.error)),
+                loadingBuilder: (context, child, progress) {
+                  if (progress == null) return child;
+                  return Center(child: CircularProgressIndicator());
+                },
+              ),
             ),
-            textAlign: TextAlign.center,
           ),
-        ),
-      ],
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

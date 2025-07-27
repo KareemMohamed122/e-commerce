@@ -80,10 +80,32 @@ class _ProductDetailsState extends State<ProductDetails> {
                         BlocBuilder<CartBloc, CartState>(
                           builder: (context, state) {
                             return AddToCartQuantity(
+                              buttonContent: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.add,
+                                    size: 12,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    "Add to cart",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
                               product: product,
                               buttonHeight: 48,
                               counterHeight: 48,
                               fontSize: 12,
+                              buttonBackgroundColor: Color(0xFF0019FF),
+                              buttonBorderWidth: 0,
+                              buttonBorderColor: Color(0xFF0019FF),
                             );
                           },
                         ),

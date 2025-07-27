@@ -16,12 +16,20 @@ class AddToCartQuantity extends StatelessWidget {
     required this.buttonHeight,
     required this.counterHeight,
     required this.fontSize,
+    required this.buttonContent,
+    required this.buttonBackgroundColor,
+    required this.buttonBorderColor,
+    required this.buttonBorderWidth,
   });
 
   final Product product;
   final double buttonHeight;
   final double counterHeight;
   final double fontSize;
+  final Widget buttonContent;
+  final Color buttonBackgroundColor;
+  final Color buttonBorderColor;
+  final double buttonBorderWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +46,10 @@ class AddToCartQuantity extends StatelessWidget {
               fontSize: fontSize,
               height: buttonHeight,
               product: product,
+              buttonContent: buttonContent,
+              buttonBackgroundColor: buttonBackgroundColor,
+              buttonBorderWidth: buttonBorderWidth,
+              buttonBorderColor: buttonBorderColor,
             ),
           );
         } else {

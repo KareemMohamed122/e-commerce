@@ -27,7 +27,17 @@ class _SearchScreenState extends State<SearchScreen> {
           },
           icon: Icon(Icons.arrow_back_ios, color: Color(0xFF0019FF), size: 20),
         ),
-        title: SizedBox(height: 44, child: CustomSearchBar()),
+        title: SizedBox(
+          height: 44,
+          child: CustomSearchBar(
+            recentWords: recentWords,
+            handleSubmit: (String value) {
+              setState(() {
+                recentWords.add(value);
+              });
+            },
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
