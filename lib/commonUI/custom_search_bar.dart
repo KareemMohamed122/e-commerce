@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled2/search_results_screen/presentation/screens/search_results_screen.dart';
 
 class CustomSearchBar extends StatefulWidget {
   final List<String> recentWords;
@@ -24,7 +25,14 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       cursorColor: const Color(0xFF0019FF),
       onSubmitted: (value) {
         widget.handleSubmit(value.trim());
-        _controller.clear();
+        // _controller.clear();
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) {
+              return SearchResultsScreen(title: _controller.text);
+            },
+          ),
+        );
       },
       style: const TextStyle(
         fontWeight: FontWeight.w400,

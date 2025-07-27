@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:untitled2/category_products_screen/presentation/screens/category_products_screen.dart';
 import 'package:untitled2/commonUI/category_tab_navigator.dart';
+import 'package:untitled2/commonUI/search_tab_navigator.dart';
 import 'package:untitled2/search-screen/presentation/screens/search_screen.dart';
 import 'core/injection.dart';
 import 'bloc/cart/cart_bloc.dart';
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
         home: const NavigationBarMenu(
           pages: [
             HomeScreen(),
-            SearchScreen(),
+            SearchTabNavigator(),
             CategoryTabNavigator(),
             //CategoryProductsScreen(),
           ],

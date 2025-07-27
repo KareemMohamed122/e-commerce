@@ -15,3 +15,9 @@ class LoadProductsByCategory extends ProductEvent {
 
   LoadProductsByCategory(this.categoryId);
 }
+
+class LoadProductsByTitle extends ProductEvent {
+  final String title;
+
+  LoadProductsByTitle(this.title);
+}
