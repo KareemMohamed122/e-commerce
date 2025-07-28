@@ -1,3 +1,5 @@
+import 'package:untitled2/data/models/product.dart';
+
 abstract class ProductEvent {
   const ProductEvent();
 }
@@ -20,4 +22,10 @@ class LoadProductsByTitle extends ProductEvent {
   final String title;
 
   LoadProductsByTitle(this.title);
+}
+
+class LoadSortedProducts extends ProductEvent {
+  final String sortOption;
+  final List<Product> products;
+  LoadSortedProducts(this.sortOption, this.products);
 }

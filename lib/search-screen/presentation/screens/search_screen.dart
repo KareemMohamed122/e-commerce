@@ -13,7 +13,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  List<String> recentWords = ["bed", "pillows", "candles"];
+  List<String> recentWords = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

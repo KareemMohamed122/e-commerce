@@ -30,7 +30,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
   bool favourite = false;
 
   final productBloc = getIt<ProductBloc>();
-  List<String> recentWords = ["bed", "pillows", "candles"];
+  List<String> recentWords = [];
 
   @override
   void initState() {

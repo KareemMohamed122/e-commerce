@@ -2,11 +2,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:untitled2/bloc/product/product_event.dart';
 import 'package:untitled2/bloc/product/product_state.dart';
+import 'package:untitled2/core/sort_list.dart';
 
 import '../../data/models/product.dart';
 import '../../data/repository/product_repository.dart';
 
-@injectable
+@lazySingleton
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final ProductRepository productRepository;
 
@@ -55,5 +56,20 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         emit(ProductError(e.toString()));
       }
     });
+    on<LoadSortedProducts>((event, emit) async {
+      emit(ProductLoading());
+      try {
+        _products = SortList.sortList(event.products, event.sortOption);
+        emit(ProductsLoaded(_products));
+      } catch (e) {
+        emit(ProductError(e.toString()));
+      }
+    });
+  }
+
+  List<Product> get products => _products;
+
+  set products(List<Product> value) {
+    _products = value;
   }
 }
