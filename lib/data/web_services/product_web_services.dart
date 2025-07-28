@@ -22,4 +22,9 @@ abstract class ProductWebService {
   );
   @GET("products")
   Future<List<Product>> getProductsByTitle(@Query("title") String title);
+  @GET("products")
+  Future<List<Product>> getProductsByTitleAndCategory(
+    @Query("title") String title,
+    @Query("categoryId") int categoryId,
+  );
 }

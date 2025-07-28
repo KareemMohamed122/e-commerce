@@ -64,6 +64,8 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                 recentWords.add(value);
               });
             },
+            filterByCategory: true,
+            categoryID: widget.categoryID,
           ),
         ),
         actions: const [FavouriteCartIcons()],

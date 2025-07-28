@@ -24,6 +24,13 @@ class LoadProductsByTitle extends ProductEvent {
   LoadProductsByTitle(this.title);
 }
 
+class LoadProductsByTitleAndCategory extends ProductEvent {
+  final String title;
+  final int id;
+
+  LoadProductsByTitleAndCategory(this.title, this.id);
+}
+
 class LoadSortedProducts extends ProductEvent {
   final String sortOption;
   final List<Product> products;

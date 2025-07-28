@@ -16,6 +16,7 @@ class SortFilter extends StatefulWidget {
 
 class _SortFilterState extends State<SortFilter> {
   String? selectedSort;
+  bool isLong = false;
 
   final List<String> sortOptions = [
     'Price:high to low',
@@ -84,7 +85,7 @@ class _SortFilterState extends State<SortFilter> {
   Container buildDropDownList() {
     return Container(
       height: 36,
-      width: 200,
+      // width: 200,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFC5C6CC)),
@@ -134,6 +135,7 @@ class _SortFilterState extends State<SortFilter> {
           onChanged: (String? newValue) {
             setState(() {
               selectedSort = newValue!;
+              isLong = true;
             });
             getIt<ProductBloc>().add(
               LoadSortedProducts(selectedSort!, getIt<ProductBloc>().products),
@@ -144,6 +146,7 @@ class _SortFilterState extends State<SortFilter> {
           ),
           buttonStyleData: ButtonStyleData(
             height: 36,
+            width: isLong ? 160 : 87,
             padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
@@ -151,6 +154,7 @@ class _SortFilterState extends State<SortFilter> {
             ),
           ),
           dropdownStyleData: DropdownStyleData(
+            width: 160,
             decoration: BoxDecoration(color: Colors.white),
           ),
         ),

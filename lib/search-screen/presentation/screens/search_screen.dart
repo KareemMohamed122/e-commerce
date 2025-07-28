@@ -36,6 +36,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 recentWords.add(value);
               });
             },
+            filterByCategory: false,
           ),
         ),
       ),

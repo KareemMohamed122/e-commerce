@@ -4,11 +4,14 @@ import 'package:untitled2/search_results_screen/presentation/screens/search_resu
 class CustomSearchBar extends StatefulWidget {
   final List<String> recentWords;
   final ValueChanged<String> handleSubmit;
-
+  final bool filterByCategory;
+  final int? categoryID;
   const CustomSearchBar({
     super.key,
     required this.recentWords,
     required this.handleSubmit,
+    required this.filterByCategory,
+    this.categoryID,
   });
 
   @override
@@ -29,7 +32,11 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) {
-              return SearchResultsScreen(title: _controller.text);
+              return SearchResultsScreen(
+                title: _controller.text,
+                filterByCategory: widget.filterByCategory,
+                categoryID: widget.categoryID,
+              );
             },
           ),
         );

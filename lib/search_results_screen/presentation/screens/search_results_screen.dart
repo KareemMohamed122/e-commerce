@@ -14,7 +14,14 @@ import '../../../data/models/product.dart';
 
 class SearchResultsScreen extends StatefulWidget {
   final String title;
-  const SearchResultsScreen({super.key, required this.title});
+  final bool filterByCategory;
+  final int? categoryID;
+  const SearchResultsScreen({
+    super.key,
+    required this.title,
+    required this.filterByCategory,
+    this.categoryID,
+  });
 
   @override
   State<SearchResultsScreen> createState() => _SearchResultsScreenState();
@@ -27,7 +34,11 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
   @override
   void initState() {
     super.initState();
-    productBloc.add(LoadProductsByTitle(widget.title));
+    widget.filterByCategory
+        ? productBloc.add(
+          LoadProductsByTitleAndCategory(widget.title, widget.categoryID!),
+        )
+        : productBloc.add(LoadProductsByTitle(widget.title));
   }
 
   @override
@@ -56,6 +67,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                 recentWords.add(value);
               });
             },
+            filterByCategory: widget.filterByCategory,
           ),
         ),
         actions: const [FavouriteCartIcons()],
@@ -77,23 +89,34 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                         return Center(child: Text(state.message));
                       } else if (state is ProductsLoaded) {
                         final products = state.products;
-
-                        return GridView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: products.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 12,
-                                mainAxisSpacing: 12,
-                                childAspectRatio: .65,
+                        if (products.isNotEmpty) {
+                          return GridView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: products.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 12,
+                                  mainAxisSpacing: 12,
+                                  childAspectRatio: .65,
+                                ),
+                            itemBuilder: (context, index) {
+                              final Product product = products[index];
+                              return ProductCard(product: product);
+                            },
+                          );
+                        } else {
+                          return Center(
+                            child: Text(
+                              "No Products Found",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w800,
                               ),
-                          itemBuilder: (context, index) {
-                            final Product product = products[index];
-                            return ProductCard(product: product);
-                          },
-                        );
+                            ),
+                          );
+                        }
                       } else {
                         return SizedBox();
                       }
