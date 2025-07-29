@@ -3,15 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:untitled2/bloc/product/product_event.dart';
+import 'package:untitled2/bloc/search/search_bloc.dart';
 import 'package:untitled2/commonUI/add_to_cart_quantity.dart';
 import 'package:untitled2/commonUI/custom_appbar.dart';
 import 'package:untitled2/commonUI/product_card.dart';
 import 'package:untitled2/commonUI/sort_filter.dart';
 import 'package:untitled2/data/models/product.dart';
 
-import '../../../bloc/product/product_bloc.dart';
-import '../../../bloc/product/product_state.dart';
+import '../../../bloc/search/search_event.dart';
+import '../../../bloc/search/search_state.dart';
 import '../../../commonUI/custom_search_bar.dart';
 import '../../../commonUI/favourite_cart_icons.dart';
 import '../../../commonUI/label_widget.dart';
@@ -27,15 +27,13 @@ class CategoryProductsScreen extends StatefulWidget {
 }
 
 class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
-  bool favourite = false;
-
-  final productBloc = getIt<ProductBloc>();
+  final searchBloc = getIt<SearchBloc>();
   List<String> recentWords = [];
 
   @override
   void initState() {
     super.initState();
-    productBloc.add(LoadProductsByCategory(widget.categoryID));
+    searchBloc.add(LoadProductsByCategory(widget.categoryID));
   }
 
   @override
@@ -78,10 +76,10 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  BlocBuilder<ProductBloc, ProductState>(
-                    bloc: productBloc,
+                  BlocBuilder<SearchBloc, SearchState>(
+                    bloc: searchBloc,
                     builder: (context, state) {
-                      if (state is ProductLoading) {
+                      if (state is ProductsLoading) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (state is ProductError) {
                         return Center(child: Text(state.message));

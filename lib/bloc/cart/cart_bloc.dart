@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:untitled2/bloc/cart/cart_event.dart';
@@ -12,8 +14,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   final Map<Product, int> _cart = {};
 
   CartBloc() : super(CartInitial()) {
-    on<LoadCart>((event, emit) {
-      for (CartItem cartItem in LocalStorage.loadData("cartBox")) {
+    on<LoadCart>((event, emit) async {
+      _cart.clear();
+      final items = await LocalStorage.loadData("cartBox");
+      log("Loaded cart items: ${items.length}");
+      for (CartItem cartItem in items.cast<CartItem>()) {
         _cart[cartItem.product] = cartItem.quantity;
       }
       emit(CartUpdated(_cart));
@@ -54,6 +59,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     });
   }
   void _saveCart() {
+    log("item added");
     LocalStorage.clearBox("cartBox");
     for (var entry in _cart.entries) {
       LocalStorage.saveData(

@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:untitled2/bloc/search/search_bloc.dart';
+import 'package:untitled2/bloc/search/search_event.dart';
+import 'package:untitled2/bloc/search/search_state.dart';
 import 'package:untitled2/commonUI/custom_appbar.dart';
+import 'package:untitled2/commonUI/custom_search_bar.dart';
+import 'package:untitled2/core/injection.dart' show getIt;
+import 'package:untitled2/home_page/presentation/screens/home_screen.dart';
 
-import '../../../commonUI/custom_search_bar.dart';
+import '../../../commonUI/category_tab_navigator.dart';
+import '../../../commonUI/navigation_bar.dart';
+import '../../../commonUI/search_tab_navigator.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -13,57 +21,83 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  List<String> recentWords = [];
+  final searchBloc = getIt<SearchBloc>();
+
+  @override
+  void initState() {
+    super.initState();
+    searchBloc.add(LoadRecentWords());
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppbar(
-        height: 72,
-        leading: IconButton(
-          padding: EdgeInsets.zero,
-          constraints: BoxConstraints(),
-          onPressed: () {
-            Get.back();
-          },
-          icon: Icon(Icons.arrow_back_ios, color: Color(0xFF0019FF), size: 20),
-        ),
-        title: SizedBox(
-          height: 44,
-          child: CustomSearchBar(
-            recentWords: recentWords,
-            handleSubmit: (String value) {
-              setState(() {
-                recentWords.add(value);
-              });
-            },
-            filterByCategory: false,
+    return BlocProvider.value(
+      value: searchBloc,
+      child: Scaffold(
+        appBar: CustomAppbar(
+          height: 72,
+          leading: IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            onPressed: () {},
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Color(0xFF0019FF),
+              size: 20,
+            ),
+          ),
+          title: SizedBox(
+            height: 44,
+            child: BlocBuilder<SearchBloc, SearchState>(
+              builder: (context, state) {
+                if (state is RecentWordsUpdated) {
+                  return CustomSearchBar(
+                    recentWords: state.recentWords,
+                    handleSubmit: (String value) {
+                      searchBloc.add(AddRecentWord(value));
+                    },
+                    filterByCategory: false,
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              },
+            ),
           ),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 44,
-              child: Text(
-                "RECENT SEARCHES",
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 10,
-                  color: Color(0xFF71727A),
-                ),
-              ),
-            ),
-            Flexible(child: buildRecentWordsList()),
-          ],
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: BlocBuilder<SearchBloc, SearchState>(
+            builder: (context, state) {
+              if (state is RecentWordsUpdated) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 44,
+                      child: Text(
+                        "RECENT SEARCHES",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 10,
+                          color: Color(0xFF71727A),
+                        ),
+                      ),
+                    ),
+                    Expanded(child: buildRecentWordsList(state.recentWords)),
+                  ],
+                );
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
         ),
       ),
     );
   }
 
-  ListView buildRecentWordsList() {
+  ListView buildRecentWordsList(List<String> recentWords) {
     return ListView.separated(
       itemCount: recentWords.length,
       itemBuilder: (_, index) {
@@ -74,7 +108,7 @@ class _SearchScreenState extends State<SearchScreen> {
             children: [
               Text(
                 recentWords[index],
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
                   color: Color(0xFF1F2024),
@@ -82,20 +116,22 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
               IconButton(
                 padding: EdgeInsets.zero,
-                constraints: BoxConstraints(),
+                constraints: const BoxConstraints(),
                 onPressed: () {
-                  setState(() {
-                    recentWords.remove(recentWords[index]);
-                  });
+                  searchBloc.add(RemoveRecentWord(recentWords[index]));
                 },
-                icon: Icon(Icons.cancel, color: Color(0xFF8F9098), size: 12),
+                icon: const Icon(
+                  Icons.cancel,
+                  color: Color(0xFF8F9098),
+                  size: 12,
+                ),
               ),
             ],
           ),
         );
       },
       separatorBuilder: (BuildContext context, int index) {
-        return SizedBox(height: 16);
+        return const SizedBox(height: 16);
       },
     );
   }

@@ -5,6 +5,8 @@ import 'package:untitled2/category_products_screen/presentation/screens/category
 import 'package:untitled2/commonUI/category_tab_navigator.dart';
 import 'package:untitled2/commonUI/search_tab_navigator.dart';
 import 'package:untitled2/search-screen/presentation/screens/search_screen.dart';
+import 'bloc/search/search_bloc.dart';
+import 'bloc/search/search_event.dart';
 import 'core/injection.dart';
 import 'bloc/cart/cart_bloc.dart';
 import 'bloc/category/category_bloc.dart';
@@ -31,6 +33,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => getIt<CategoryBloc>()..add(LoadCategories()),
         ),
+        BlocProvider(
+          create: (_) => getIt<SearchBloc>()..add(LoadRecentWords()),
+        ),
       ],
       child: GetMaterialApp(
         title: 'My Shop',
@@ -40,12 +45,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
         ),
         home: const NavigationBarMenu(
-          pages: [
-            HomeScreen(),
-            SearchTabNavigator(),
-            CategoryTabNavigator(),
-            //CategoryProductsScreen(),
-          ],
+          pages: [HomeScreen(), SearchTabNavigator(), CategoryTabNavigator()],
         ),
         debugShowCheckedModeBanner: false,
       ),

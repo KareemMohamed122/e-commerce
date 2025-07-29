@@ -6,6 +6,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:untitled2/commonUI/custom_appbar.dart';
 import 'package:untitled2/search-screen/presentation/screens/search_screen.dart';
 
+import '../../../bloc/cart/cart_bloc.dart';
+import '../../../bloc/cart/cart_event.dart';
 import '../../../bloc/product/product_bloc.dart';
 import '../../../bloc/product/product_event.dart';
 import '../../../bloc/product/product_state.dart';
@@ -24,6 +26,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
+  @override
+  void initState() {
+    getIt<CartBloc>().add(LoadCart());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

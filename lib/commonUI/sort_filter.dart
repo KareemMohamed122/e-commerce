@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:untitled2/bloc/product/product_bloc.dart';
 import 'package:untitled2/bloc/product/product_event.dart';
+import 'package:untitled2/bloc/search/search_bloc.dart';
 import 'package:untitled2/core/sort_list.dart';
 
+import '../bloc/search/search_event.dart';
 import '../core/injection.dart';
 
 class SortFilter extends StatefulWidget {
@@ -137,8 +139,8 @@ class _SortFilterState extends State<SortFilter> {
               selectedSort = newValue!;
               isLong = true;
             });
-            getIt<ProductBloc>().add(
-              LoadSortedProducts(selectedSort!, getIt<ProductBloc>().products),
+            getIt<SearchBloc>().add(
+              LoadSortedProducts(selectedSort!, getIt<SearchBloc>().products),
             );
           },
           iconStyleData: IconStyleData(
