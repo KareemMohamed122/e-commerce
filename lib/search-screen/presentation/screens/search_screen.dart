@@ -8,6 +8,7 @@ import 'package:untitled2/bloc/search/search_state.dart';
 import 'package:untitled2/commonUI/custom_appbar.dart';
 import 'package:untitled2/commonUI/custom_search_bar.dart';
 import 'package:untitled2/core/injection.dart' show getIt;
+import 'package:untitled2/search_results_screen/presentation/screens/search_results_screen.dart';
 
 import '../../../commonUI/category_tab_navigator.dart';
 import '../../../commonUI/navigation_bar.dart';
@@ -41,7 +42,7 @@ class _SearchScreenState extends State<SearchScreen> {
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
               onPressed: () {
-                Get.back();
+                Get.offAll(NavigationBarMenu(currentIndex: 0));
               },
               icon: const Icon(
                 Icons.arrow_back_ios,
@@ -97,32 +98,43 @@ class _SearchScreenState extends State<SearchScreen> {
     return ListView.separated(
       itemCount: recentWords.length,
       itemBuilder: (_, index) {
-        return SizedBox(
-          height: 52,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                recentWords[index],
-                style: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                  color: Color(0xFF1F2024),
-                ),
+        return InkWell(
+          onTap: () {
+            Get.to(
+              SearchResultsScreen(
+                title: recentWords[index],
+                filterByCategory: false,
+                recentWords: recentWords,
               ),
-              IconButton(
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-                onPressed: () {
-                  searchBloc.add(RemoveRecentWord(recentWords[index]));
-                },
-                icon: const Icon(
-                  Icons.cancel,
-                  color: Color(0xFF8F9098),
-                  size: 12,
+            );
+          },
+          child: SizedBox(
+            height: 52,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  recentWords[index],
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                    color: Color(0xFF1F2024),
+                  ),
                 ),
-              ),
-            ],
+                IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  onPressed: () {
+                    searchBloc.add(RemoveRecentWord(recentWords[index]));
+                  },
+                  icon: const Icon(
+                    Icons.cancel,
+                    color: Color(0xFF8F9098),
+                    size: 12,
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

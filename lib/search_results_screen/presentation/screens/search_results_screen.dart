@@ -51,6 +51,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(),
           onPressed: () {
+            searchBloc.add(LoadRecentWords());
             Navigator.pop(context);
           },
           icon: const Icon(

@@ -7,7 +7,7 @@ import 'package:untitled2/core/sort_list.dart';
 import '../../data/models/product.dart';
 import '../../data/repository/product_repository.dart';
 
-@injectable
+@singleton
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final ProductRepository productRepository;
 

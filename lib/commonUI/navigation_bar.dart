@@ -1,21 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:untitled2/commonUI/search_tab_navigator.dart';
+import '../home_page/presentation/screens/home_screen.dart';
+import 'category_tab_navigator.dart';
 
 class NavigationBarMenu extends StatefulWidget {
-  final List<Widget> pages;
+  final int currentIndex;
 
-  const NavigationBarMenu({super.key, required this.pages});
+  const NavigationBarMenu({super.key, required this.currentIndex});
 
   @override
   State<NavigationBarMenu> createState() => _NavigationBarMenuState();
 }
 
 class _NavigationBarMenuState extends State<NavigationBarMenu> {
-  int currentIndex = 0;
+  late int currentIndex;
+
+  final List<Widget> pages = [
+    HomeScreen(),
+    SearchTabNavigator(),
+    CategoryTabNavigator(),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    currentIndex = widget.currentIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(index: currentIndex, children: widget.pages),
+      body: IndexedStack(index: currentIndex, children: pages),
       bottomNavigationBar: SizedBox(
         height: 88,
         child: BottomNavigationBar(
@@ -40,7 +55,7 @@ class _NavigationBarMenuState extends State<NavigationBarMenu> {
             fontWeight: FontWeight.w400,
             color: Color(0xFFD4D6DD),
           ),
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.explore, size: 20),
               label: "Explore",

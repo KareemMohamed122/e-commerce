@@ -36,7 +36,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                 title: _controller.text,
                 filterByCategory: widget.filterByCategory,
                 categoryID: widget.categoryID,
-                recentWords: [],
+                recentWords: widget.recentWords,
               );
             },
           ),
