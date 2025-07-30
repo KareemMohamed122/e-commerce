@@ -72,7 +72,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     });
 
     on<LoadRecentWords>((event, emit) async {
-      emit(RecentWordsUpdated(List.from(_recentWords)));
+      emit(RecentWordsUpdated(_recentWords));
     });
     on<LoadSortedProducts>((event, emit) {
       emit(ProductsLoading());

@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.white,
           scaffoldBackgroundColor: Colors.white,
         ),
-        home: const NavigationBarMenu(
+        home: NavigationBarMenu(
           pages: [HomeScreen(), SearchTabNavigator(), CategoryTabNavigator()],
         ),
         debugShowCheckedModeBanner: false,

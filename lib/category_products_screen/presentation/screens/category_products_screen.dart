@@ -56,7 +56,6 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
         title: SizedBox(
           height: 44,
           child: CustomSearchBar(
-            recentWords: recentWords,
             handleSubmit: (String value) {
               setState(() {
                 recentWords.add(value);
@@ -64,6 +63,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
             },
             filterByCategory: true,
             categoryID: widget.categoryID,
+            recentWords: recentWords,
           ),
         ),
         actions: const [FavouriteCartIcons()],

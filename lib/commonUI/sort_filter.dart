@@ -1,10 +1,13 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:untitled2/bloc/product/product_bloc.dart';
 import 'package:untitled2/bloc/product/product_event.dart';
 import 'package:untitled2/bloc/search/search_bloc.dart';
 import 'package:untitled2/core/sort_list.dart';
+import 'package:untitled2/filter_screen/presentation/screens/filter_screen.dart';
 
 import '../bloc/search/search_event.dart';
 import '../core/injection.dart';
@@ -47,38 +50,41 @@ class _SortFilterState extends State<SortFilter> {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
-        child: Row(
-          children: [
-            SvgPicture.asset("assets/icons/sort.svg"),
-            const SizedBox(width: 8),
-            const Text(
-              "Filter",
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 12,
-                color: Color(0xFF1F2024),
+        child: InkWell(
+          onTap: () => Get.to(FilterScreen()),
+          child: Row(
+            children: [
+              SvgPicture.asset("assets/icons/sort.svg"),
+              const SizedBox(width: 8),
+              const Text(
+                "Filter",
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 12,
+                  color: Color(0xFF1F2024),
+                ),
               ),
-            ),
-            const SizedBox(width: 8),
-            Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                color: const Color(0xFF0019FF),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Center(
-                child: Text(
-                  "2",
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
+              const SizedBox(width: 8),
+              Container(
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF0019FF),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Center(
+                  child: Text(
+                    "2",
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

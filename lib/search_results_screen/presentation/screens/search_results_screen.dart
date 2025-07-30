@@ -16,11 +16,13 @@ class SearchResultsScreen extends StatefulWidget {
   final String title;
   final bool filterByCategory;
   final int? categoryID;
+  final List<String> recentWords;
   const SearchResultsScreen({
     super.key,
     required this.title,
     required this.filterByCategory,
     this.categoryID,
+    required this.recentWords,
   });
 
   @override
@@ -29,7 +31,6 @@ class SearchResultsScreen extends StatefulWidget {
 
 class _SearchResultsScreenState extends State<SearchResultsScreen> {
   final searchBloc = getIt<SearchBloc>();
-  List<String> recentWords = ["bed", "pillows", "candles"];
 
   @override
   void initState() {
@@ -61,7 +62,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
         title: SizedBox(
           height: 44,
           child: CustomSearchBar(
-            recentWords: recentWords,
+            recentWords: widget.recentWords,
             handleSubmit: (String value) {
               setState(() {
                 searchBloc.add(AddRecentWord(value));
@@ -89,6 +90,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                         return Center(child: Text(state.message));
                       } else if (state is ProductsLoaded) {
                         final products = state.products;
+
                         if (products.isNotEmpty) {
                           return GridView.builder(
                             physics: const NeverScrollableScrollPhysics(),
