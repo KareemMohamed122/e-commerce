@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:untitled2/bloc/product/product_bloc.dart';
+import 'package:untitled2/bloc/product/product_event.dart';
 import 'package:untitled2/bloc/search/search_bloc.dart';
 import 'package:untitled2/bloc/search/search_event.dart';
 import 'package:untitled2/bloc/search/search_state.dart';
 import 'package:untitled2/commonUI/custom_appbar.dart';
 import 'package:untitled2/commonUI/custom_search_bar.dart';
-import 'package:untitled2/core/injection.dart' show getIt;
+import 'package:untitled2/core/injection.dart';
 import 'package:untitled2/search_results_screen/presentation/screens/search_results_screen.dart';
-
-import '../../../commonUI/category_tab_navigator.dart';
 import '../../../commonUI/navigation_bar.dart';
-import '../../../commonUI/search_tab_navigator.dart';
-import '../../../home_page/presentation/screens/home_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -24,6 +21,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final searchBloc = getIt<SearchBloc>();
+  final productBloc = getIt<ProductBloc>();
 
   @override
   void initState() {
@@ -33,64 +31,76 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchBloc, SearchState>(
-      builder: (context, state) {
-        return Scaffold(
-          appBar: CustomAppbar(
-            height: 72,
-            leading: IconButton(
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              onPressed: () {
-                Get.offAll(NavigationBarMenu(currentIndex: 0));
-              },
-              icon: const Icon(
-                Icons.arrow_back_ios,
-                color: Color(0xFF0019FF),
-                size: 20,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: searchBloc),
+        BlocProvider.value(value: productBloc),
+      ],
+      child: BlocBuilder<SearchBloc, SearchState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: CustomAppbar(
+              height: 72,
+              leading: IconButton(
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+                onPressed: () {
+                  Get.offAll(() => const NavigationBarMenu(currentIndex: 0));
+                },
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Color(0xFF0019FF),
+                  size: 20,
+                ),
+              ),
+              title: SizedBox(
+                height: 44,
+                child:
+                    state is RecentWordsUpdated
+                        ? CustomSearchBar(
+                          recentWords: state.recentWords,
+                          handleSubmit: (String value) {
+                            context.read<SearchBloc>().add(
+                              AddRecentWord(value),
+                            );
+                            context.read<ProductBloc>().add(
+                              LoadProductsByTitle(value),
+                            );
+                            Get.to(() => const SearchResultsScreen());
+                          },
+                          filterByCategory: false,
+                        )
+                        : const SizedBox(),
               ),
             ),
-            title: SizedBox(
-              height: 44,
+            body: Padding(
+              padding: const EdgeInsets.all(16.0),
               child:
                   state is RecentWordsUpdated
-                      ? CustomSearchBar(
-                        recentWords: state.recentWords,
-                        handleSubmit: (String value) {
-                          searchBloc.add(AddRecentWord(value));
-                        },
-                        filterByCategory: false,
-                      )
-                      : const SizedBox(),
-            ),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child:
-                state is RecentWordsUpdated
-                    ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 44,
-                          child: Text(
-                            "RECENT SEARCHES",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 10,
-                              color: Color(0xFF71727A),
+                      ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 44,
+                            child: Text(
+                              "RECENT SEARCHES",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 10,
+                                color: Color(0xFF71727A),
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: buildRecentWordsList(state.recentWords),
-                        ),
-                      ],
-                    )
-                    : const Center(child: CircularProgressIndicator()),
-          ),
-        );
-      },
+                          Expanded(
+                            child: buildRecentWordsList(state.recentWords),
+                          ),
+                        ],
+                      )
+                      : const Center(child: CircularProgressIndicator()),
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -100,13 +110,10 @@ class _SearchScreenState extends State<SearchScreen> {
       itemBuilder: (_, index) {
         return InkWell(
           onTap: () {
-            Get.to(
-              SearchResultsScreen(
-                title: recentWords[index],
-                filterByCategory: false,
-                recentWords: recentWords,
-              ),
+            context.read<ProductBloc>().add(
+              LoadProductsByTitle(recentWords[index]),
             );
+            Get.to(() => const SearchResultsScreen());
           },
           child: SizedBox(
             height: 52,
@@ -125,7 +132,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                   onPressed: () {
-                    searchBloc.add(RemoveRecentWord(recentWords[index]));
+                    context.read<SearchBloc>().add(
+                      RemoveRecentWord(recentWords[index]),
+                    );
                   },
                   icon: const Icon(
                     Icons.cancel,

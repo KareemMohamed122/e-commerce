@@ -27,4 +27,13 @@ abstract class ProductWebService {
     @Query("title") String title,
     @Query("categoryId") int categoryId,
   );
+  @GET("products")
+  Future<List<Product>> getProductsByPriceRange(
+    @Query("price_min") double price_min,
+    @Query("price_max") double price_max,
+  );
+  @GET("products")
+  Future<List<Product>> getProductsByCategoryName(
+    @Query("categorySlug") String name,
+  );
 }

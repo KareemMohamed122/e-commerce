@@ -14,51 +14,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   List<Product> _products = [];
   List<String> _recentWords = [];
   SearchBloc(this.productRepository) : super(SearchInitial()) {
-    on<LoadProducts>((event, emit) async {
-      emit(ProductsLoading());
-      try {
-        _products = await productRepository.fetchAllProducts();
-        emit(ProductsLoaded(_products));
-      } catch (e) {
-        emit(ProductError(e.toString()));
-      }
-    });
-
-    on<LoadProductsByCategory>((event, emit) async {
-      emit(ProductsLoading());
-      try {
-        _products = await productRepository.fetchAllProductsByCategoryId(
-          event.categoryId,
-        );
-        emit(ProductsLoaded(_products));
-      } catch (e) {
-        emit(ProductError(e.toString()));
-      }
-    });
-
-    on<LoadProductsByTitle>((event, emit) async {
-      emit(ProductsLoading());
-      try {
-        _products = await productRepository.fetchAllProductsByTitle(
-          event.title,
-        );
-        emit(ProductsLoaded(_products));
-      } catch (e) {
-        emit(ProductError(e.toString()));
-      }
-    });
-    on<LoadProductsByTitleAndCategory>((event, emit) async {
-      emit(ProductsLoading());
-      try {
-        _products = await productRepository.fetchAllProductsByTitleAndCategory(
-          event.title,
-          event.id,
-        );
-        emit(ProductsLoaded(_products));
-      } catch (e) {
-        emit(ProductError(e.toString()));
-      }
-    });
     on<AddRecentWord>((event, emit) async {
       if (!_recentWords.contains(event.word)) {
         _recentWords.add(event.word);
@@ -73,15 +28,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
     on<LoadRecentWords>((event, emit) async {
       emit(RecentWordsUpdated(_recentWords));
-    });
-    on<LoadSortedProducts>((event, emit) {
-      emit(ProductsLoading());
-      try {
-        _products = SortList.sortList(event.products, event.sortOption);
-        emit(ProductsLoaded(_products));
-      } catch (e) {
-        emit(ProductError(e.toString()));
-      }
     });
   }
   List<Product> get products => _products;

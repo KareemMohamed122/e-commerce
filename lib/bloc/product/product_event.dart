@@ -11,3 +11,36 @@ class LoadProduct extends ProductEvent {
 
   LoadProduct(this.id);
 }
+
+class LoadProductsByPriceRange extends ProductEvent {
+  final double minPrice;
+  final double maxPrice;
+
+  LoadProductsByPriceRange({required this.minPrice, required this.maxPrice});
+}
+
+class LoadProductsByCategoryName extends ProductEvent {
+  final String name;
+
+  LoadProductsByCategoryName(this.name);
+}
+
+class LoadProductsByTitle extends ProductEvent {
+  final String title;
+
+  LoadProductsByTitle(this.title);
+}
+
+class LoadProductsByCategoryId extends ProductEvent {
+  final int id;
+
+  LoadProductsByCategoryId(this.id);
+}
+
+class LoadSortedProducts extends ProductEvent {
+  final String sortOption;
+  final List<Product> products;
+  LoadSortedProducts(this.sortOption, this.products);
+}
+
+class ClearState extends ProductEvent {}

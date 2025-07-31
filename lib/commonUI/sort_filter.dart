@@ -1,16 +1,11 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:untitled2/bloc/product/product_bloc.dart';
 import 'package:untitled2/bloc/product/product_event.dart';
-import 'package:untitled2/bloc/search/search_bloc.dart';
-import 'package:untitled2/core/sort_list.dart';
+import 'package:untitled2/core/injection.dart';
 import 'package:untitled2/filter_screen/presentation/screens/filter_screen.dart';
-
-import '../bloc/search/search_event.dart';
-import '../core/injection.dart';
 
 class SortFilter extends StatefulWidget {
   const SortFilter({super.key});
@@ -51,7 +46,7 @@ class _SortFilterState extends State<SortFilter> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: InkWell(
-          onTap: () => Get.to(FilterScreen()),
+          onTap: () => Get.to(() => const FilterScreen()),
           child: Row(
             children: [
               SvgPicture.asset("assets/icons/sort.svg"),
@@ -93,7 +88,6 @@ class _SortFilterState extends State<SortFilter> {
   Container buildDropDownList() {
     return Container(
       height: 36,
-      // width: 200,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFC5C6CC)),
@@ -120,34 +114,34 @@ class _SortFilterState extends State<SortFilter> {
               sortOptions.map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Expanded(
-                    child: Row(
-                      children: [
-                        SvgPicture.asset("assets/icons/updown.svg"),
-                        const SizedBox(width: 8),
-                        Text(
-                          value,
-                          maxLines: 1,
-                          style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xFF1F2024),
-                          ),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset("assets/icons/updown.svg"),
+                      const SizedBox(width: 8),
+                      Text(
+                        value,
+                        maxLines: 1,
+                        style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFF1F2024),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 );
               }).toList(),
           onChanged: (String? newValue) {
-            setState(() {
-              selectedSort = newValue!;
-              isLong = true;
-            });
-            getIt<SearchBloc>().add(
-              LoadSortedProducts(selectedSort!, getIt<SearchBloc>().products),
-            );
+            if (newValue != null) {
+              setState(() {
+                selectedSort = newValue;
+                isLong = true;
+              });
+
+              final bloc = getIt<ProductBloc>();
+              bloc.add(LoadSortedProducts(newValue, bloc.products));
+            }
           },
           iconStyleData: IconStyleData(
             icon: SvgPicture.asset("assets/icons/dropdown.svg"),

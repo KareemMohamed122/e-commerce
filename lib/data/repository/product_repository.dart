@@ -30,4 +30,18 @@ class ProductRepository {
   ) async {
     return await productWebService.getProductsByTitleAndCategory(title, id);
   }
+
+  Future<List<Product>> fetchAllProductsByPriceRange(
+    double price_min,
+    double price_max,
+  ) async {
+    return await productWebService.getProductsByPriceRange(
+      price_min,
+      price_max,
+    );
+  }
+
+  Future<List<Product>> fetchAllProductsByCategoryName(String name) async {
+    return await productWebService.getProductsByCategoryName(name);
+  }
 }

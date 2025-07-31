@@ -222,6 +222,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           left: 24,
           child: IconButton(
             onPressed: () {
+              // getIt<ProductBloc>().add(ClearState());
               Get.back();
             },
             icon: Icon(Icons.close, size: 20, color: Color(0xFF2F3036)),

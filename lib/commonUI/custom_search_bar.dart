@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:untitled2/bloc/product/product_bloc.dart';
+import 'package:untitled2/bloc/product/product_event.dart';
 import 'package:untitled2/search_results_screen/presentation/screens/search_results_screen.dart';
 
 class CustomSearchBar extends StatefulWidget {
@@ -6,12 +10,15 @@ class CustomSearchBar extends StatefulWidget {
   final ValueChanged<String> handleSubmit;
   final bool filterByCategory;
   final int? categoryID;
+  final String? hintText;
+
   const CustomSearchBar({
     super.key,
     required this.recentWords,
     required this.handleSubmit,
     required this.filterByCategory,
     this.categoryID,
+    this.hintText,
   });
 
   @override
@@ -19,7 +26,21 @@ class CustomSearchBar extends StatefulWidget {
 }
 
 class _CustomSearchBarState extends State<CustomSearchBar> {
-  final TextEditingController _controller = TextEditingController();
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(
+      text: widget.recentWords.isNotEmpty ? widget.recentWords.last : '',
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,20 +48,17 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       controller: _controller,
       cursorColor: const Color(0xFF0019FF),
       onSubmitted: (value) {
-        widget.handleSubmit(value.trim());
-        // _controller.clear();
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) {
-              return SearchResultsScreen(
-                title: _controller.text,
-                filterByCategory: widget.filterByCategory,
-                categoryID: widget.categoryID,
-                recentWords: widget.recentWords,
-              );
-            },
-          ),
-        );
+        final trimmedValue = value.trim();
+        if (trimmedValue.isNotEmpty) {
+          widget.handleSubmit(trimmedValue);
+          if (widget.filterByCategory && widget.categoryID != null) {
+            context.read<ProductBloc>().add(
+              LoadProductsByCategoryId(widget.categoryID!),
+            );
+          } else {
+            context.read<ProductBloc>().add(LoadProductsByTitle(trimmedValue));
+          }
+        }
       },
       style: const TextStyle(
         fontWeight: FontWeight.w400,
@@ -48,6 +66,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
         color: Color(0xFF1F2024),
       ),
       decoration: InputDecoration(
+        hintText: widget.hintText ?? 'Search',
         filled: true,
         fillColor: const Color(0xFFF8F9FE),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
