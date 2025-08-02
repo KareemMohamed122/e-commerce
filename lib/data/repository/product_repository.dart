@@ -16,32 +16,19 @@ class ProductRepository {
     return await productWebService.getProduct(id);
   }
 
-  Future<List<Product>> fetchAllProductsByCategoryId(int id) async {
-    return await productWebService.getProductsByCategory(id);
-  }
-
-  Future<List<Product>> fetchAllProductsByTitle(String title) async {
-    return await productWebService.getProductsByTitle(title);
-  }
-
-  Future<List<Product>> fetchAllProductsByTitleAndCategory(
-    String title,
-    int id,
-  ) async {
-    return await productWebService.getProductsByTitleAndCategory(title, id);
-  }
-
-  Future<List<Product>> fetchAllProductsByPriceRange(
-    double price_min,
-    double price_max,
-  ) async {
-    return await productWebService.getProductsByPriceRange(
-      price_min,
-      price_max,
+  Future<List<Product>> fetchFilteredProducts({
+    int? categoryId,
+    String? categorySlug,
+    String? title,
+    double? minPrice,
+    double? maxPrice,
+  }) async {
+    return await productWebService.getFilteredProducts(
+      categoryId: categoryId,
+      categorySlug: categorySlug,
+      title: title,
+      minPrice: minPrice,
+      maxPrice: maxPrice,
     );
-  }
-
-  Future<List<Product>> fetchAllProductsByCategoryName(String name) async {
-    return await productWebService.getProductsByCategoryName(name);
   }
 }

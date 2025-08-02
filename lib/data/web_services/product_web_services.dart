@@ -17,23 +17,11 @@ abstract class ProductWebService {
   Future<Product> getProduct(@Path("id") int id);
 
   @GET("products")
-  Future<List<Product>> getProductsByCategory(
-    @Query("categoryId") int categoryId,
-  );
-  @GET("products")
-  Future<List<Product>> getProductsByTitle(@Query("title") String title);
-  @GET("products")
-  Future<List<Product>> getProductsByTitleAndCategory(
-    @Query("title") String title,
-    @Query("categoryId") int categoryId,
-  );
-  @GET("products")
-  Future<List<Product>> getProductsByPriceRange(
-    @Query("price_min") double price_min,
-    @Query("price_max") double price_max,
-  );
-  @GET("products")
-  Future<List<Product>> getProductsByCategoryName(
-    @Query("categorySlug") String name,
-  );
+  Future<List<Product>> getFilteredProducts({
+    @Query("categoryId") int? categoryId,
+    @Query("categorySlug") String? categorySlug,
+    @Query("title") String? title,
+    @Query("price_min") double? minPrice,
+    @Query("price_max") double? maxPrice,
+  });
 }

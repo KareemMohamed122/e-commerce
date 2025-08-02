@@ -12,24 +12,29 @@ import '../../../commonUI/add_to_cart_quantity.dart';
 import '../../../commonUI/label_widget.dart';
 import 'package:untitled2/data/models/product.dart';
 
-class ProductDetails extends StatefulWidget {
+class ProductDetails extends StatelessWidget {
   const ProductDetails({super.key});
 
   @override
-  State<ProductDetails> createState() => _ProductDetailsState();
+  Widget build(BuildContext context) {
+    final productId = Get.arguments as int;
+
+    return BlocProvider(
+      create: (_) => ProductBloc(getIt())..add(LoadProduct(productId)),
+      child: _ProductDetailsBody(),
+    );
+  }
 }
 
-class _ProductDetailsState extends State<ProductDetails> {
-  late final int productId;
-  final cartBloc = getIt<CartBloc>();
-  final productBloc = getIt<ProductBloc>();
+class _ProductDetailsBody extends StatefulWidget {
+  const _ProductDetailsBody({super.key});
 
   @override
-  void initState() {
-    super.initState();
-    productId = Get.arguments as int;
-    productBloc.add(LoadProduct(productId));
-  }
+  State<_ProductDetailsBody> createState() => _ProductDetailsBodyState();
+}
+
+class _ProductDetailsBodyState extends State<_ProductDetailsBody> {
+  final cartBloc = getIt<CartBloc>();
 
   bool favourite = false;
   int selectedIndex = 0;
@@ -46,7 +51,6 @@ class _ProductDetailsState extends State<ProductDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<ProductBloc, ProductState>(
-        bloc: productBloc,
         builder: (context, state) {
           if (state is ProductLoading) {
             return const Center(child: CircularProgressIndicator());
@@ -82,7 +86,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             return AddToCartQuantity(
                               buttonContent: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
+                                children: const [
                                   Icon(
                                     Icons.add,
                                     size: 12,
@@ -222,10 +226,9 @@ class _ProductDetailsState extends State<ProductDetails> {
           left: 24,
           child: IconButton(
             onPressed: () {
-              // getIt<ProductBloc>().add(ClearState());
               Get.back();
             },
-            icon: Icon(Icons.close, size: 20, color: Color(0xFF2F3036)),
+            icon: const Icon(Icons.close, size: 20, color: Color(0xFF2F3036)),
           ),
         ),
       ],
@@ -276,7 +279,11 @@ Widget buildColorContainer(Color color, bool isSelected) {
           child: CircleAvatar(
             radius: 12,
             backgroundColor: Colors.white,
-            child: Icon(Icons.check_circle, size: 16, color: Color(0xFF0019FF)),
+            child: const Icon(
+              Icons.check_circle,
+              size: 16,
+              color: Color(0xFF0019FF),
+            ),
           ),
         ),
     ],

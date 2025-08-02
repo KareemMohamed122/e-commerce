@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+
 import 'package:untitled2/bloc/product/product_bloc.dart';
 import 'package:untitled2/bloc/product/product_event.dart';
 import 'package:untitled2/bloc/product/product_state.dart';
 import 'package:untitled2/bloc/search/search_bloc.dart';
 import 'package:untitled2/bloc/search/search_event.dart';
 import 'package:untitled2/bloc/search/search_state.dart';
+
 import 'package:untitled2/commonUI/custom_appbar.dart';
 import 'package:untitled2/commonUI/custom_search_bar.dart';
 import 'package:untitled2/commonUI/favourite_cart_icons.dart';
@@ -14,7 +16,7 @@ import 'package:untitled2/commonUI/product_card.dart';
 import 'package:untitled2/commonUI/sort_filter.dart';
 import 'package:untitled2/core/injection.dart';
 
-import '../../../data/models/product.dart';
+import 'package:untitled2/data/models/product.dart';
 
 class SearchResultsScreen extends StatefulWidget {
   const SearchResultsScreen({super.key});
@@ -27,10 +29,11 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
   final productBloc = getIt<ProductBloc>();
   final searchBloc = getIt<SearchBloc>();
 
+  String? _searchQuery;
+
   @override
   void initState() {
     super.initState();
-    // Load recent words for the search bar
     searchBloc.add(LoadRecentWords());
   }
 
@@ -66,11 +69,10 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                   recentWords: recentWords,
                   handleSubmit: (value) {
                     if (value.trim().isNotEmpty) {
-                      context.read<SearchBloc>().add(
-                        AddRecentWord(value.trim()),
-                      );
-                      context.read<ProductBloc>().add(
-                        LoadProductsByTitle(value.trim()),
+                      _searchQuery = value.trim();
+                      searchBloc.add(AddRecentWord(_searchQuery!));
+                      productBloc.add(
+                        UpdateProductFilters(searchText: _searchQuery),
                       );
                     }
                   },
@@ -97,10 +99,10 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                       return Center(child: Text(state.message));
                     }
                     if (state is ProductsLoaded) {
-                      if (state.products.isEmpty) {
+                      if (state.filteredProducts.isEmpty) {
                         return const Center(child: Text("No products found"));
                       }
-                      return _buildGrid(state.products);
+                      return _buildGrid(state.filteredProducts);
                     }
                     return const Center(
                       child: Text("Search for products to see results"),
@@ -126,7 +128,17 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
         mainAxisSpacing: 12,
         childAspectRatio: 0.65,
       ),
-      itemBuilder: (context, index) => ProductCard(product: products[index]),
+      itemBuilder: (context, index) {
+        final product = products[index];
+        return ProductCard(
+          product: product,
+          onReturn: () {
+            if (_searchQuery != null && _searchQuery!.isNotEmpty) {
+              productBloc.add(UpdateProductFilters(searchText: _searchQuery));
+            }
+          },
+        );
+      },
     );
   }
 }

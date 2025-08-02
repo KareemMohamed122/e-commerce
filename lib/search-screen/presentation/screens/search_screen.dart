@@ -60,11 +60,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         ? CustomSearchBar(
                           recentWords: state.recentWords,
                           handleSubmit: (String value) {
-                            context.read<SearchBloc>().add(
-                              AddRecentWord(value),
-                            );
-                            context.read<ProductBloc>().add(
-                              LoadProductsByTitle(value),
+                            searchBloc.add(AddRecentWord(value));
+                            productBloc.add(
+                              UpdateProductFilters(searchText: value),
                             );
                             Get.to(() => const SearchResultsScreen());
                           },
@@ -110,8 +108,8 @@ class _SearchScreenState extends State<SearchScreen> {
       itemBuilder: (_, index) {
         return InkWell(
           onTap: () {
-            context.read<ProductBloc>().add(
-              LoadProductsByTitle(recentWords[index]),
+            productBloc.add(
+              UpdateProductFilters(searchText: recentWords[index]),
             );
             Get.to(() => const SearchResultsScreen());
           },
@@ -132,9 +130,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                   onPressed: () {
-                    context.read<SearchBloc>().add(
-                      RemoveRecentWord(recentWords[index]),
-                    );
+                    searchBloc.add(RemoveRecentWord(recentWords[index]));
                   },
                   icon: const Icon(
                     Icons.cancel,
@@ -147,9 +143,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         );
       },
-      separatorBuilder: (BuildContext context, int index) {
-        return const SizedBox(height: 16);
-      },
+      separatorBuilder: (_, __) => const SizedBox(height: 16),
     );
   }
 }

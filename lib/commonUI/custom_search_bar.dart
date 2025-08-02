@@ -51,13 +51,15 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
         final trimmedValue = value.trim();
         if (trimmedValue.isNotEmpty) {
           widget.handleSubmit(trimmedValue);
-          if (widget.filterByCategory && widget.categoryID != null) {
-            context.read<ProductBloc>().add(
-              LoadProductsByCategoryId(widget.categoryID!),
-            );
-          } else {
-            context.read<ProductBloc>().add(LoadProductsByTitle(trimmedValue));
-          }
+          context.read<ProductBloc>().add(
+            UpdateProductFilters(
+              searchText: trimmedValue,
+              categoryId:
+                  widget.filterByCategory && widget.categoryID != null
+                      ? widget.categoryID
+                      : null,
+            ),
+          );
         }
       },
       style: const TextStyle(

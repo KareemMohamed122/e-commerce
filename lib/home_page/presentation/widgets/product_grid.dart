@@ -4,7 +4,10 @@ import 'package:get/get.dart';
 import 'package:untitled2/bloc/cart/cart_bloc.dart';
 import 'package:untitled2/bloc/cart/cart_state.dart';
 import 'package:untitled2/commonUI/label_widget.dart';
+import '../../../bloc/product/product_bloc.dart';
+import '../../../bloc/product/product_event.dart';
 import '../../../core/injection.dart' show getIt;
+import '../../../core/product_details_navigation.dart';
 import '../../../data/models/product.dart';
 import '../../../product_details/presentation/screens/product_details.dart';
 
@@ -35,7 +38,14 @@ class ProductGrid extends StatelessWidget {
             final quantity = cart[product];
 
             return InkWell(
-              onTap: () => Get.to(ProductDetails(), arguments: product.id),
+              onTap: () {
+                openProductDetails(
+                  productId: product.id,
+                  onReturn: () {
+                    // getIt<ProductBloc>().add(LoadProducts());
+                  },
+                );
+              },
               child: SizedBox(
                 width: 200,
                 height: 189,

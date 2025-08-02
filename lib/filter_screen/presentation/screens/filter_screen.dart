@@ -21,10 +21,10 @@ class FilterScreen extends StatefulWidget {
 class _FilterScreenState extends State<FilterScreen> {
   List<CategoryModel> categories = [];
   bool isCategorySelected = false;
-  String selectedItem = "";
-  int? selectedCategoryId;
+  String selectedSlug = "";
   double _minPrice = 0;
   double _maxPrice = 1000;
+
   final categoryBloc = getIt<CategoryBloc>();
   final productBloc = getIt<ProductBloc>();
 
@@ -37,11 +37,17 @@ class _FilterScreenState extends State<FilterScreen> {
   void _clearAllFilters() {
     setState(() {
       isCategorySelected = false;
-      selectedItem = "";
-      selectedCategoryId = null;
+      selectedSlug = "";
       _minPrice = 0;
       _maxPrice = 1000;
     });
+  }
+
+  int _activeFiltersCount() {
+    int count = 0;
+    if (isCategorySelected) count++;
+    if (_minPrice > 0 || _maxPrice < 1000) count++;
+    return count;
   }
 
   @override
@@ -105,7 +111,7 @@ class _FilterScreenState extends State<FilterScreen> {
                   children: [
                     ExpansionTile(
                       trailing:
-                          isCategorySelected
+                          _activeFiltersCount() > 0
                               ? Container(
                                 width: 20,
                                 height: 20,
@@ -113,10 +119,10 @@ class _FilterScreenState extends State<FilterScreen> {
                                   color: const Color(0xFF0019FF),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
-                                child: const Center(
+                                child: Center(
                                   child: Text(
-                                    "1",
-                                    style: TextStyle(
+                                    "${_activeFiltersCount()}",
+                                    style: const TextStyle(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.white,
@@ -144,14 +150,12 @@ class _FilterScreenState extends State<FilterScreen> {
                                   return GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        if (selectedItem == category.name) {
+                                        if (selectedSlug == category.slug) {
                                           isCategorySelected = false;
-                                          selectedItem = "";
-                                          selectedCategoryId = null;
+                                          selectedSlug = "";
                                         } else {
                                           isCategorySelected = true;
-                                          selectedItem = category.name;
-                                          selectedCategoryId = category.id;
+                                          selectedSlug = category.slug;
                                         }
                                       });
                                     },
@@ -160,17 +164,17 @@ class _FilterScreenState extends State<FilterScreen> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12),
                                         color:
-                                            selectedItem == category.name
+                                            selectedSlug == category.slug
                                                 ? const Color(0xFF0019FF)
                                                 : const Color(0xFFE5E8FF),
                                       ),
                                       child: Text(
-                                        category.name,
+                                        category.slug,
                                         style: TextStyle(
                                           fontSize: 10,
                                           fontWeight: FontWeight.w600,
                                           color:
-                                              selectedItem == category.name
+                                              selectedSlug == category.slug
                                                   ? Colors.white
                                                   : const Color(0xFF0019FF),
                                         ),
@@ -241,18 +245,13 @@ class _FilterScreenState extends State<FilterScreen> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                if (isCategorySelected && selectedCategoryId != null) {
-                  productBloc.add(
-                    LoadProductsByCategoryId(selectedCategoryId!),
-                  );
-                } else {
-                  productBloc.add(
-                    LoadProductsByPriceRange(
-                      minPrice: _minPrice,
-                      maxPrice: _maxPrice,
-                    ),
-                  );
-                }
+                productBloc.add(
+                  UpdateProductFilters(
+                    categorySlug: isCategorySelected ? selectedSlug : null,
+                    minPrice: _minPrice,
+                    maxPrice: _maxPrice,
+                  ),
+                );
                 Get.to(() => const SearchResultsScreen());
               },
               style: ElevatedButton.styleFrom(

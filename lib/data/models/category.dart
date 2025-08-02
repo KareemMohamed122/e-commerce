@@ -1,17 +1,14 @@
 import 'package:equatable/equatable.dart';
-import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
-
 part 'category.g.dart';
 
 @JsonSerializable()
 class CategoryModel extends Equatable {
   late int id;
-
-  late String name;
   late String image;
+  late String slug;
 
-  CategoryModel(this.id, this.name, this.image);
+  CategoryModel(this.id, this.image, this.slug);
 
   Map<String, dynamic> toJson() => _$CategoryModelToJson(this);
 

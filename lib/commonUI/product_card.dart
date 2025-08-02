@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
+import '../core/product_details_navigation.dart';
 import '../data/models/product.dart';
-import '../product_details/presentation/screens/product_details.dart';
 import 'add_to_cart_quantity.dart';
 import 'label_widget.dart';
 
 class ProductCard extends StatefulWidget {
   final Product product;
-  const ProductCard({super.key, required this.product});
+  final VoidCallback onReturn;
+
+  const ProductCard({super.key, required this.product, required this.onReturn});
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -17,12 +18,18 @@ class ProductCard extends StatefulWidget {
 
 class _ProductCardState extends State<ProductCard> {
   bool favourite = false;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 241,
       child: InkWell(
-        onTap: () => Get.to(ProductDetails(), arguments: widget.product.id),
+        onTap: () {
+          openProductDetails(
+            productId: widget.product.id,
+            onReturn: widget.onReturn,
+          );
+        },
         child: Card(
           margin: EdgeInsets.zero,
           clipBehavior: Clip.antiAlias,
@@ -40,7 +47,7 @@ class _ProductCardState extends State<ProductCard> {
                     height: 120,
                     width: double.infinity,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, _, __) {
+                    errorBuilder: (_, __, ___) {
                       return Image.asset("assets/images/placeholder.png");
                     },
                   ),

@@ -80,7 +80,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         childAspectRatio: 1,
       ),
       itemBuilder: (context, index) {
-        String title = categories[index].name;
+        String title = categories[index].slug;
         String imageUrl = categories[index].image;
         int id = categories[index].id;
         return buildCategoryCard(title, imageUrl, id);

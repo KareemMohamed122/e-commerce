@@ -140,9 +140,10 @@ class _SortFilterState extends State<SortFilter> {
               });
 
               final bloc = getIt<ProductBloc>();
-              bloc.add(LoadSortedProducts(newValue, bloc.products));
+              bloc.add(SortProducts(newValue));
             }
           },
+
           iconStyleData: IconStyleData(
             icon: SvgPicture.asset("assets/icons/dropdown.svg"),
           ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import 'package:untitled2/commonUI/custom_appbar.dart';
 import 'package:untitled2/search-screen/presentation/screens/search_screen.dart';
@@ -26,10 +25,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
+
   @override
   void initState() {
     getIt<CartBloc>().add(LoadCart());
-    getIt<ProductBloc>().add(LoadProducts());
+    context.read<ProductBloc>().add(LoadProducts());
     super.initState();
   }
 
@@ -40,11 +40,15 @@ class _HomeScreenState extends State<HomeScreen> {
         height: 72,
         leading: IconButton(
           padding: EdgeInsets.zero,
-          constraints: BoxConstraints(),
+          constraints: const BoxConstraints(),
           onPressed: () {
             Get.to(SearchScreen());
           },
-          icon: Icon(Icons.search_outlined, color: Color(0xFF2F3036), size: 20),
+          icon: const Icon(
+            Icons.search_outlined,
+            color: Color(0xFF2F3036),
+            size: 20,
+          ),
         ),
         title: Image.asset("assets/images/home_images/casaforsa.png"),
         actions: const [FavouriteCartIcons()],
@@ -62,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 214,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -73,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (state is ProductLoading) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (state is ProductsLoaded) {
-                        return ProductGrid(products: state.products);
+                        return ProductGrid(products: state.allProducts);
                       } else if (state is ProductError) {
                         return Center(child: Text(state.message));
                       } else {

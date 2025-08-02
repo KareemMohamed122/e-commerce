@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+
 import 'package:untitled2/bloc/product/product_bloc.dart';
 import 'package:untitled2/bloc/product/product_event.dart';
 import 'package:untitled2/bloc/product/product_state.dart';
-import 'package:untitled2/commonUI/add_to_cart_quantity.dart';
+
 import 'package:untitled2/commonUI/custom_appbar.dart';
+import 'package:untitled2/commonUI/custom_search_bar.dart';
+import 'package:untitled2/commonUI/favourite_cart_icons.dart';
 import 'package:untitled2/commonUI/product_card.dart';
 import 'package:untitled2/commonUI/sort_filter.dart';
+
+import 'package:untitled2/core/injection.dart';
 import 'package:untitled2/data/models/product.dart';
-import '../../../commonUI/custom_search_bar.dart';
-import '../../../commonUI/favourite_cart_icons.dart';
-import '../../../core/injection.dart';
+
 import '../../../search_results_screen/presentation/screens/search_results_screen.dart';
 
 class CategoryProductsScreen extends StatefulWidget {
@@ -29,7 +32,11 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
   @override
   void initState() {
     super.initState();
-    productBloc.add(LoadProductsByCategoryId(widget.categoryID));
+    _loadCategoryProducts();
+  }
+
+  void _loadCategoryProducts() {
+    productBloc.add(UpdateProductFilters(categoryId: widget.categoryID));
   }
 
   @override
@@ -42,9 +49,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
           leading: IconButton(
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: () => Navigator.pop(context),
             icon: const Icon(
               Icons.arrow_back_ios,
               color: Color(0xFF0019FF),
@@ -58,8 +63,13 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                 setState(() {
                   recentWords.add(value);
                 });
-                productBloc.add(LoadProductsByTitle(value));
-                Get.to(() => const SearchResultsScreen());
+                productBloc.add(
+                  UpdateProductFilters(
+                    searchText: value,
+                    categoryId: widget.categoryID,
+                  ),
+                );
+                Get.to(() => SearchResultsScreen());
               },
               filterByCategory: true,
               categoryID: widget.categoryID,
@@ -74,45 +84,47 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
               const Padding(padding: EdgeInsets.all(16.0), child: SortFilter()),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    BlocBuilder<ProductBloc, ProductState>(
-                      builder: (context, state) {
-                        if (state is ProductLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else if (state is ProductError) {
-                          return Center(child: Text(state.message));
-                        } else if (state is ProductsLoaded) {
-                          final products = state.products;
-                          return GridView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: products.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 12,
-                                  mainAxisSpacing: 12,
-                                  childAspectRatio: 0.65,
-                                ),
-                            itemBuilder: (context, index) {
-                              final Product product = products[index];
-                              return ProductCard(product: product);
-                            },
-                          );
-                        }
-                        return const SizedBox();
-                      },
-                    ),
-                  ],
+                child: BlocBuilder<ProductBloc, ProductState>(
+                  builder: (context, state) {
+                    if (state is ProductLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is ProductError) {
+                      return Center(child: Text(state.message));
+                    } else if (state is ProductsLoaded) {
+                      final products = state.filteredProducts;
+                      return _buildProductGrid(products);
+                    }
+                    return const SizedBox();
+                  },
                 ),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildProductGrid(List<Product> products) {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: products.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        childAspectRatio: 0.65,
+      ),
+      itemBuilder: (context, index) {
+        final Product product = products[index];
+        return ProductCard(
+          product: product,
+          onReturn: () {
+            _loadCategoryProducts();
+          },
+        );
+      },
     );
   }
 }

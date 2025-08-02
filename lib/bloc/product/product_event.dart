@@ -1,7 +1,10 @@
-import 'package:untitled2/data/models/product.dart';
+import 'package:equatable/equatable.dart';
 
-abstract class ProductEvent {
+abstract class ProductEvent extends Equatable {
   const ProductEvent();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class LoadProducts extends ProductEvent {}
@@ -9,38 +12,47 @@ class LoadProducts extends ProductEvent {}
 class LoadProduct extends ProductEvent {
   final int id;
 
-  LoadProduct(this.id);
+  const LoadProduct(this.id);
+
+  @override
+  List<Object?> get props => [id];
 }
 
-class LoadProductsByPriceRange extends ProductEvent {
-  final double minPrice;
-  final double maxPrice;
+class UpdateProductFilters extends ProductEvent {
+  final int? categoryId;
+  final String? categorySlug;
+  final String? searchText;
+  final double? minPrice;
+  final double? maxPrice;
+  final String? sortOption;
 
-  LoadProductsByPriceRange({required this.minPrice, required this.maxPrice});
+  const UpdateProductFilters({
+    this.categoryId,
+    this.categorySlug,
+    this.searchText,
+    this.minPrice,
+    this.maxPrice,
+    this.sortOption,
+  });
+
+  @override
+  List<Object?> get props => [
+    categoryId,
+    categorySlug,
+    searchText,
+    minPrice,
+    maxPrice,
+    sortOption,
+  ];
 }
 
-class LoadProductsByCategoryName extends ProductEvent {
-  final String name;
-
-  LoadProductsByCategoryName(this.name);
-}
-
-class LoadProductsByTitle extends ProductEvent {
-  final String title;
-
-  LoadProductsByTitle(this.title);
-}
-
-class LoadProductsByCategoryId extends ProductEvent {
-  final int id;
-
-  LoadProductsByCategoryId(this.id);
-}
-
-class LoadSortedProducts extends ProductEvent {
+class SortProducts extends ProductEvent {
   final String sortOption;
-  final List<Product> products;
-  LoadSortedProducts(this.sortOption, this.products);
+
+  const SortProducts(this.sortOption);
+
+  @override
+  List<Object?> get props => [sortOption];
 }
 
 class ClearState extends ProductEvent {}
