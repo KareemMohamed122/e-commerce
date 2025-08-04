@@ -87,7 +87,10 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const Padding(padding: EdgeInsets.all(16.0), child: SortFilter()),
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: SortFilter(searchFlag: true),
+              ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: BlocBuilder<ProductBloc, ProductState>(

@@ -30,9 +30,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       emit(RecentWordsUpdated(_recentWords));
     });
   }
-  List<Product> get products => _products;
 
-  set products(List<Product> value) {
-    _products = value;
-  }
+  List<String> get recentWords => _recentWords;
 }

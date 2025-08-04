@@ -60,6 +60,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                       : null,
             ),
           );
+          _controller.clear();
         }
       },
       style: const TextStyle(

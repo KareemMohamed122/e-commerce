@@ -8,7 +8,8 @@ import 'package:untitled2/core/injection.dart';
 import 'package:untitled2/filter_screen/presentation/screens/filter_screen.dart';
 
 class SortFilter extends StatefulWidget {
-  const SortFilter({super.key});
+  final bool searchFlag;
+  const SortFilter({super.key, required this.searchFlag});
 
   @override
   State<SortFilter> createState() => _SortFilterState();
@@ -46,7 +47,8 @@ class _SortFilterState extends State<SortFilter> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: InkWell(
-          onTap: () => Get.to(() => const FilterScreen()),
+          onTap:
+              () => Get.to(() => FilterScreen(searchFlag: widget.searchFlag)),
           child: Row(
             children: [
               SvgPicture.asset("assets/icons/sort.svg"),

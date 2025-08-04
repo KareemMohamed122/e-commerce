@@ -25,10 +25,7 @@ class _ProductCardState extends State<ProductCard> {
       height: 241,
       child: InkWell(
         onTap: () {
-          openProductDetails(
-            productId: widget.product.id,
-            onReturn: widget.onReturn,
-          );
+          openProductDetails(productId: widget.product.id, onReturn: () {});
         },
         child: Card(
           margin: EdgeInsets.zero,
