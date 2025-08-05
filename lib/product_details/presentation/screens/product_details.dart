@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:untitled2/bloc/favourite/favourite_bloc.dart';
+import 'package:untitled2/bloc/favourite/favourite_event.dart';
+import 'package:untitled2/bloc/favourite/favourite_state.dart';
 import 'package:untitled2/bloc/product/product_event.dart';
 import 'package:untitled2/commonUI/featured_banner.dart';
 import '../../../bloc/cart/cart_bloc.dart';
@@ -19,9 +22,14 @@ class ProductDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final productId = Get.arguments as int;
 
-    return BlocProvider(
-      create: (_) => ProductBloc(getIt())..add(LoadProduct(productId)),
-      child: _ProductDetailsBody(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => ProductBloc(getIt())..add(LoadProduct(productId)),
+        ),
+        BlocProvider.value(value: getIt<FavouriteBloc>()),
+      ],
+      child: const _ProductDetailsBody(),
     );
   }
 }
@@ -36,7 +44,6 @@ class _ProductDetailsBody extends StatefulWidget {
 class _ProductDetailsBodyState extends State<_ProductDetailsBody> {
   final cartBloc = getIt<CartBloc>();
 
-  bool favourite = false;
   int selectedIndex = 0;
   int selectedColorIndex = 0;
 
@@ -200,18 +207,32 @@ class _ProductDetailsBodyState extends State<_ProductDetailsBody> {
             ),
           ),
         ),
-        IconButton(
-          onPressed: () {
-            setState(() {
-              favourite = !favourite;
-            });
+        BlocBuilder<FavouriteBloc, FavouriteState>(
+          builder: (context, favState) {
+            bool isFavourite = false;
+
+            if (favState is FavouriteUpdated) {
+              isFavourite = favState.items.contains(product);
+            }
+
+            return IconButton(
+              onPressed: () {
+                if (isFavourite) {
+                  getIt<FavouriteBloc>().add(
+                    RemoveFromFavourite(product: product),
+                  );
+                } else {
+                  getIt<FavouriteBloc>().add(AddToFavourite(product: product));
+                }
+              },
+              icon: Icon(
+                isFavourite ? Icons.favorite : Icons.favorite_outline,
+                color: const Color(0xFF0019FF),
+              ),
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+            );
           },
-          icon: Icon(
-            favourite ? Icons.favorite : Icons.favorite_outline,
-            color: const Color(0xFF0019FF),
-          ),
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
         ),
       ],
     );
@@ -236,6 +257,7 @@ class _ProductDetailsBodyState extends State<_ProductDetailsBody> {
   }
 }
 
+// Size Button
 Widget buildSizeButton(String label, bool isSelected, VoidCallback onTap) {
   return GestureDetector(
     onTap: onTap,
@@ -260,6 +282,7 @@ Widget buildSizeButton(String label, bool isSelected, VoidCallback onTap) {
   );
 }
 
+// Color Container
 Widget buildColorContainer(Color color, bool isSelected) {
   return Stack(
     clipBehavior: Clip.none,

@@ -35,7 +35,6 @@ class ProductGrid extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final product = products[index];
-            final quantity = cart[product];
 
             return InkWell(
               onTap: () {

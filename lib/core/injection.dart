@@ -4,6 +4,8 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:untitled2/bloc/favourite/favourite_bloc.dart';
+import 'package:untitled2/bloc/favourite/favourite_event.dart';
 
 import '../bloc/cart/cart_bloc.dart';
 import '../bloc/cart/cart_event.dart';
@@ -19,4 +21,5 @@ Future<void> configureDependencies() async {
   await Hive.initFlutter();
   Hive.registerAdapter(CartItemAdapter());
   Hive.registerAdapter(ProductAdapter());
+  getIt<FavouriteBloc>().add(LoadFavourite());
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:untitled2/bloc/favourite/favourite_bloc.dart';
+import 'package:untitled2/bloc/favourite/favourite_event.dart';
 import 'package:untitled2/bloc/product/product_bloc.dart';
 import 'package:untitled2/bloc/product/product_event.dart';
 import 'bloc/search/search_bloc.dart';
@@ -25,15 +27,12 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: getIt<CartBloc>()),
+        BlocProvider.value(value: getIt<FavouriteBloc>()),
 
+        BlocProvider(create: (_) => getIt<ProductBloc>()..add(LoadProducts())),
         BlocProvider(
           create: (_) => getIt<CategoryBloc>()..add(LoadCategories()),
         ),
-
-        BlocProvider(
-          create: (_) => getIt<SearchBloc>()..add(LoadRecentWords()),
-        ),
-        BlocProvider(create: (_) => getIt<ProductBloc>()..add(LoadProducts())),
       ],
       child: GetMaterialApp(
         title: 'My Shop',

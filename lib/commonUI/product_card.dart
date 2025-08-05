@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
+import '../bloc/favourite/favourite_bloc.dart';
+import '../bloc/favourite/favourite_event.dart';
+import '../bloc/favourite/favourite_state.dart';
+import '../core/injection.dart';
 import '../core/product_details_navigation.dart';
 import '../data/models/product.dart';
 import 'add_to_cart_quantity.dart';
 import 'label_widget.dart';
 
-class ProductCard extends StatefulWidget {
+class ProductCard extends StatelessWidget {
   final Product product;
   final VoidCallback onReturn;
 
   const ProductCard({super.key, required this.product, required this.onReturn});
-
-  @override
-  State<ProductCard> createState() => _ProductCardState();
-}
-
-class _ProductCardState extends State<ProductCard> {
-  bool favourite = false;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +23,7 @@ class _ProductCardState extends State<ProductCard> {
       height: 241,
       child: InkWell(
         onTap: () {
-          openProductDetails(productId: widget.product.id, onReturn: () {});
+          openProductDetails(productId: product.id, onReturn: onReturn);
         },
         child: Card(
           margin: EdgeInsets.zero,
@@ -40,7 +38,7 @@ class _ProductCardState extends State<ProductCard> {
               Stack(
                 children: [
                   Image.network(
-                    widget.product.images[0],
+                    product.images[0],
                     height: 120,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -51,21 +49,34 @@ class _ProductCardState extends State<ProductCard> {
                   Positioned(
                     top: 12,
                     right: 7.5,
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          widget.product.isFavourite =
-                              !widget.product.isFavourite;
-                        });
+                    child: BlocBuilder<FavouriteBloc, FavouriteState>(
+                      builder: (context, state) {
+                        bool isFavourite = false;
+                        if (state is FavouriteUpdated) {
+                          isFavourite = state.items.contains(product);
+                        }
+
+                        return IconButton(
+                          onPressed: () {
+                            final favBloc = getIt<FavouriteBloc>();
+                            if (isFavourite) {
+                              favBloc.add(
+                                RemoveFromFavourite(product: product),
+                              );
+                            } else {
+                              favBloc.add(AddToFavourite(product: product));
+                            }
+                          },
+                          icon: Icon(
+                            isFavourite
+                                ? Icons.favorite
+                                : Icons.favorite_outline,
+                            color: const Color(0xFF0019FF),
+                          ),
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
+                        );
                       },
-                      icon: Icon(
-                        widget.product.isFavourite
-                            ? Icons.favorite
-                            : Icons.favorite_outline,
-                        color: const Color(0xFF0019FF),
-                      ),
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
                     ),
                   ),
                 ],
@@ -76,9 +87,9 @@ class _ProductCardState extends State<ProductCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     LabelWidget(
-                      label: widget.product.title,
+                      label: product.title,
                       widget: Text(
-                        "€ ${widget.product.price}",
+                        "€ ${product.price}",
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
@@ -89,10 +100,10 @@ class _ProductCardState extends State<ProductCard> {
                       labelColor: const Color(0xFF1F2024),
                       labelFontWeight: FontWeight.w400,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     AddToCartQuantity(
                       buttonBackgroundColor: Colors.white,
-                      buttonContent: Text(
+                      buttonContent: const Text(
                         "Add to cart",
                         style: TextStyle(
                           color: Color(0xFF0019FF),
@@ -100,11 +111,11 @@ class _ProductCardState extends State<ProductCard> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      product: widget.product,
+                      product: product,
                       buttonHeight: 36,
                       counterHeight: 36,
                       fontSize: 12,
-                      buttonBorderColor: Color(0xFF0019FF),
+                      buttonBorderColor: const Color(0xFF0019FF),
                       buttonBorderWidth: 1.5,
                     ),
                   ],

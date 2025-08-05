@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:untitled2/commonUI/cart_icon.dart';
+import 'package:untitled2/favourite_screen/presentation/screens/favourite_screen.dart';
 
 class FavouriteCartIcons extends StatelessWidget {
   const FavouriteCartIcons({super.key});
@@ -12,10 +15,13 @@ class FavouriteCartIcons extends StatelessWidget {
       height: 24,
       child: Row(
         children: [
-          Icon(
-            Icons.favorite_outline_rounded,
-            color: Color(0xFF2F3036),
-            size: 24,
+          InkWell(
+            onTap: () => Get.to(FavouriteScreen()),
+            child: Icon(
+              Icons.favorite_outline_rounded,
+              color: Color(0xFF2F3036),
+              size: 24,
+            ),
           ),
           SizedBox(width: 16),
           CartIcon(),
