@@ -47,7 +47,7 @@ class ProductCard extends StatelessWidget {
                     },
                   ),
                   Positioned(
-                    top: 12,
+                    top: 5,
                     right: 7.5,
                     child: BlocBuilder<FavouriteBloc, FavouriteState>(
                       builder: (context, state) {

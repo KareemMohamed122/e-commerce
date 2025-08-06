@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:untitled2/bloc/cart/cart_event.dart';
-import 'package:untitled2/bloc/cart/cart_state.dart';
 import 'package:untitled2/bloc/favourite/favourite_event.dart';
 import 'package:untitled2/bloc/favourite/favourite_state.dart';
 import 'package:untitled2/core/local_storage.dart';
@@ -42,7 +40,6 @@ class FavouriteBloc extends Bloc<FavouriteEvent, FavouriteState> {
     });
   }
   void _saveCart() {
-    log("item added");
     LocalStorage.clearBox("favouriteBox");
     for (var item in _favourite) {
       LocalStorage.saveData("favouriteBox", item.id, item);
