@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider.value(value: getIt<CartBloc>()),
         BlocProvider.value(value: getIt<FavouriteBloc>()),
+        BlocProvider.value(value: getIt<ProductBloc>()),
 
-        BlocProvider(create: (_) => getIt<ProductBloc>()..add(LoadProducts())),
         BlocProvider(
           create: (_) => getIt<CategoryBloc>()..add(LoadCategories()),
         ),

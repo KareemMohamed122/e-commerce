@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     getIt<CartBloc>().add(LoadCart());
-    context.read<ProductBloc>().add(LoadProducts());
+    getIt<ProductBloc>().add(const LoadProducts());
     super.initState();
   }
 
@@ -74,10 +74,35 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 16),
                   BlocBuilder<ProductBloc, ProductState>(
                     builder: (context, state) {
-                      if (state is ProductLoading) {
+                      if (state is ProductsLoaded) {
+                        return Column(
+                          children: [
+                            ProductGrid(products: state.allProducts),
+                            if (state.hasMore)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    getIt<ProductBloc>().add(
+                                      const LoadNextPage(),
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 32,
+                                      vertical: 12,
+                                    ),
+                                    textStyle: const TextStyle(fontSize: 16),
+                                  ),
+                                  child: const Text('Load More'),
+                                ),
+                              ),
+                          ],
+                        );
+                      } else if (state is ProductLoading) {
                         return const Center(child: CircularProgressIndicator());
-                      } else if (state is ProductsLoaded) {
-                        return ProductGrid(products: state.allProducts);
                       } else if (state is ProductError) {
                         return Center(child: Text(state.message));
                       } else {

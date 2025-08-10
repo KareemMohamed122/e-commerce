@@ -33,12 +33,14 @@ class ProductError extends ProductState {
 class ProductsLoaded extends ProductState {
   final List<Product> allProducts;
   final List<Product> filteredProducts;
-
   final String? category;
   final double? minPrice;
   final double? maxPrice;
   final String? searchText;
   final String? sortOption;
+  final int currentOffset; // Used only for allProducts pagination
+  final int limit; // Used only for allProducts pagination
+  final bool hasMore; // Used only for allProducts pagination
 
   const ProductsLoaded({
     required this.allProducts,
@@ -48,6 +50,9 @@ class ProductsLoaded extends ProductState {
     this.maxPrice,
     this.searchText,
     this.sortOption,
+    this.currentOffset = 0,
+    this.limit = 10,
+    this.hasMore = true,
   });
 
   @override
@@ -59,5 +64,8 @@ class ProductsLoaded extends ProductState {
     maxPrice,
     searchText,
     sortOption,
+    currentOffset,
+    limit,
+    hasMore,
   ];
 }

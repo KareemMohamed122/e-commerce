@@ -19,6 +19,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   double? _lastMaxPrice;
   String? _lastSearchText;
   String? _lastSortOption;
+  int _currentOffset = 0;
+  final int _limit = 2; // Default items per page
 
   ProductBloc(this.productRepository) : super(ProductInitial()) {
     on<LoadProduct>((event, emit) async {
@@ -34,12 +36,40 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<LoadProducts>((event, emit) async {
       emit(ProductLoading());
       try {
-        final products = await productRepository.fetchAllProducts();
-        _lastAllProducts = products;
-        _lastFilteredFromAPI = products;
-        _currentVisibleList = products;
+        final offset = event.offset ?? 0;
+        final limit = event.limit ?? _limit;
+        final products = await productRepository.fetchAllProducts(
+          offset: offset,
+          limit: limit,
+        );
 
-        emit(ProductsLoaded(allProducts: products, filteredProducts: products));
+        if (offset == 0) {
+          _lastAllProducts = products;
+          _lastFilteredFromAPI = products;
+          _currentVisibleList = products;
+        } else {
+          _lastAllProducts = [..._lastAllProducts, ...products];
+          _lastFilteredFromAPI = _lastAllProducts;
+          _currentVisibleList = _lastAllProducts;
+        }
+
+        _currentOffset = offset;
+        final hasMore = products.length >= limit;
+
+        emit(
+          ProductsLoaded(
+            allProducts: _lastAllProducts,
+            filteredProducts: _currentVisibleList,
+            category: _lastCategorySlug,
+            minPrice: _lastMinPrice,
+            maxPrice: _lastMaxPrice,
+            searchText: _lastSearchText,
+            sortOption: _lastSortOption,
+            currentOffset: _currentOffset,
+            limit: limit,
+            hasMore: hasMore,
+          ),
+        );
       } catch (e) {
         emit(ProductError(e.toString()));
       }
@@ -65,7 +95,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
         List<Product> sortedList = filtered;
         if (event.sortOption != null && event.sortOption!.isNotEmpty) {
-          sortedList = SortList.sortList(sortedList, event.sortOption!);
+          sortedList = SortList.sortList(filtered, event.sortOption!);
         }
 
         _currentVisibleList = sortedList;
@@ -79,6 +109,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             maxPrice: _lastMaxPrice,
             searchText: _lastSearchText,
             sortOption: _lastSortOption,
+            currentOffset: _currentOffset, // Retained for allProducts
+            limit: _limit, // Retained for allProducts
+            hasMore:
+                _lastAllProducts.length >= _limit, // Retained for allProducts
           ),
         );
       } catch (e) {
@@ -106,8 +140,66 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           maxPrice: _lastMaxPrice,
           searchText: _lastSearchText,
           sortOption: _lastSortOption,
+          currentOffset: _currentOffset, // Retained for allProducts
+          limit: _limit, // Retained for allProducts
+          hasMore:
+              _lastAllProducts.length >= _l imit, // Retained for allProducts
         ),
       );
+    });
+
+    on<LoadNextPage>((event, emit) async {
+      if (state is ProductsLoaded && (state as ProductsLoaded).hasMore) {
+        try {
+          final currentState = state as ProductsLoaded;
+          final offset = currentState.currentOffset + currentState.limit;
+
+          // Emit ProductLoading only for UI feedback, but preserve current state
+          emit(
+            ProductsLoaded(
+              allProducts: _lastAllProducts,
+              filteredProducts: _currentVisibleList,
+              category: _lastCategorySlug,
+              minPrice: _lastMinPrice,
+              maxPrice: _lastMaxPrice,
+              searchText: _lastSearchText,
+              sortOption: _lastSortOption,
+              currentOffset: _currentOffset,
+              limit: _limit,
+              hasMore: currentState.hasMore,
+            ),
+          );
+
+          final products = await productRepository.fetchAllProducts(
+            offset: offset,
+            limit: currentState.limit,
+          );
+
+          _lastAllProducts = [..._lastAllProducts, ...products];
+          _lastFilteredFromAPI = _lastAllProducts;
+          _currentVisibleList = _lastAllProducts;
+
+          _currentOffset = offset;
+          final hasMore = products.length >= currentState.limit;
+
+          emit(
+            ProductsLoaded(
+              allProducts: _lastAllProducts,
+              filteredProducts: _currentVisibleList,
+              category: _lastCategorySlug,
+              minPrice: _lastMinPrice,
+              maxPrice: _lastMaxPrice,
+              searchText: _lastSearchText,
+              sortOption: _lastSortOption,
+              currentOffset: _currentOffset,
+              limit: currentState.limit,
+              hasMore: hasMore,
+            ),
+          );
+        } catch (e) {
+          emit(ProductError("Error loading next page: ${e.toString()}"));
+        }
+      }
     });
 
     on<ClearState>((event, emit) {
@@ -119,6 +211,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       _lastMaxPrice = null;
       _lastSearchText = null;
       _lastSortOption = null;
+      _currentOffset = 0;
       emit(ProductInitial());
     });
   }

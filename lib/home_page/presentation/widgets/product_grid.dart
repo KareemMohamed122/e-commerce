@@ -6,6 +6,7 @@ import 'package:untitled2/bloc/cart/cart_state.dart';
 import 'package:untitled2/commonUI/label_widget.dart';
 import '../../../bloc/product/product_bloc.dart';
 import '../../../bloc/product/product_event.dart';
+import '../../../bloc/product/product_state.dart';
 import '../../../core/injection.dart' show getIt;
 import '../../../core/product_details_navigation.dart';
 import '../../../data/models/product.dart';
@@ -20,8 +21,8 @@ class ProductGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CartBloc, CartState>(
       bloc: getIt<CartBloc>(),
-      builder: (context, state) {
-        final cart = (state is CartUpdated) ? state.items : {};
+      builder: (context, cartState) {
+        final cart = (cartState is CartUpdated) ? cartState.items : {};
 
         return GridView.builder(
           shrinkWrap: true,
@@ -38,12 +39,7 @@ class ProductGrid extends StatelessWidget {
 
             return InkWell(
               onTap: () {
-                openProductDetails(
-                  productId: product.id,
-                  onReturn: () {
-                    // getIt<ProductBloc>().add(LoadProducts());
-                  },
-                );
+                openProductDetails(productId: product.id, onReturn: () {});
               },
               child: SizedBox(
                 width: 200,

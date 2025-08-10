@@ -8,8 +8,8 @@ class ProductRepository {
 
   ProductRepository(this.productWebService);
 
-  Future<List<Product>> fetchAllProducts() async {
-    return await productWebService.getAllProducts();
+  Future<List<Product>> fetchAllProducts({int? offset, int? limit}) async {
+    return await productWebService.getAllProducts(offset: offset, limit: limit);
   }
 
   Future<Product> fetchAProductById(int id) async {

@@ -11,7 +11,10 @@ abstract class ProductWebService {
   factory ProductWebService(Dio dio, {String baseUrl}) = _ProductWebService;
 
   @GET("products")
-  Future<List<Product>> getAllProducts();
+  Future<List<Product>> getAllProducts({
+    @Query("offset") int? offset,
+    @Query("limit") int? limit,
+  });
 
   @GET("products/{id}")
   Future<Product> getProduct(@Path("id") int id);

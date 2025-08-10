@@ -7,7 +7,15 @@ abstract class ProductEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoadProducts extends ProductEvent {}
+class LoadProducts extends ProductEvent {
+  final int? offset;
+  final int? limit;
+
+  const LoadProducts({this.offset, this.limit});
+
+  @override
+  List<Object?> get props => [offset, limit];
+}
 
 class LoadProduct extends ProductEvent {
   final int id;
@@ -56,3 +64,10 @@ class SortProducts extends ProductEvent {
 }
 
 class ClearState extends ProductEvent {}
+
+class LoadNextPage extends ProductEvent {
+  const LoadNextPage();
+
+  @override
+  List<Object?> get props => [];
+}
