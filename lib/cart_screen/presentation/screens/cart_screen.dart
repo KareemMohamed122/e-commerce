@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:lottie/lottie.dart';
-import 'package:untitled2/bloc/cart/cart_bloc.dart';
 import 'package:untitled2/cart_screen/presentation/widgets/cart_products.dart';
-import 'package:untitled2/commonUI/custom_appbar.dart';
-import '../../../bloc/cart/cart_state.dart';
-import '../../../core/injection.dart';
+import '../../../core/bloc/cart/cart_bloc.dart';
+import '../../../core/bloc/cart/cart_state.dart';
+import '../../../core/commonUI/custom_appbar.dart';
+import '../../../core/services/injection.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});

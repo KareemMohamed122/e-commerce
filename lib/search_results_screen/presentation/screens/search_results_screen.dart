@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-import 'package:untitled2/bloc/product/product_bloc.dart';
-import 'package:untitled2/bloc/product/product_event.dart';
-import 'package:untitled2/bloc/product/product_state.dart';
-import 'package:untitled2/bloc/search/search_bloc.dart';
-import 'package:untitled2/bloc/search/search_event.dart';
-import 'package:untitled2/bloc/search/search_state.dart';
+import 'package:untitled2/data/models/product_dto.dart';
 
-import 'package:untitled2/commonUI/custom_appbar.dart';
-import 'package:untitled2/commonUI/custom_search_bar.dart';
-import 'package:untitled2/commonUI/favourite_cart_icons.dart';
-import 'package:untitled2/commonUI/product_card.dart';
-import 'package:untitled2/commonUI/sort_filter.dart';
-import 'package:untitled2/core/injection.dart';
-
-import 'package:untitled2/data/models/product.dart';
+import '../../../core/bloc/product/product_bloc.dart';
+import '../../../core/bloc/product/product_event.dart';
+import '../../../core/bloc/product/product_state.dart';
+import '../../../core/bloc/search/search_bloc.dart';
+import '../../../core/bloc/search/search_event.dart';
+import '../../../core/bloc/search/search_state.dart';
+import '../../../core/commonUI/custom_appbar.dart';
+import '../../../core/commonUI/custom_search_bar.dart';
+import '../../../core/commonUI/favourite_cart_icons.dart';
+import '../../../core/commonUI/product_card.dart';
+import '../../../core/commonUI/sort_filter.dart';
+import '../../../core/services/injection.dart';
+import '../../../domain/entity/product.dart';
 
 class SearchResultsScreen extends StatefulWidget {
   const SearchResultsScreen({super.key});
@@ -87,8 +87,8 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.all(16.0),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: SortFilter(searchFlag: true),
               ),
               Padding(

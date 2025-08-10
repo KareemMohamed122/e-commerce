@@ -1,14 +1,17 @@
 import 'package:injectable/injectable.dart';
-import 'package:untitled2/data/models/category.dart';
-import 'package:untitled2/data/web_services/category_web_services.dart';
+import '../../domain/entity/category.dart';
+import '../../domain/repository/category_repository.dart';
+import '../web_services/category_web_services.dart';
 
-@lazySingleton
-class CategoryRepository {
+@LazySingleton(as: CategoryRepository)
+class CategoryRepositoryImpl implements CategoryRepository {
   final CategoryWebServices categoryWebServices;
 
-  CategoryRepository(this.categoryWebServices);
+  CategoryRepositoryImpl(this.categoryWebServices);
 
-  Future<List<CategoryModel>> fetchAllCategories() async {
-    return await categoryWebServices.getAllCategories();
+  @override
+  Future<List<Category>> getAllCategories() async {
+    final dtoList = await categoryWebServices.getAllCategories();
+    return dtoList.map((dto) => dto.toEntity()).toList();
   }
 }

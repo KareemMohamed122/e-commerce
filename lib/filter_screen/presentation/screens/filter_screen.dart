@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:untitled2/bloc/product/product_bloc.dart';
-import 'package:untitled2/bloc/product/product_event.dart';
-import 'package:untitled2/bloc/category/category_bloc.dart';
-import 'package:untitled2/bloc/category/category_event.dart';
-import 'package:untitled2/bloc/category/category_state.dart';
-import 'package:untitled2/bloc/search/search_bloc.dart';
-import 'package:untitled2/core/injection.dart';
-import 'package:untitled2/data/models/category.dart';
-import 'package:untitled2/commonUI/custom_appbar.dart';
+import 'package:untitled2/data/models/category_dto.dart';
+import 'package:untitled2/domain/entity/category.dart';
 import 'package:untitled2/search_results_screen/presentation/screens/search_results_screen.dart';
+
+import '../../../core/bloc/category/category_bloc.dart';
+import '../../../core/bloc/category/category_event.dart';
+import '../../../core/bloc/category/category_state.dart'
+    show CategoriesLoaded, CategoryState;
+import '../../../core/bloc/product/product_bloc.dart';
+import '../../../core/bloc/product/product_event.dart';
+import '../../../core/bloc/search/search_bloc.dart';
+import '../../../core/commonUI/custom_appbar.dart';
+import '../../../core/services/injection.dart';
 
 class FilterScreen extends StatefulWidget {
   final bool searchFlag;
@@ -21,7 +24,7 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-  List<CategoryModel> categories = [];
+  List<Category> categories = [];
   bool isCategorySelected = false;
   String selectedSlug = "";
   double _minPrice = 0;

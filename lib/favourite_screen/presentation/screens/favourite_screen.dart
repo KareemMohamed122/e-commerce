@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:untitled2/bloc/favourite/favourite_bloc.dart';
-import 'package:untitled2/bloc/favourite/favourite_event.dart';
-import 'package:untitled2/bloc/favourite/favourite_state.dart';
-import 'package:untitled2/commonUI/custom_appbar.dart';
+
 import 'package:untitled2/favourite_screen/presentation/widgets/favourite_products.dart';
-import '../../../core/injection.dart';
+
+import '../../../core/bloc/favourite/favourite_bloc.dart';
+import '../../../core/bloc/favourite/favourite_state.dart';
+import '../../../core/commonUI/custom_appbar.dart';
+import '../../../core/services/injection.dart';
 
 class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({super.key});

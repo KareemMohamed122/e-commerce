@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../data/models/product.dart';
+import '../../../data/models/product_dto.dart';
 
 class ProductDetailsController extends GetxController {
   Rx<int> counter = 0.obs;

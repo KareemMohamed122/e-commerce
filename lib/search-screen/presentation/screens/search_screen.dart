@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:untitled2/bloc/product/product_bloc.dart';
-import 'package:untitled2/bloc/product/product_event.dart';
-import 'package:untitled2/bloc/search/search_bloc.dart';
-import 'package:untitled2/bloc/search/search_event.dart';
-import 'package:untitled2/bloc/search/search_state.dart';
-import 'package:untitled2/commonUI/custom_appbar.dart';
-import 'package:untitled2/commonUI/custom_search_bar.dart';
-import 'package:untitled2/core/injection.dart';
+
 import 'package:untitled2/search_results_screen/presentation/screens/search_results_screen.dart';
-import '../../../commonUI/navigation_bar.dart';
+import '../../../core/bloc/product/product_bloc.dart';
+import '../../../core/bloc/product/product_event.dart';
+import '../../../core/bloc/search/search_bloc.dart';
+import '../../../core/bloc/search/search_event.dart';
+import '../../../core/bloc/search/search_state.dart';
+import '../../../core/commonUI/custom_appbar.dart';
+import '../../../core/commonUI/custom_search_bar.dart';
+import '../../../core/commonUI/navigation_bar.dart';
+import '../../../core/services/injection.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});

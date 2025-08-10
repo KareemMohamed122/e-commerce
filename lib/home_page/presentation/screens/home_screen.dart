@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-import 'package:untitled2/commonUI/custom_appbar.dart';
 import 'package:untitled2/search-screen/presentation/screens/search_screen.dart';
 
-import '../../../bloc/cart/cart_bloc.dart';
-import '../../../bloc/cart/cart_event.dart';
-import '../../../bloc/product/product_bloc.dart';
-import '../../../bloc/product/product_event.dart';
-import '../../../bloc/product/product_state.dart';
-import '../../../commonUI/favourite_cart_icons.dart';
-import '../../../commonUI/featured_banner.dart';
-import '../../../commonUI/products_heading.dart';
-import '../../../core/injection.dart';
+import '../../../core/commonUI/custom_appbar.dart';
+import '../../../core/commonUI/favourite_cart_icons.dart';
+import '../../../core/commonUI/featured_banner.dart';
+import '../../../core/commonUI/products_heading.dart';
+import '../../../core/bloc/cart/cart_bloc.dart';
+import '../../../core/bloc/product/product_bloc.dart';
+import '../../../core/bloc/product/product_event.dart';
+import '../../../core/bloc/product/product_state.dart';
+import '../../../core/bloc/cart/cart_event.dart';
+import '../../../core/services/injection.dart';
 import '../widgets/product_grid.dart';
 
 class HomeScreen extends StatefulWidget {

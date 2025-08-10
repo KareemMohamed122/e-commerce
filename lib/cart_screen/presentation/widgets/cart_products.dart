@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:untitled2/bloc/cart/cart_bloc.dart';
-import '../../../bloc/cart/cart_event.dart';
-import '../../../commonUI/label_widget.dart';
-import '../../../commonUI/quantity_widget.dart';
-import '../../../core/injection.dart';
-import '../../../data/models/product.dart';
+
+import '../../../core/bloc/cart/cart_bloc.dart';
+import '../../../core/bloc/cart/cart_event.dart';
+import '../../../core/commonUI/label_widget.dart';
+import '../../../core/commonUI/quantity_widget.dart';
+import '../../../core/services/injection.dart';
+import '../../../data/models/product_dto.dart';
+import '../../../domain/entity/product.dart';
 
 class CartProducts extends StatelessWidget {
   const CartProducts({super.key, required this.items});

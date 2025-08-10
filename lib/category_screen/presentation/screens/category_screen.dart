@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:untitled2/bloc/category/category_bloc.dart';
-import 'package:untitled2/bloc/category/category_event.dart';
-import 'package:untitled2/bloc/category/category_state.dart';
+
 import 'package:untitled2/category_products_screen/presentation/screens/category_products_screen.dart';
-import 'package:untitled2/data/models/category.dart';
-import '../../../commonUI/custom_appbar.dart';
-import '../../../commonUI/favourite_cart_icons.dart';
-import '../../../core/injection.dart';
+import 'package:untitled2/data/models/category_dto.dart';
+import 'package:untitled2/domain/entity/category.dart';
+import '../../../core/bloc/category/category_bloc.dart';
+import '../../../core/bloc/category/category_event.dart';
+import '../../../core/bloc/category/category_state.dart';
+import '../../../core/commonUI/custom_appbar.dart';
+import '../../../core/commonUI/favourite_cart_icons.dart';
+import '../../../core/services/injection.dart';
 import '../../../product_details/presentation/screens/product_details.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -70,7 +72,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     );
   }
 
-  GridView buildCategoryList(List<CategoryModel> categories) {
+  GridView buildCategoryList(List<Category> categories) {
     return GridView.builder(
       itemCount: categories.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

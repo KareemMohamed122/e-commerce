@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:untitled2/bloc/favourite/favourite_bloc.dart';
-import 'package:untitled2/bloc/favourite/favourite_event.dart';
-import 'package:untitled2/bloc/favourite/favourite_state.dart';
-import 'package:untitled2/bloc/product/product_event.dart';
-import 'package:untitled2/commonUI/featured_banner.dart';
-import '../../../bloc/cart/cart_bloc.dart';
-import '../../../bloc/cart/cart_state.dart';
-import '../../../bloc/product/product_bloc.dart';
-import '../../../bloc/product/product_state.dart';
-import '../../../core/injection.dart';
-import '../../../commonUI/add_to_cart_quantity.dart';
-import '../../../commonUI/label_widget.dart';
-import 'package:untitled2/data/models/product.dart';
+import 'package:untitled2/data/models/product_dto.dart';
+
+import '../../../core/bloc/cart/cart_bloc.dart';
+import '../../../core/bloc/cart/cart_state.dart';
+import '../../../core/bloc/favourite/favourite_bloc.dart';
+import '../../../core/bloc/favourite/favourite_event.dart';
+import '../../../core/bloc/favourite/favourite_state.dart';
+import '../../../core/bloc/product/product_bloc.dart';
+import '../../../core/bloc/product/product_event.dart';
+import '../../../core/bloc/product/product_state.dart';
+import '../../../core/commonUI/add_to_cart_quantity.dart';
+import '../../../core/commonUI/featured_banner.dart';
+import '../../../core/commonUI/label_widget.dart';
+import '../../../core/services/injection.dart';
+import '../../../domain/entity/product.dart';
 
 class ProductDetails extends StatelessWidget {
   const ProductDetails({super.key});

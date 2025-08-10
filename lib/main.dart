@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:untitled2/bloc/favourite/favourite_bloc.dart';
-import 'package:untitled2/bloc/favourite/favourite_event.dart';
-import 'package:untitled2/bloc/product/product_bloc.dart';
-import 'package:untitled2/bloc/product/product_event.dart';
-import 'bloc/search/search_bloc.dart';
-import 'bloc/search/search_event.dart';
-import 'core/injection.dart';
-import 'bloc/cart/cart_bloc.dart';
-import 'bloc/category/category_bloc.dart';
-import 'bloc/category/category_event.dart';
-import 'commonUI/navigation_bar.dart';
+import 'core/commonUI/navigation_bar.dart';
+import 'core/bloc//cart/cart_bloc.dart';
+import 'core/bloc/category/category_bloc.dart';
+import 'core/bloc/category/category_event.dart';
+import 'core/bloc/favourite/favourite_bloc.dart';
+import 'core/bloc/product/product_bloc.dart';
+import 'core/services/injection.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

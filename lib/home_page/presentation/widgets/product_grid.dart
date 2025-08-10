@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
-import 'package:untitled2/bloc/cart/cart_bloc.dart';
-import 'package:untitled2/bloc/cart/cart_state.dart';
-import 'package:untitled2/commonUI/label_widget.dart';
-import '../../../bloc/product/product_bloc.dart';
-import '../../../bloc/product/product_event.dart';
-import '../../../bloc/product/product_state.dart';
-import '../../../core/injection.dart' show getIt;
-import '../../../core/product_details_navigation.dart';
-import '../../../data/models/product.dart';
+
+import '../../../core/bloc/cart/cart_bloc.dart';
+import '../../../core/bloc/cart/cart_state.dart';
+import '../../../core/commonUI/label_widget.dart';
+import '../../../core/services/product_details_navigation.dart';
+import '../../../core/services/injection.dart';
+import '../../../data/models/product_dto.dart';
+import '../../../domain/entity/product.dart';
 import '../../../product_details/presentation/screens/product_details.dart';
 
 class ProductGrid extends StatelessWidget {

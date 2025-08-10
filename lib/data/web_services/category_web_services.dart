@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:injectable/injectable.dart';
-import 'package:untitled2/data/models/category.dart';
-import '../models/product.dart';
+import '../models/category_dto.dart';
 
 part 'category_web_services.g.dart';
 
@@ -13,5 +11,5 @@ abstract class CategoryWebServices {
   factory CategoryWebServices(Dio dio, {String baseUrl}) = _CategoryWebServices;
 
   @GET("categories")
-  Future<List<CategoryModel>> getAllCategories();
+  Future<List<CategoryDTO>> getAllCategories();
 }

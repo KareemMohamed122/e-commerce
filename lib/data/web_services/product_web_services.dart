@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:injectable/injectable.dart';
-import '../models/product.dart';
+import '../models/product_dto.dart';
 
 part 'product_web_services.g.dart';
 
@@ -11,16 +11,16 @@ abstract class ProductWebService {
   factory ProductWebService(Dio dio, {String baseUrl}) = _ProductWebService;
 
   @GET("products")
-  Future<List<Product>> getAllProducts({
+  Future<List<ProductDTO>> getAllProducts({
     @Query("offset") int? offset,
     @Query("limit") int? limit,
   });
 
   @GET("products/{id}")
-  Future<Product> getProduct(@Path("id") int id);
+  Future<ProductDTO> getProduct(@Path("id") int id);
 
   @GET("products")
-  Future<List<Product>> getFilteredProducts({
+  Future<List<ProductDTO>> getFilteredProducts({
     @Query("categoryId") int? categoryId,
     @Query("categorySlug") String? categorySlug,
     @Query("title") String? title,

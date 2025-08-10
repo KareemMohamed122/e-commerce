@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled2/bloc/favourite/favourite_bloc.dart';
-import 'package:untitled2/bloc/favourite/favourite_event.dart';
-import 'package:untitled2/bloc/favourite/favourite_state.dart';
-import 'package:untitled2/core/injection.dart';
-import '../../../commonUI/label_widget.dart';
-import '../../../data/models/product.dart';
+
+import '../../../core/commonUI/label_widget.dart';
+import '../../../core/bloc/favourite/favourite_bloc.dart';
+import '../../../core/bloc/favourite/favourite_event.dart';
+import '../../../core/bloc/favourite/favourite_state.dart';
+import '../../../core/services/injection.dart';
+import '../../../data/models/product_dto.dart';
+import '../../../domain/entity/product.dart';
 
 class FavouriteProducts extends StatefulWidget {
   const FavouriteProducts({super.key, required this.items});
