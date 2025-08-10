@@ -109,10 +109,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             maxPrice: _lastMaxPrice,
             searchText: _lastSearchText,
             sortOption: _lastSortOption,
-            currentOffset: _currentOffset, // Retained for allProducts
-            limit: _limit, // Retained for allProducts
+            currentOffset: _currentOffset,
+            limit: _limit,
             hasMore:
-                _lastAllProducts.length >= _limit, // Retained for allProducts
+                _lastAllProducts.length >= _limit,
           ),
         );
       } catch (e) {
@@ -140,10 +140,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           maxPrice: _lastMaxPrice,
           searchText: _lastSearchText,
           sortOption: _lastSortOption,
-          currentOffset: _currentOffset, // Retained for allProducts
-          limit: _limit, // Retained for allProducts
-          hasMore:
-              _lastAllProducts.length >= _l imit, // Retained for allProducts
+          currentOffset: _currentOffset,
+          limit: _limit,
+          hasMore: _lastAllProducts.length >= _limit,
         ),
       );
     });
@@ -154,7 +153,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           final currentState = state as ProductsLoaded;
           final offset = currentState.currentOffset + currentState.limit;
 
-          // Emit ProductLoading only for UI feedback, but preserve current state
+
           emit(
             ProductsLoaded(
               allProducts: _lastAllProducts,
