@@ -4,7 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../domain/entity/product.dart';
-import '../../models/cart_item.dart';
+import '../../data/models/cart_item.dart';
 
 import '../bloc/favourite/favourite_bloc.dart';
 import '../bloc/favourite/favourite_event.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled2/core/commonUI/search_tab_navigator.dart';
-import '../../home_page/presentation/screens/home_screen.dart';
+import '../../presentation/home_page/presentation/screens/home_screen.dart';
 import 'category_tab_navigator.dart';
 
 class NavigationBarMenu extends StatefulWidget {

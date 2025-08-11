@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:untitled2/core/services/local_storage.dart';
 import 'package:untitled2/domain/entity/product.dart';
-import 'package:untitled2/models/cart_item.dart';
+import 'package:untitled2/data/models/cart_item.dart';
 
 import 'cart_event.dart';
 import 'cart_state.dart';

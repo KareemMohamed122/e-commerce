@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:get/get.dart';
 
-import '../../product_details/presentation/screens/product_details.dart';
+import '../../presentation/product_details/presentation/screens/product_details.dart';
 
 Future<void> openProductDetails({
   required int productId,

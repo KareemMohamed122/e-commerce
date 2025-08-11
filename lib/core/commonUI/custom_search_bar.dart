@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:untitled2/search_results_screen/presentation/screens/search_results_screen.dart';
 
 import '../bloc/product/product_bloc.dart';
 import '../bloc/product/product_event.dart';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:untitled2/cart_screen/presentation/screens/cart_screen.dart';
 import 'package:badges/badges.dart' as badges;
 
+import '../../presentation/cart_screen/presentation/screens/cart_screen.dart';
 import '../bloc/cart/cart_bloc.dart';
 import '../bloc/cart/cart_state.dart';
 import '../services/injection.dart';

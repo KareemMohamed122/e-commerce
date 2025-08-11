@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import '../domain/entity/product.dart';
+import '../../domain/entity/product.dart';
 
 part 'cart_item.g.dart';
 

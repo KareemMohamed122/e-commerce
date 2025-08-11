@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:untitled2/favourite_screen/presentation/screens/favourite_screen.dart';
 
+import '../../presentation/favourite_screen/presentation/screens/favourite_screen.dart';
 import 'cart_icon.dart';
 
 class FavouriteCartIcons extends StatelessWidget {
