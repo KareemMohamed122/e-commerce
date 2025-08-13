@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import '../../presentation/filter_screen/presentation/screens/filter_screen.dart';
 import '../bloc/product/product_bloc.dart';
 import '../bloc/product/product_event.dart';
-import '../services/injection.dart';
+import '../../dependency_injection/injection.dart';
 
 class SortFilter extends StatefulWidget {
   final bool searchFlag;

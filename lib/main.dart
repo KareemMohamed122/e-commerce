@@ -7,7 +7,7 @@ import 'core/bloc/category/category_bloc.dart';
 import 'core/bloc/category/category_event.dart';
 import 'core/bloc/favourite/favourite_bloc.dart';
 import 'core/bloc/product/product_bloc.dart';
-import 'core/services/injection.dart';
+import 'dependency_injection/injection.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

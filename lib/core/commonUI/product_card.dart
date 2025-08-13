@@ -6,8 +6,8 @@ import '../../domain/entity/product.dart';
 import '../bloc/favourite/favourite_bloc.dart';
 import '../bloc/favourite/favourite_event.dart';
 import '../bloc/favourite/favourite_state.dart';
-import '../services/product_details_navigation.dart';
-import '../services/injection.dart';
+import '../../dependency_injection/injection.dart';
+import '../utils/product_details_navigation.dart';
 import 'add_to_cart_quantity.dart';
 import 'label_widget.dart';
 

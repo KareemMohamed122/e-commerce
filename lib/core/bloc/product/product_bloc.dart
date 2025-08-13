@@ -5,7 +5,7 @@ import 'package:untitled2/core/bloc/product/product_state.dart';
 
 import '../../../domain/entity/product.dart';
 import '../../../domain/repository/product_repository.dart';
-import '../../services/sort_list.dart';
+import '../../utils/sort_list.dart';
 
 @singleton
 class ProductBloc extends Bloc<ProductEvent, ProductState> {

@@ -1,4 +1,3 @@
-// lib/data/models/category_dto.dart
 import 'package:json_annotation/json_annotation.dart';
 import '../../domain/entity/category.dart';
 

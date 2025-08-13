@@ -1,17 +1,18 @@
 import 'package:injectable/injectable.dart';
+import 'package:untitled2/data/date_source/remote/product_remote_data_source.dart';
 import '../../domain/entity/product.dart';
 import '../../domain/repository/product_repository.dart';
 import '../web_services/product_web_services.dart';
 
 @LazySingleton(as: ProductRepository)
 class ProductRepositoryImpl implements ProductRepository {
-  final ProductWebService productWebService;
-
-  ProductRepositoryImpl(this.productWebService);
+  final ProductRemoteDataSource productRemoteDataSource;
+ 
+  ProductRepositoryImpl(this.productRemoteDataSource);
 
   @override
   Future<List<Product>> getAllProducts({int? offset, int? limit}) async {
-    final dtoList = await productWebService.getAllProducts(
+    final dtoList = await productRemoteDataSource.getAllProducts(
       offset: offset,
       limit: limit,
     );
@@ -20,7 +21,7 @@ class ProductRepositoryImpl implements ProductRepository {
 
   @override
   Future<Product> getProductById(int id) async {
-    final dto = await productWebService.getProduct(id);
+    final dto = await productRemoteDataSource.getProductById(id);
     return dto.toEntity();
   }
 
@@ -32,7 +33,7 @@ class ProductRepositoryImpl implements ProductRepository {
     double? minPrice,
     double? maxPrice,
   }) async {
-    final dtoList = await productWebService.getFilteredProducts(
+    final dtoList = await productRemoteDataSource.getFilteredProducts(
       categoryId: categoryId,
       categorySlug: categorySlug,
       title: title,

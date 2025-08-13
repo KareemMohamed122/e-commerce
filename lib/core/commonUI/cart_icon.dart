@@ -6,7 +6,7 @@ import 'package:badges/badges.dart' as badges;
 import '../../presentation/cart_screen/presentation/screens/cart_screen.dart';
 import '../bloc/cart/cart_bloc.dart';
 import '../bloc/cart/cart_state.dart';
-import '../services/injection.dart';
+import '../../dependency_injection/injection.dart';
 
 class CartIcon extends StatelessWidget {
   const CartIcon({super.key});

@@ -3,11 +3,11 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../domain/entity/product.dart';
-import '../../data/models/cart_item.dart';
+import '../domain/entity/product.dart';
+import '../data/models/cart_item.dart';
 
-import '../bloc/favourite/favourite_bloc.dart';
-import '../bloc/favourite/favourite_event.dart';
+import '../core/bloc/favourite/favourite_bloc.dart';
+import '../core/bloc/favourite/favourite_event.dart';
 import 'injection.config.dart';
 
 final getIt = GetIt.instance;
