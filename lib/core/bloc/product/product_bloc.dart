@@ -1,10 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:dartz/dartz.dart';
 import 'package:untitled2/core/bloc/product/product_event.dart';
 import 'package:untitled2/core/bloc/product/product_state.dart';
 
 import '../../../domain/entity/product.dart';
 import '../../../domain/repository/product_repository.dart';
+import '../../../core/error/failure.dart';
 import '../../utils/sort_list.dart';
 
 @singleton
@@ -26,24 +28,26 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductBloc(this.productRepository) : super(ProductInitial()) {
     on<LoadProduct>((event, emit) async {
       emit(ProductLoading());
-      try {
-        final product = await productRepository.getProductById(event.id);
-        emit(ProductLoaded(product));
-      } catch (e) {
-        emit(ProductError(e.toString()));
-      }
+
+      final result = await productRepository.getProductById(event.id);
+      result.fold(
+        (failure) => emit(ProductError(failure.message)),
+        (product) => emit(ProductLoaded(product)),
+      );
     });
 
     on<LoadProducts>((event, emit) async {
       emit(ProductLoading());
-      try {
-        final offset = event.offset ?? 0;
-        final limit = event.limit ?? _limit;
-        final products = await productRepository.getAllProducts(
-          offset: offset,
-          limit: limit,
-        );
 
+      final offset = event.offset ?? 0;
+      final limit = event.limit ?? _limit;
+
+      final result = await productRepository.getAllProducts(
+        offset: offset,
+        limit: limit,
+      );
+
+      result.fold((failure) => emit(ProductError(failure.message)), (products) {
         if (offset == 0) {
           _lastAllProducts = products;
           _lastFilteredFromAPI = products;
@@ -71,22 +75,21 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             hasMore: hasMore,
           ),
         );
-      } catch (e) {
-        emit(ProductError(e.toString()));
-      }
+      });
     });
 
     on<UpdateProductFilters>((event, emit) async {
       emit(ProductLoading());
-      try {
-        final filtered = await productRepository.getFilteredProducts(
-          categoryId: event.categoryId,
-          categorySlug: event.categorySlug,
-          title: event.searchText,
-          minPrice: event.minPrice,
-          maxPrice: event.maxPrice,
-        );
 
+      final result = await productRepository.getFilteredProducts(
+        categoryId: event.categoryId,
+        categorySlug: event.categorySlug,
+        title: event.searchText,
+        minPrice: event.minPrice,
+        maxPrice: event.maxPrice,
+      );
+
+      result.fold((failure) => emit(ProductError(failure.message)), (filtered) {
         _lastFilteredFromAPI = filtered;
         _lastCategorySlug = event.categorySlug;
         _lastMinPrice = event.minPrice;
@@ -115,9 +118,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             hasMore: _lastAllProducts.length >= _limit,
           ),
         );
-      } catch (e) {
-        emit(ProductError("Error filtering products: ${e.toString()}"));
-      }
+      });
     });
 
     on<SortProducts>((event, emit) {
@@ -127,9 +128,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       }
 
       _lastSortOption = event.sortOption;
-
-      final sorted = SortList.sortList(_lastFilteredFromAPI, event.sortOption);
-      _currentVisibleList = sorted;
+      _currentVisibleList = SortList.sortList(
+        _lastFilteredFromAPI,
+        event.sortOption,
+      );
 
       emit(
         ProductsLoaded(
@@ -149,30 +151,17 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
     on<LoadNextPage>((event, emit) async {
       if (state is ProductsLoaded && (state as ProductsLoaded).hasMore) {
-        try {
-          final currentState = state as ProductsLoaded;
-          final offset = currentState.currentOffset + currentState.limit;
+        final currentState = state as ProductsLoaded;
+        final offset = currentState.currentOffset + currentState.limit;
 
-          emit(
-            ProductsLoaded(
-              allProducts: _lastAllProducts,
-              filteredProducts: _currentVisibleList,
-              category: _lastCategorySlug,
-              minPrice: _lastMinPrice,
-              maxPrice: _lastMaxPrice,
-              searchText: _lastSearchText,
-              sortOption: _lastSortOption,
-              currentOffset: _currentOffset,
-              limit: _limit,
-              hasMore: currentState.hasMore,
-            ),
-          );
+        final result = await productRepository.getAllProducts(
+          offset: offset,
+          limit: currentState.limit,
+        );
 
-          final products = await productRepository.getAllProducts(
-            offset: offset,
-            limit: currentState.limit,
-          );
-
+        result.fold((failure) => emit(ProductError(failure.message)), (
+          products,
+        ) {
           _lastAllProducts = [..._lastAllProducts, ...products];
           _lastFilteredFromAPI = _lastAllProducts;
           _currentVisibleList = _lastAllProducts;
@@ -194,9 +183,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
               hasMore: hasMore,
             ),
           );
-        } catch (e) {
-          emit(ProductError("Error loading next page: ${e.toString()}"));
-        }
+        });
       }
     });
 

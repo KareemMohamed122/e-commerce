@@ -1,9 +1,16 @@
+import 'package:dartz/dartz.dart';
+import '../../core/error/failure.dart';
 import '../entity/product.dart';
 
 abstract class ProductRepository {
-  Future<List<Product>> getAllProducts({int? offset, int? limit});
-  Future<Product> getProductById(int id);
-  Future<List<Product>> getFilteredProducts({
+  Future<Either<Failure, List<Product>>> getAllProducts({
+    int? offset,
+    int? limit,
+  });
+
+  Future<Either<Failure, Product>> getProductById(int id);
+
+  Future<Either<Failure, List<Product>>> getFilteredProducts({
     int? categoryId,
     String? categorySlug,
     String? title,

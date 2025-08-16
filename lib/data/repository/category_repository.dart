@@ -1,18 +1,25 @@
+import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:untitled2/data/date_source/remote/category_remote_data_source.dart';
+import '../../core/error/failure.dart';
+import '../../core/error/handlers.dart';
 import '../../domain/entity/category.dart';
 import '../../domain/repository/category_repository.dart';
-import '../web_services/category_web_services.dart';
+import '../date_source/remote/category_remote_data_source.dart';
 
 @LazySingleton(as: CategoryRepository)
 class CategoryRepositoryImpl implements CategoryRepository {
-  final CategoryRemoteDataSource categoryRemoteDataSource;
+  final CategoryRemoteDataSource remoteDataSource;
 
-  CategoryRepositoryImpl(this.categoryRemoteDataSource);
+  CategoryRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<List<Category>> getAllCategories() async {
-    final dtoList = await categoryRemoteDataSource.getAllCategories();
-    return dtoList.map((dto) => dto.toEntity()).toList();
+  Future<Either<Failure, List<Category>>> getAllCategories() async {
+    try {
+      final dtoList = await remoteDataSource.getAllCategories();
+      final categories = dtoList.map((dto) => dto.toEntity()).toList();
+      return Right(categories);
+    } catch (e, st) {
+      return Left(handleError(e, st));
+    }
   }
 }

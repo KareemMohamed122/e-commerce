@@ -15,13 +15,11 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   CategoryBloc(this.categoryRepository) : super(CategoryInitial()) {
     on<LoadCategories>((event, emit) async {
       emit(CategoryLoading());
-      try {
-        categories =
-            (await categoryRepository.getAllCategories()).cast<Category>();
-        emit(CategoriesLoaded(categories));
-      } catch (e) {
-        emit(CategoryError(e.toString()));
-      }
+      final categories = await categoryRepository.getAllCategories();
+      categories.fold(
+        (failure) => emit(CategoryError(failure.message)),
+        (product) => emit(CategoriesLoaded(product)),
+      );
     });
   }
 }
