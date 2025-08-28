@@ -12,7 +12,8 @@ Failure handleError(Object error, [StackTrace? st]) {
       case DioExceptionType.receiveTimeout:
         return Failure('The request timed out');
       case DioExceptionType.connectionError:
-        return Failure('Please check your internet connection');
+        print(error.message);
+        return Failure('Please check your internet connection 1');
       case DioExceptionType.badResponse:
         if (status == 401 || status == 403) {
           return Failure('Authentication required', statusCode: status);
@@ -28,9 +29,9 @@ Failure handleError(Object error, [StackTrace? st]) {
         return Failure('Request was cancelled');
       case DioExceptionType.unknown:
         if (error.error is SocketException) {
-          return Failure('Please check your internet connection');
+          return Failure('Please check your internet connection 2');
         }
-        return Failure('Unexpected error occurred');
+        return Failure('Unexpected error occurred 123');
       case DioExceptionType.badCertificate:
         return Failure('Bad SSL certificate');
     }
@@ -43,5 +44,5 @@ Failure handleError(Object error, [StackTrace? st]) {
   if (error is FormatException) return Failure('Data formatting error');
   if (error is FileSystemException) return Failure('Local storage error');
 
-  return Failure('An unexpected error occurred', details: error.toString());
+  return Failure('An unexpected error occurred444', details: error.toString());
 }

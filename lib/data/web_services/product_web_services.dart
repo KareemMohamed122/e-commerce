@@ -5,21 +5,18 @@ import '../models/product_dto.dart';
 
 part 'product_web_services.g.dart';
 
-@RestApi(baseUrl: "https://api.escuelajs.co/api/v1/")
+@RestApi(baseUrl: "https://ecommerce-app-production-e80c.up.railway.app/")
 abstract class ProductWebService {
   @factoryMethod
   factory ProductWebService(Dio dio, {String baseUrl}) = _ProductWebService;
 
   @GET("products")
-  Future<List<ProductDTO>> getAllProducts({
-    @Query("offset") int? offset,
-    @Query("limit") int? limit,
-  });
+  Future<List<ProductDTO>> getAllProducts();
 
   @GET("products/{id}")
   Future<ProductDTO> getProduct(@Path("id") int id);
 
-  @GET("products")
+  @GET("products/filter")
   Future<List<ProductDTO>> getFilteredProducts({
     @Query("categoryId") int? categoryId,
     @Query("categorySlug") String? categorySlug,

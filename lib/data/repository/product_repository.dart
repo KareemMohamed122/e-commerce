@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+
 import '../../core/error/failure.dart';
 import '../../core/error/handlers.dart';
 import '../../domain/entity/product.dart';
@@ -13,15 +14,9 @@ class ProductRepositoryImpl implements ProductRepository {
   ProductRepositoryImpl(this.productRemoteDataSource);
 
   @override
-  Future<Either<Failure, List<Product>>> getAllProducts({
-    int? offset,
-    int? limit,
-  }) async {
+  Future<Either<Failure, List<Product>>> getAllProducts() async {
     try {
-      final dtoList = await productRemoteDataSource.getAllProducts(
-        offset: offset,
-        limit: limit,
-      );
+      final dtoList = await productRemoteDataSource.getAllProducts();
       final entities = dtoList.map((dto) => dto.toEntity()).toList();
       return Right(entities);
     } catch (e, st) {

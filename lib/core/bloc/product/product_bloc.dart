@@ -22,8 +22,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   double? _lastMaxPrice;
   String? _lastSearchText;
   String? _lastSortOption;
-  int _currentOffset = 0;
-  final int _limit = 2;
 
   ProductBloc(this.productRepository) : super(ProductInitial()) {
     on<LoadProduct>((event, emit) async {
@@ -39,27 +37,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<LoadProducts>((event, emit) async {
       emit(ProductLoading());
 
-      final offset = event.offset ?? 0;
-      final limit = event.limit ?? _limit;
-
-      final result = await productRepository.getAllProducts(
-        offset: offset,
-        limit: limit,
-      );
+      final result = await productRepository.getAllProducts();
 
       result.fold((failure) => emit(ProductError(failure.message)), (products) {
-        if (offset == 0) {
-          _lastAllProducts = products;
-          _lastFilteredFromAPI = products;
-          _currentVisibleList = products;
-        } else {
-          _lastAllProducts = [..._lastAllProducts, ...products];
-          _lastFilteredFromAPI = _lastAllProducts;
-          _currentVisibleList = _lastAllProducts;
-        }
-
-        _currentOffset = offset;
-        final hasMore = products.length >= limit;
+        _lastAllProducts = products;
+        _lastFilteredFromAPI = products;
+        _currentVisibleList = products;
 
         emit(
           ProductsLoaded(
@@ -70,9 +53,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             maxPrice: _lastMaxPrice,
             searchText: _lastSearchText,
             sortOption: _lastSortOption,
-            currentOffset: _currentOffset,
-            limit: limit,
-            hasMore: hasMore,
           ),
         );
       });
@@ -113,9 +93,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             maxPrice: _lastMaxPrice,
             searchText: _lastSearchText,
             sortOption: _lastSortOption,
-            currentOffset: _currentOffset,
-            limit: _limit,
-            hasMore: _lastAllProducts.length >= _limit,
           ),
         );
       });
@@ -142,49 +119,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           maxPrice: _lastMaxPrice,
           searchText: _lastSearchText,
           sortOption: _lastSortOption,
-          currentOffset: _currentOffset,
-          limit: _limit,
-          hasMore: _lastAllProducts.length >= _limit,
         ),
       );
-    });
-
-    on<LoadNextPage>((event, emit) async {
-      if (state is ProductsLoaded && (state as ProductsLoaded).hasMore) {
-        final currentState = state as ProductsLoaded;
-        final offset = currentState.currentOffset + currentState.limit;
-
-        final result = await productRepository.getAllProducts(
-          offset: offset,
-          limit: currentState.limit,
-        );
-
-        result.fold((failure) => emit(ProductError(failure.message)), (
-          products,
-        ) {
-          _lastAllProducts = [..._lastAllProducts, ...products];
-          _lastFilteredFromAPI = _lastAllProducts;
-          _currentVisibleList = _lastAllProducts;
-
-          _currentOffset = offset;
-          final hasMore = products.length >= currentState.limit;
-
-          emit(
-            ProductsLoaded(
-              allProducts: _lastAllProducts,
-              filteredProducts: _currentVisibleList,
-              category: _lastCategorySlug,
-              minPrice: _lastMinPrice,
-              maxPrice: _lastMaxPrice,
-              searchText: _lastSearchText,
-              sortOption: _lastSortOption,
-              currentOffset: _currentOffset,
-              limit: currentState.limit,
-              hasMore: hasMore,
-            ),
-          );
-        });
-      }
     });
 
     on<ClearState>((event, emit) {
@@ -196,7 +132,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       _lastMaxPrice = null;
       _lastSearchText = null;
       _lastSortOption = null;
-      _currentOffset = 0;
       emit(ProductInitial());
     });
   }

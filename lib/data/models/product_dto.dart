@@ -12,7 +12,6 @@ class ProductDTO {
   final String description;
   final List<String> images;
 
-  @JsonKey(name: 'category', fromJson: extractCategoryName)
   final String categoryName;
 
   ProductDTO({
@@ -28,10 +27,6 @@ class ProductDTO {
       _$ProductDTOFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductDTOToJson(this);
-
-  static String extractCategoryName(dynamic category) {
-    return category['name'] ?? '';
-  }
 
   Product toEntity() {
     return Product(

@@ -3,10 +3,7 @@ import '../../core/error/failure.dart';
 import '../entity/product.dart';
 
 abstract class ProductRepository {
-  Future<Either<Failure, List<Product>>> getAllProducts({
-    int? offset,
-    int? limit,
-  });
+  Future<Either<Failure, List<Product>>> getAllProducts();
 
   Future<Either<Failure, Product>> getProductById(int id);
 

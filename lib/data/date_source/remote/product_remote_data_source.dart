@@ -9,11 +9,8 @@ class ProductRemoteDataSource {
   final ProductWebService productWebService;
 
   ProductRemoteDataSource(this.productWebService);
-  Future<List<ProductDTO>> getAllProducts({int? offset, int? limit}) async {
-    final dtoList = await productWebService.getAllProducts(
-      offset: offset,
-      limit: limit,
-    );
+  Future<List<ProductDTO>> getAllProducts() async {
+    final dtoList = await productWebService.getAllProducts();
     return dtoList;
   }
 

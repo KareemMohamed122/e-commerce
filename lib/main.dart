@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:untitled2/presentation/signin_screen/presentation/screens/signin.dart';
+
 import 'core/commonUI/navigation_bar.dart';
-import 'core/bloc//cart/cart_bloc.dart';
+import 'core/bloc/cart/cart_bloc.dart';
 import 'core/bloc/category/category_bloc.dart';
 import 'core/bloc/category/category_event.dart';
 import 'core/bloc/favourite/favourite_bloc.dart';
 import 'core/bloc/product/product_bloc.dart';
 import 'dependency_injection/injection.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  configureDependencies();
+  await configureDependencies();
   runApp(const MyApp());
 }
 
@@ -22,10 +24,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider.value(value: getIt<CartBloc>()),
-        BlocProvider.value(value: getIt<FavouriteBloc>()),
-        BlocProvider.value(value: getIt<ProductBloc>()),
-
+        BlocProvider(create: (_) => getIt<CartBloc>()),
+        BlocProvider(create: (_) => getIt<FavouriteBloc>()),
+        BlocProvider(create: (_) => getIt<ProductBloc>()),
         BlocProvider(
           create: (_) => getIt<CategoryBloc>()..add(LoadCategories()),
         ),
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.white,
           scaffoldBackgroundColor: Colors.white,
         ),
-        home: NavigationBarMenu(currentIndex: 0),
+        //  home: NavigationBarMenu(currentIndex: 0),
+        home: SignIn(),
         debugShowCheckedModeBanner: false,
       ),
     );

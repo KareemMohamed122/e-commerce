@@ -10,7 +10,7 @@ import 'package:untitled2/domain/repository/cart_repository.dart';
 import 'cart_event.dart';
 import 'cart_state.dart';
 
-@singleton
+@lazySingleton
 class CartBloc extends Bloc<CartEvent, CartState> {
   final Map<Product, int> _cart = {};
 

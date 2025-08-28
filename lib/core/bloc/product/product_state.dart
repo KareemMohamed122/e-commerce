@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 import '../../../domain/entity/product.dart';
 
 abstract class ProductState extends Equatable {
@@ -39,9 +38,6 @@ class ProductsLoaded extends ProductState {
   final double? maxPrice;
   final String? searchText;
   final String? sortOption;
-  final int currentOffset; // Used only for allProducts pagination
-  final int limit; // Used only for allProducts pagination
-  final bool hasMore; // Used only for allProducts pagination
 
   const ProductsLoaded({
     required this.allProducts,
@@ -51,9 +47,6 @@ class ProductsLoaded extends ProductState {
     this.maxPrice,
     this.searchText,
     this.sortOption,
-    this.currentOffset = 0,
-    this.limit = 10,
-    this.hasMore = true,
   });
 
   @override
@@ -65,8 +58,5 @@ class ProductsLoaded extends ProductState {
     maxPrice,
     searchText,
     sortOption,
-    currentOffset,
-    limit,
-    hasMore,
   ];
 }

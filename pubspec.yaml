@@ -35,6 +35,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_svg: ^2.2.0
   dropdown_button2: ^2.3.9
+  iconsax: ^0.0.8
 
   # JSON
   json_annotation: ^4.9.0
